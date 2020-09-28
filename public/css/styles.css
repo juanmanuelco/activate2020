@@ -1,0 +1,170 @@
+@font-face {
+    font-family: Rounded_Elegance;
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/Rounded_Elegance.ttf');
+}
+body{
+    background-color: var(--ground, #fff);
+}
+
+.sun{
+    background-color: var(--sun, yellow);
+}
+
+a,
+a:focus,
+a:hover {
+    color: #fff;
+}
+
+
+body {
+    text-align: center;
+}
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+.site-wrapper {
+    display: table;
+    width: 100%;
+    height: 600px;
+}
+.site-wrapper-inner {
+    display: table-cell;
+    vertical-align: top;
+}
+.cover-container {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Padding for spacing */
+.inner {
+    padding: 30px;
+}
+
+.masthead-brand {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.masthead-nav > li {
+    display: inline-block;
+}
+.masthead-nav > li + li {
+    margin-left: 20px;
+}
+.masthead-nav > li > a {
+    padding-right: 0;
+    padding-left: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff; /* IE8 proofing */
+    color: rgba(255,255,255,.75);
+    border-bottom: 2px solid transparent;
+}
+.masthead-nav > li > a:hover,
+.masthead-nav > li > a:focus {
+    background-color: transparent;
+
+}
+.masthead-nav > .active > a,
+.masthead-nav > .active > a:hover,
+.masthead-nav > .active > a:focus {
+    color: #fff;
+    border-bottom-color: #fff;
+}
+
+@media (min-width: 768px) {
+    .masthead-brand {
+        float: left;
+    }
+    .masthead-nav {
+        float: right;
+    }
+}
+
+.cover {
+    padding: 0 20px;
+}
+.cover .btn-lg {
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    /* Pull out the header and footer */
+    .masthead {
+        position: fixed;
+        top: 0;
+    }
+    /* Start the vertical centering */
+    .site-wrapper-inner {
+        vertical-align: middle;
+    }
+
+}
+
+.app_button{
+    padding: 5px;
+    width: 50%;
+    float: left;
+}
+
+@media (max-width: 767px) {
+    .image_cover{
+        padding: 15px 0px 45px 0px;
+    }
+    .app_button{
+        margin-top: 100px;
+    }
+    .register{
+        max-width: 90%;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    .image_cover{
+        padding: 85px 0px 45px 0px;
+    }
+    .app_button{
+        margin-top: 150px;
+    }
+    .register{
+        max-width: 80%;
+    }
+    .container_data{
+        margin-top: 60px;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    .image_cover{
+        padding: 85px 0px 45px 0px;
+    }
+    .app_button{
+        margin-top: 150px;
+    }
+    .register{
+        max-width: 60%;
+    }
+    .container_data{
+        margin-top: 100px;
+    }
+}
+@media (min-width: 1200px) {
+    .image_cover{
+        padding: 105px 0px 45px 0px;
+    }
+    .app_button{
+        margin-top:170px;
+    }
+    .content_app_button{
+        padding: 0% 25% 0% 25%;
+    }
+    .register{
+        max-width: 50%;
+    }
+    .container_data{
+        margin-top: 120px;
+    }
+}
+

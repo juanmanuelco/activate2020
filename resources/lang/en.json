@@ -1,0 +1,19 @@
+{
+    "welcome" : "Welcome",
+    "register" : "Register",
+    "login"     :   "Login",
+    "slogan"    :   "CONNECT - MEET - HAVE FUN",
+    "about_us"  :   "About us",
+    "services"  :   "Services",
+    "contact"   :   "Contact us",
+    "create_account"    :   "CREATE ACCOUNT",
+    "login_google"      :   "Sign in with Google",
+    "login_facebook"    :   "Sign in with Facebook",
+    "or"                :   "Or",
+    "roles"              :   "Will the account be used as?",
+    "phone"             :   "Phone",
+    "birth"             :   "Birthday",
+    "id"                :   "Id",
+    "actions"           :   "Actions",
+    "icon"              :   "Icon"
+}
