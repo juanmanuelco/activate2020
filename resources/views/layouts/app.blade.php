@@ -8,7 +8,11 @@
         <div id="content">
           <div id="app" >
               @include('includes.navbar')
-              <div style="padding: 0px 10px 0px 10px;text-align: center">
+              @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'builder.create' || \Illuminate\Support\Facades\Route::currentRouteName() == 'builder.edit')
+                  <div>
+              @else
+                  <div style="padding: 0px 10px 0px 10px;text-align: center">
+              @endif
                   @include('includes.messages')
                   @yield('content')
               </div>

@@ -4,8 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a55f6c71fd8bceaeed834d7eb9ec319c",
+    "content-hash": "6e376f9ea91acfbd062d0861e1567804",
     "packages": [
+        {
+            "name": "ajcastro/searchable",
+            "version": "v1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ajcastro/searchable.git",
+                "reference": "14158e31e405968bfcf7c77a547ca2b6828d73fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ajcastro/searchable/zipball/14158e31e405968bfcf7c77a547ca2b6828d73fa",
+                "reference": "14158e31e405968bfcf7c77a547ca2b6828d73fa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AjCastro\\Searchable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arjon Jason Castro",
+                    "email": "ajcastro29@gmail.com"
+                }
+            ],
+            "description": "Full-text search and reusable queries in laravel.",
+            "keywords": [
+                "eloquent-search",
+                "full-text-search",
+                "grid",
+                "laravel",
+                "laravel-package",
+                "query",
+                "query-builder"
+            ],
+            "time": "2020-04-11T03:31:33+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.0.1",

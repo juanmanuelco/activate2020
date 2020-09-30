@@ -25,11 +25,15 @@ class GroupsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $group = $this->groupRepository->paginate(15);
+        $group = $this->groupRepository;
+        if(isset($request['search'])) $group = $group->search($request['search']);
+
+        $group = $group->paginate(15);
         return view('pages.groups.index')->with('groups', $group);
     }
 
@@ -97,5 +101,9 @@ class GroupsController extends Controller
     public function destroy(Group $group)
     {
         //
+    }
+
+    public function builder(){
+
     }
 }

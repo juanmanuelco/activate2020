@@ -33,7 +33,7 @@
                    $permissions = Group::find($group->id)->permissions()->get();
                 @endphp
                 @foreach($permissions as $permission)
-                    <div class="bg-warning py-2 collapse-inner rounded">
+                    <div class="bg-primary py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{route($permission->name)}}">{{$permission->detail}}</a>
                     </div>
                 @endforeach

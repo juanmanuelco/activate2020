@@ -26,5 +26,6 @@ Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name
 
 Route::middleware(['auth', 'permissions'])->group(function () {
     Route::resource('groups', 'GroupsController');
+    Route::resource('builder', 'BuilderController');
 });
 

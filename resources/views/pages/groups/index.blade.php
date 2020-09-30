@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+    @include('includes.search')
     <div class="table table-responsive" style ="text-align: left">
        <table class="table">
            <thead class="thead-dark">
@@ -15,9 +16,17 @@
                    <tr>
                        <td> {{$group->id}} </td>
                        <td>
-                           <a href="{{route('groups.show', ['group' => $group->id])}}" class="button_show">  <i class="fa fa-eye"></i> </a>
-                           <a href="{{route('groups.edit', ['group' => $group->id])}}" class="button_edit">  <i class="fa fa-edit"></i> </a>
-                           <a href="{{route('groups.destroy', ['group' => $group->id])}}" class="button_delete">  <i class="fa fa-trash"></i> </a>
+                           @can('groups.show')
+                               <a href="{{route('groups.show', ['group' => $group->id])}}" class="button_show">  <i class="fa fa-eye"></i> </a>
+                           @endcan
+
+                           @can('groups.show')
+                                <a href="{{route('groups.edit', ['group' => $group->id])}}" class="button_edit">  <i class="fa fa-edit"></i> </a>
+                           @endcan
+
+                           @can('groups.show')
+                                <a href="{{route('groups.destroy', ['group' => $group->id])}}" class="button_delete">  <i class="fa fa-trash"></i> </a>
+                           @endcan
                        </td>
                        <td> {{$group->name}} </td>
                        <td>

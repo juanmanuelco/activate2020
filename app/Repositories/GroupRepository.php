@@ -21,6 +21,10 @@ class GroupRepository extends BaseRepository
         return Group::class;
     }
 
+    public function search($param){
+        return Group::search($param);
+    }
+
     public function getFieldsSearchable()
     {
         // TODO: Implement getFieldsSearchable() method.
