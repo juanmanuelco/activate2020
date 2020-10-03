@@ -6,16 +6,58 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>{{env('APP_NAME')}}</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="{{asset('css/sb-admin-2.css')}}" rel="stylesheet">
-
-    <link rel="stylesheet" href="{{asset('css/datatable.css')}}">
-    <link rel="stylesheet" href="{{asset('css/table_search.css')}}">
-
+    @if(Illuminate\Support\Facades\Route::currentRouteName() != 'page_name')
+        @include('includes.styles')
+    @endif
+    <style>
+        .animationload {
+            background-color: rgba(255,255,255,0.6);
+            height: 100%;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10000;
+        }
+        .osahanloading {
+            animation: 1.5s linear 0s normal none infinite running osahanloading;
+            background: #fed37f none repeat scroll 0 0;
+            border-radius: 50px;
+            height: 50px;
+            left: 50%;
+            margin-left: -25px;
+            margin-top: -25px;
+            position: absolute;
+            top: 50%;
+            width: 50px;
+        }
+        .osahanloading::after {
+            animation: 1.5s linear 0s normal none infinite running osahanloading_after;
+            border-color: #85d6de transparent;
+            border-radius: 80px;
+            border-style: solid;
+            border-width: 10px;
+            content: "";
+            height: 80px;
+            left: -15px;
+            position: absolute;
+            top: -15px;
+            width: 80px;
+        }
+        @keyframes osahanloading {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                background: #85d6de none repeat scroll 0 0;
+                transform: rotate(180deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>

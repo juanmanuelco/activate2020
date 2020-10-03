@@ -3,7 +3,8 @@
 <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
 <script src="{{asset('vendor/datatable/datatable.js')}}"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{{asset('js/code.js')}}"></script>
 <script>
     $(document).ready( function () {
         $('table').DataTable({

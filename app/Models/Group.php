@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Models\Permission;
-use AjCastro\Searchable\Searchable;
 
 class Group extends Model
 {
-    use HasFactory, SoftDeletes, CascadeSoftDeletes, Searchable;
+    use HasFactory, SoftDeletes, CascadeSoftDeletes;
 
     public $table = 'groups';
 

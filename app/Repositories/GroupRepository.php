@@ -1,7 +1,10 @@
 <?php
+
+
 namespace App\Repositories;
+
+
 use App\Models\Group;
-use App\Repositories\BaseRepository;
 
 class GroupRepository extends BaseRepository
 {
@@ -22,7 +25,12 @@ class GroupRepository extends BaseRepository
     }
 
     public function search($param){
-        return Group::search($param);
+        $fields = Group::getModel()->getFillable();
+        $response = Group::query();
+        foreach ($fields as $field){
+            $response = $response->orWhere($field, 'like', '%'.$param .'%');
+        }
+        return $response;
     }
 
     public function getFieldsSearchable()
@@ -30,3 +38,4 @@ class GroupRepository extends BaseRepository
         // TODO: Implement getFieldsSearchable() method.
     }
 }
+

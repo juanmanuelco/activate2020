@@ -6,7 +6,7 @@ use App\Models\Group;
 use App\Repositories\GroupRepository;
 use Illuminate\Http\Request;
 
-class GroupsController extends Controller
+class GroupController extends Controller
 {
     /**
      * @var GroupRepository
@@ -44,7 +44,7 @@ class GroupsController extends Controller
      */
     public function create()
     {
-        return "Hola";
+        //
     }
 
     /**
@@ -101,9 +101,5 @@ class GroupsController extends Controller
     public function destroy(Group $group)
     {
         //
-    }
-
-    public function builder(){
-
     }
 }

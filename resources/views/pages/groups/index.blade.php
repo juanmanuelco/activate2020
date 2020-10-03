@@ -16,17 +16,7 @@
                    <tr>
                        <td> {{$group->id}} </td>
                        <td>
-                           @can('groups.show')
-                               <a href="{{route('groups.show', ['group' => $group->id])}}" class="button_show">  <i class="fa fa-eye"></i> </a>
-                           @endcan
-
-                           @can('groups.show')
-                                <a href="{{route('groups.edit', ['group' => $group->id])}}" class="button_edit">  <i class="fa fa-edit"></i> </a>
-                           @endcan
-
-                           @can('groups.show')
-                                <a href="{{route('groups.destroy', ['group' => $group->id])}}" class="button_delete">  <i class="fa fa-trash"></i> </a>
-                           @endcan
+                           @include('includes.table_actions', ['identity' => $group->id])
                        </td>
                        <td> {{$group->name}} </td>
                        <td>

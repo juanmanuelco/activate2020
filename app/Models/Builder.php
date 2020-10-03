@@ -6,18 +6,22 @@ use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use AjCastro\Searchable\Searchable;
 
 
 class Builder extends Model
 {
-    use HasFactory, SoftDeletes, Searchable;
+    use HasFactory, SoftDeletes;
 
-    public $table = 'groups';
+    public $table = 'builders';
 
     public $fillable = [
         'name',
+        'session',
         'slug',
-        'page'
+        'gjs-html',
+        'gjs-components',
+        'gjs-assets',
+        'gjs-css',
+        'gjs-styles'
     ];
 }

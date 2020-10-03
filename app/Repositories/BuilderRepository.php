@@ -10,8 +10,13 @@ class BuilderRepository extends BaseRepository
 {
     protected $fieldSearchable = [
         'name',
-        'page',
-        'slug'
+        'session',
+        'slug',
+        'gjs-html',
+        'gjs-components',
+        'gjs-assets',
+        'gjs-css',
+        'gjs-styles'
     ];
 
     /**
@@ -23,7 +28,12 @@ class BuilderRepository extends BaseRepository
     }
 
     public function search($param){
-        return Builder::search($param);
+        $fields = Builder::getModel()->getFillable();
+        $response = Builder::query();
+        foreach ($fields as $field){
+            $response = $response->orWhere($field, 'like', '%'.$param .'%');
+        }
+        return $response;
     }
 
     public function getFieldsSearchable()
