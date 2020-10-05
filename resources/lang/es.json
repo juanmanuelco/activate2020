@@ -46,5 +46,22 @@
     "birth"             :   "Fecha de cumpleaños",
     "id"                :   "Id",
     "actions"           :   "Acciones",
-    "icon"              :   "Icono"
+    "icon"              :   "Icono",
+    "interesting_links" :   "Enlaces de interes",
+    "save"              :   "Guardar",
+    "name_help"         :   "Nombre con el que será identificado",
+    "icon_help"         :   "Icono para ayuda ",
+    "saved_success"     :   "Registro guardado con éxito",
+    "updated_success"   :   "Registro actualizado con éxito",
+    "configuration"     :   "Configuración",
+    "profile"           :   "Perfil",
+    "logout"            :   "Cerrar sesión",
+    "guard_help"        :   "Nombre del guardia",
+    "public"            :   "Público",
+    "public_help"       :   "Al activarlo cualquier usuario podría reclamar este rol",
+    "group_help"        :   "Grupo al cuál pertenecerá, si no se incluye a ningun grupo dejar vacio",
+    "group"             :   "Grupo al cuál pertenece el permiso",
+    "detail"            :   "Detalle",
+    "detail_help"       :   "El texto que será mostrado en menú",
+    "permissions"       :   "Permisos"
 }

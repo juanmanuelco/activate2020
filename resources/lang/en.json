@@ -15,5 +15,22 @@
     "birth"             :   "Birthday",
     "id"                :   "Id",
     "actions"           :   "Actions",
-    "icon"              :   "Icon"
+    "icon"              :   "Icon",
+    "interesting_links" :   "Links of interest",
+    "save"              :   "Save",
+    "name_help"         :   "Name with which it will be identified",
+    "icon_help"         :   "Icon for help",
+    "saved_success"     :   "Register was saved successfully",
+    "updated_success"   :   "Register was updated successfully",
+    "configuration"     :   "Configuration",
+    "profile"           :   "Profile",
+    "logout"            :   "Logout",
+    "guard_help"        :   "Name of guard",
+    "public"            :   "Public",
+    "public_help"       :   "When activated, any user could claim this role",
+    "group_help"        :   "Group to which it will belong, if no group is included, leave empty",
+    "group"             :   "Group to which the permission belongs",
+    "detail"            :   "Detail",
+    "detail_help"       :   "Text showing on menu",
+    "permissions"       :   "Permissions"
 }

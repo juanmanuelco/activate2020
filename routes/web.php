@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +30,14 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::resource('group', 'GroupController');
     Route::resource('builder', 'BuilderController');
     Route::resource('imageFIle', 'ImageFileController');
+
+    Route::get('role/assign', [RoleController::class, 'assign'])->name('role.assign');
+    Route::post('role/assign', [RoleController::class, 'assign_post'])->name('role.assign_post');
+    Route::resource('role', 'RoleController');
+
+    Route::get('permission/assign', [PermissionController::class, 'assign'])->name('permission.assign');
+    Route::post('permission/assign', [PermissionController::class, 'assign_post'])->name('permission.assign_post');
+    Route::resource('permission', 'PermissionController');
 });
 
 Route::get('/page/{page}', 'BuilderController@page')->name('page_name');

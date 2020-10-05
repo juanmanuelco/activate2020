@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <link rel="shortcut icon" type="image/png" href="{{asset('images/brand.png')}}"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{env('APP_NAME')}}</title>
     @if(Illuminate\Support\Facades\Route::currentRouteName() != 'page_name')
         @include('includes.styles')
     @endif
+    <link rel="stylesheet" href="{{asset('css/menu.css')}}">
     <style>
         .animationload {
             background-color: rgba(255,255,255,0.6);

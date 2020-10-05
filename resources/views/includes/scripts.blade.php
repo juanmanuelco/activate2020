@@ -5,13 +5,4 @@
 <script src="{{asset('vendor/datatable/datatable.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="{{asset('js/code.js')}}"></script>
-<script>
-    $(document).ready( function () {
-        $('table').DataTable({
-            paging      :   false,
-            info        :   false,
-            autoWidth   :   true,
-            searching      :   false
-        });
-    } );
-</script>
+@yield('new_scripts')

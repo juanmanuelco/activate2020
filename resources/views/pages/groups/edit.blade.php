@@ -1,9 +1,12 @@
 @extends('layouts.app')
 @section('content')
-    @include('includes.show', [
+    @include('includes.form', [
                                     'tittle' => 'Grupos',
                                     'description'=> 'Grupos de enlaces que se mostrarán en el menú izquierdo',
-                                    'html'  =>  'pages.groups.fields_readonly',
+                                    'route'=> 'group.update',
+                                    'method' => 'PUT',
+                                    'html'  =>  'pages.groups.fields',
                                     'object' => $group,
+                                    'files'     =>  false
                                ])
 @endsection

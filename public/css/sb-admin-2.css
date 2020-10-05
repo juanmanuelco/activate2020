@@ -10340,7 +10340,7 @@ a:focus {
 
 .sidebar .nav-item .collapse .collapse-inner,
 .sidebar .nav-item .collapsing .collapse-inner {
-  padding: .5rem 0;
+  padding: 2px;
   min-width: 10rem;
   font-size: 0.85rem;
   margin: 0 0 1rem 0;
@@ -10359,10 +10359,10 @@ a:focus {
 
 .sidebar .nav-item .collapse .collapse-inner .collapse-item,
 .sidebar .nav-item .collapsing .collapse-inner .collapse-item {
-  padding: 0.5rem 1rem;
+  padding: 4px;
   margin: 0 0.5rem;
   display: block;
-  color: #3a3b45;
+  color: var(--gray);
   text-decoration: none;
   border-radius: 0.35rem;
   white-space: nowrap;

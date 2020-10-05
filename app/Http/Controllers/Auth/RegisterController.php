@@ -74,7 +74,7 @@ class RegisterController extends Controller
         try {
             DB::beginTransaction();
             $country = Country::find($data['country']);
-            $permissions = Role::whereIn('id', $data['permission'])->whereNotIn('id', [1,2])->pluck('name');
+            $permissions = Role::whereIn('id', $data['permission'])->where('public', true)->pluck('name');
             $new_user = User::create([
                 'name'          => $data['name'],
                 'email'         => $data['email'],

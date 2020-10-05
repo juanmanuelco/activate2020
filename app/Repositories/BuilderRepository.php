@@ -30,9 +30,12 @@ class BuilderRepository extends BaseRepository
     public function search($param){
         $fields = Builder::getModel()->getFillable();
         $response = Builder::query();
-        foreach ($fields as $field){
-            $response = $response->orWhere($field, 'like', '%'.$param .'%');
+        if(!empty($param)){
+            foreach ($fields as $field){
+                $response = $response->orWhere($field, 'like', '%'.$param .'%');
+            }
         }
+        $response= $response->orderBy('name');
         return $response;
     }
 

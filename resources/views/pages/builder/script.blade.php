@@ -584,7 +584,6 @@
                 .then(response => console.log('Success:', response))
                 .finally(()=>{
                     document.getElementById('load_builder').style.display = 'none'
-                    location.reload();
                 });
             }
         });

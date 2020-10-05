@@ -83,7 +83,7 @@
                         <span class="input-group-text"> <i class="fa fa-building"></i> </span>
                     </div>
                     <select class="form-control" multiple size="4" name="permission[]" required>
-                        @foreach(Spatie\Permission\Models\Role::all()->where('id', '>', 2) as $rol)
+                        @foreach(Spatie\Permission\Models\Role::all()->where('public', '=', true) as $rol)
                             <option value="{{$rol->id}}" @if($rol->id == 3) selected @endif>■ {{$rol->name}}</option>
                         @endforeach
                     </select>

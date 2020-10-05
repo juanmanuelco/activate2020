@@ -31,7 +31,7 @@ class BuilderController extends Controller
     public function index(Request $request)
     {
         $builders = $this->builderRepository;
-        if(isset($request['search'])) $builders = $builders->search($request['search']);
+        $builders = $builders->search(isset($request['search'])? $request['search'] : '');
         $builders = $builders->paginate(15);
         return view('pages.builder.index')->with('builders', $builders);
     }
