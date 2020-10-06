@@ -4,21 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Repositories\PermissionRepository;
+use App\Repositories\RoleRepository;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class PermissionController extends Controller
 {
     private $permissionRepository;
+    private $roleRepository;
 
     /**
      * PermissionController constructor.
      * @param PermissionRepository $permissionRepo
+     * @param RoleRepository $roleRepo
      */
-    public function __construct(PermissionRepository $permissionRepo)
+    public function __construct(PermissionRepository $permissionRepo, RoleRepository $roleRepo)
     {
         $this->permissionRepository = $permissionRepo;
+        $this->roleRepository = $roleRepo;
     }
 
 
@@ -131,13 +136,24 @@ class PermissionController extends Controller
     }
 
     public function  assign(Request $request){
-        $permissions =  $this->permissionRepository;
-        $permissions =  $permissions->search(isset($request['search'])? $request['search'] : '');
-        $permissions =  $permissions->paginate(8);
+        $permissions =  $this->permissionRepository
+                        ->search(isset($request['search'])? $request['search'] : '')
+                        ->paginate(8);
         return view('pages.permissions.assign')->with('permissions', $permissions);
     }
 
-    public function assign_post(){
-
+    public function assign_post(Request $request){
+        try {
+            DB::beginTransaction();
+            $input = $request->all();
+            $role = $this->roleRepository->find($input['role']);
+            $permission = $this->permissionRepository->find($input['permission']);
+            if($input['active'] === 'true')    $role->givePermissionTo($permission->name);
+            else                    $role->revokePermissionTo($permission->name);
+            DB::commit();
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(500, $e->getMessage());
+        }
     }
 }

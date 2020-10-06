@@ -166,7 +166,19 @@ class RoleController extends Controller
         return view('pages.roles.assign')->with('users', $users);
     }
 
-    public function assign_post(){
+    public function assign_post(Request $request){
+        try {
+            DB::beginTransaction();
+            $input = $request->all();
+            $role = $this->roleRepository->find($input['role']);
+            $user = $this->userRepository->find($input['user']);
 
+            if($input['active'] === 'true')     $user->assignRole($role->name);
+            else                                $user->removeRole($role->name);
+            DB::commit();
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(500, $e->getMessage());
+        }
     }
 }

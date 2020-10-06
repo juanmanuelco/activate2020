@@ -38,3 +38,63 @@ function deleteRow(url) {
         }
     })
 }
+
+function addPermission(element){
+    let params = (element.id).split('_');
+    let url = location.origin + '/permission/assign';
+    let body = {'permission' : params[0], 'role': params[1], 'active' : element.checked };
+    let destiny = `td_${params[0]}_${params[1]}`;
+    loading(destiny, url, 'POST', body, element.checked);
+}
+
+function addRol(element){
+    let params = (element.id).split('_');
+    let url = location.origin + '/role/assign';
+    let body = {'user' : params[0], 'role': params[1], 'active' : element.checked };
+    let destiny = `td_${params[0]}_${params[1]}`;
+    loading(destiny, url, 'POST', body, element.checked);
+}
+
+function markPermission(element) {
+    let input = document.getElementById(element)
+    if(input.checked) document.getElementById(element).removeAttribute('checked')
+    else   document.getElementById(element).setAttribute('checked', '');
+    addPermission(input);
+}
+
+function markRol(element) {
+    let input = document.getElementById(element)
+    if(input.checked) document.getElementById(element).removeAttribute('checked')
+    else   document.getElementById(element).setAttribute('checked', '');
+    addRol(input);
+}
+
+
+function loading(destiny, url, method, data, type){
+    $.ajax(url, {
+        method: method,
+        data: data,
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        xhr: ()=> {
+            var xhr = new XMLHttpRequest();
+            xhr.upload.onprogress = (e) => {
+                let percent = Math.round((e.loaded / e.total) * 100);
+                document.getElementById(destiny).style.backgroundImage = `linear-gradient(to left,white ${100-percent}%, #64acad ${percent}%)`;
+            };
+            return xhr;
+        },
+        success: (success) => {
+            console.log(success)
+            document.getElementById(destiny).style.backgroundImage = null;
+            document.getElementById(destiny).style.backgroundColor = type ? 'rgba(0,5,50,0.7)' : null;
+        },
+        error: (error)=> {
+            console.log(error)
+            document.getElementById(destiny).style.backgroundImage = null;
+            document.getElementById(destiny).style.backgroundColor ='red';
+        },
+        complete: ()=> {
+
+        }
+    });
+}

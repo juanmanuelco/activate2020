@@ -23,9 +23,9 @@
                         <div><small>{{$permission->detail}}</small></div>
                     </td>
                     @foreach(\Spatie\Permission\Models\Role::all() as $rol)
-                        <th style="padding-top:25px">
-                            <input type="checkbox" id="{{$permission->id}}_{{$rol->id}}"  @if($rol->hasPermissionTo($permission->name)) checked ="true"  @endif>
-                        </th>
+                        <td style="padding-top:25px; @if($rol->hasPermissionTo($permission->name)) background-color: rgba(0,5,50,0.7) @endif" id="td_{{$permission->id}}_{{$rol->id}}" class ="td_permission" onclick="markPermission('{{$permission->id}}_{{$rol->id}}')">
+                            <input type="checkbox" onclick="addPermission(this)" id="{{$permission->id}}_{{$rol->id}}"  @if($rol->hasPermissionTo($permission->name)) checked ="true"  @endif>
+                        </td>
                     @endforeach
                 </tr>
             @endforeach
