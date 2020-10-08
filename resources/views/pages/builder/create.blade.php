@@ -1,4 +1,32 @@
 @extends('layouts.app')
+
+@section('custom_styles')
+    <link rel="stylesheet" href="{{asset('css/toastr.css')}}">
+    <link rel="stylesheet" href="{{asset('css/grape.css')}}">
+    <link rel="stylesheet" href="{{asset('css/grapesjs-preset-webpage.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tooltip.css')}}">
+    <link rel="stylesheet" href="{{asset('css/grapesjs-plugin-filestack.css')}}">
+    <link rel="stylesheet" href="{{asset('css/demos.css')}}">
+    <link href="{{asset('css/grapick.css')}}" rel="stylesheet">
+    <style type="text/css">html { -ms-touch-action: none; }</style>
+    <link href="{{asset('css/tui-color-picker.css')}}" rel="stylesheet">
+    <link href="{{asset('css/tui-image-editor.css')}}" rel="stylesheet">
+    <script src="{{asset('vendor/grape/fabric.js')}}"></script>
+    <script src="{{asset('vendor/grape/monetization.js')}}"></script>
+    <script src="{{asset('data/tui-code-snippet.txt')}}"></script>
+    <div id="_bsa_srv-CK7I62QJ_0"></div>
+    <script src="{{asset('vendor/grape/tui-color-picker.js')}}"></script>
+    <script src="{{asset('data/tui-image-editor.txt')}}"></script>
+
+    @if(Illuminate\Support\Facades\Route::currentRouteName() == 'builder.create')
+        <style>
+            #builder_panel{
+                display: none;
+            }
+        </style>
+    @endif
+
+@endsection
 @section('content')
 
     @if(Illuminate\Support\Facades\Route::currentRouteName() == 'builder.create')
@@ -27,30 +55,6 @@
             </div>
         </div>
     @endif
-    <link rel="stylesheet" href="{{asset('css/toastr.css')}}">
-    <link rel="stylesheet" href="{{asset('css/grape.css')}}">
-    <link rel="stylesheet" href="{{asset('css/grapesjs-preset-webpage.css')}}">
-    <link rel="stylesheet" href="{{asset('css/tooltip.css')}}">
-    <link rel="stylesheet" href="{{asset('css/grapesjs-plugin-filestack.css')}}">
-    <link rel="stylesheet" href="{{asset('css/demos.css')}}">
-    <link href="{{asset('css/grapick.css')}}" rel="stylesheet">
-    <style type="text/css">html { -ms-touch-action: none; }</style>
-    <link href="{{asset('css/tui-color-picker.css')}}" rel="stylesheet">
-    <link href="{{asset('css/tui-image-editor.css')}}" rel="stylesheet">
-    <script src="{{asset('vendor/grape/fabric.js')}}"></script>
-    <script src="{{asset('vendor/grape/monetization.js')}}"></script>
-    <script src="{{asset('data/tui-code-snippet.txt')}}"></script>
-    <div id="_bsa_srv-CK7I62QJ_0"></div>
-    <script src="{{asset('vendor/grape/tui-color-picker.js')}}"></script>
-    <script src="{{asset('data/tui-image-editor.txt')}}"></script>
-
-    @if(Illuminate\Support\Facades\Route::currentRouteName() == 'builder.create')
-        <style>
-            #builder_panel{
-                display: none;
-            }
-        </style>
-    @endif
 
    <div id="builder_panel">
        <div class="panel__top">
@@ -70,6 +74,9 @@
        </div>
        <div id="blocks"></div>
    </div>
+@endsection
+
+@section('new_scripts')
     <script src="{{asset('vendor/jquery/jquery.js')}}"></script>
     <script src="{{asset('vendor/grape/toastr.js')}}"></script>
     <script src="{{asset('vendor/grape/grapeJs.js')}}"></script>

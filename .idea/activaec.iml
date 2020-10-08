@@ -141,5 +141,11 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="sweetalert2" level="application" />
+    <orderEntry type="library" name="simditor" level="application" />
+    <orderEntry type="library" name="simple-module" level="application" />
+    <orderEntry type="library" name="jquery.hotkeys" level="application" />
+    <orderEntry type="library" name="simple-uploader" level="application" />
+    <orderEntry type="library" name="quill" level="application" />
+    <orderEntry type="library" name="quill.snow" level="application" />
   </component>
 </module>

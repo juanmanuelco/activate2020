@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
@@ -179,6 +180,21 @@ class RoleController extends Controller
         }catch (\Throwable $e){
             DB::rollBack();
             abort(500, $e->getMessage());
+        }
+    }
+
+    public function apply($role){
+        try {
+            DB::beginTransaction();
+            $role = $this->roleRepository->find($role);
+            if(empty($role)) abort(404);
+            if($role->public)  Auth::user()->assignRole($role->name);
+            else               abort(401);
+            DB::commit();
+            return redirect('home')->with('status', __('apply_in_process', ['type' => $role->name]));
+        }catch (\Throwable $e){
+            DB::rollBack();
+            return redirect('home')->with('error', __('error_permission'));
         }
     }
 }

@@ -33,6 +33,8 @@ Route::middleware(['auth', 'permissions'])->group(function () {
 
     Route::get('role/assign', [RoleController::class, 'assign'])->name('role.assign');
     Route::post('role/assign', [RoleController::class, 'assign_post'])->name('role.assign_post');
+
+    Route::get('role/apply/{role}', [RoleController::class, 'apply'])->name('role.apply');
     Route::resource('role', 'RoleController');
 
     Route::get('permission/assign', [PermissionController::class, 'assign'])->name('permission.assign');

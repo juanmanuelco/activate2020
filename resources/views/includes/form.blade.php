@@ -8,7 +8,7 @@
         {!! Form::model($object, ['route' => [$route, $object->id], 'method' => $method, 'files' => $files]) !!}
     @endif
     @include($html)
-    <div style="text-align: right">
+    <div style="text-align: right; margin-top: 50px">
         {!! Form::submit(__('save'), ['class' => 'btn btn-primary']); !!}
     </div>
 </div>

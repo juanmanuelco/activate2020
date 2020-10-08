@@ -69,7 +69,6 @@ class PermissionController extends Controller
 
         try {
             DB::beginTransaction();
-            route($input['name']);
             $this->permissionRepository->create($input);
             DB::commit();
             return redirect(route('permission.create'))->with('status', __('saved_success'));
@@ -108,7 +107,6 @@ class PermissionController extends Controller
         $input = $request->all();
         try {
             DB::beginTransaction();
-            route($input['name']);
             $permission->update($input);
             DB::commit();
             return redirect()->back()->with('status', __('updated_success'));

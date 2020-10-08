@@ -7,58 +7,13 @@
     <meta name="author" content="">
     <link rel="shortcut icon" type="image/png" href="{{asset('images/brand.png')}}"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <script src="{{ asset('css/app.css') }}"></script>
     <title>{{env('APP_NAME')}}</title>
     @if(Illuminate\Support\Facades\Route::currentRouteName() != 'page_name')
         @include('includes.styles')
     @endif
     <link rel="stylesheet" href="{{asset('css/menu.css')}}">
-    <style>
-        .animationload {
-            background-color: rgba(255,255,255,0.6);
-            height: 100%;
-            left: 0;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 10000;
-        }
-        .osahanloading {
-            animation: 1.5s linear 0s normal none infinite running osahanloading;
-            background: #fed37f none repeat scroll 0 0;
-            border-radius: 50px;
-            height: 50px;
-            left: 50%;
-            margin-left: -25px;
-            margin-top: -25px;
-            position: absolute;
-            top: 50%;
-            width: 50px;
-        }
-        .osahanloading::after {
-            animation: 1.5s linear 0s normal none infinite running osahanloading_after;
-            border-color: #85d6de transparent;
-            border-radius: 80px;
-            border-style: solid;
-            border-width: 10px;
-            content: "";
-            height: 80px;
-            left: -15px;
-            position: absolute;
-            top: -15px;
-            width: 80px;
-        }
-        @keyframes osahanloading {
-            0% {
-                transform: rotate(0deg);
-            }
-            50% {
-                background: #85d6de none repeat scroll 0 0;
-                transform: rotate(180deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    @yield('custom_styles')
 </head>

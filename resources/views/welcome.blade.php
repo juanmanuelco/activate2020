@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="site-wrapper">
+    <div class="site-wrapper" >
 
         <div class="site-wrapper-inner">
 
