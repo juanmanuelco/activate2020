@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GroupRol;
+use App\Models\GroupRole;
 use App\Models\User;
+use App\Repositories\NotificationReceiverRepository;
+use App\Repositories\NotificationRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
@@ -22,15 +24,22 @@ class RoleController extends Controller
      */
     private $userRepository;
 
+    private $notificationRepository;
+
+    private $notificationReceiverRepository;
+
     /**
      * RoleController constructor.
      * @param RoleRepository $roleRepo
      * @param UserRepository $userRepo
+     * @param NotificationRepository $notificationRepo
      */
-    public function __construct(RoleRepository $roleRepo, UserRepository $userRepo)
+    public function __construct(RoleRepository $roleRepo, UserRepository $userRepo, NotificationRepository $notificationRepo, NotificationReceiverRepository $notificationReceiverRepo)
     {
         $this->roleRepository = $roleRepo;
         $this->userRepository = $userRepo;
+        $this->notificationRepository = $notificationRepo;
+        $this->notificationReceiverRepository = $notificationReceiverRepo;
     }
 
 
@@ -150,7 +159,7 @@ class RoleController extends Controller
                if( $user->hasRole($role->name))  $user->removeRole($role->name);
             }
             DB::table('role_has_permissions')->where('role_id', $id)->delete();
-            GroupRol::where('role', $id)->delete();
+            GroupRole::where('role', $id)->delete();
             $role->delete();
             DB::commit();
             return response()->json(['delete' => 'success']);
@@ -190,6 +199,17 @@ class RoleController extends Controller
             if(empty($role)) abort(404);
             if($role->public)  Auth::user()->assignRole($role->name);
             else               abort(401);
+
+            $notification = $this->notificationRepository->create([
+                'detail' => "El usuario con ID :" . Auth::id() .", con nombre: " . Auth::user()->name ." y con email: " . Auth::user()->email . " ha adquirido el rol de " . $role->name,
+                'icon'   => 'fas fa-user-tag',
+                'emisor'    =>  Auth::user()->id
+            ]);
+            $destiny = [
+                ['receiver' => 1 , 'type' => 'role', 'notification' => $notification->id]
+            ];
+            setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+
             DB::commit();
             return redirect('home')->with('status', __('apply_in_process', ['type' => $role->name]));
         }catch (\Throwable $e){

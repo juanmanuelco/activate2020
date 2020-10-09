@@ -22,7 +22,7 @@ class Group extends Model
     ];
 
     public function roles(){
-        return $this->hasMany(GroupRol::class, 'group', 'id');
+        return $this->hasMany(GroupRole::class, 'group', 'id');
     }
 
     public function permissions(){

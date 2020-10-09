@@ -75,6 +75,14 @@ function addRol(element){
     loading(destiny, url, 'POST', body, element.checked);
 }
 
+function addGroupRol(element){
+    let params = (element.id).split('_');
+    let url = location.origin + '/group/assign';
+    let body = {'group' : params[0], 'role': params[1], 'active' : element.checked };
+    let destiny = `td_${params[0]}_${params[1]}`;
+    loading(destiny, url, 'POST', body, element.checked);
+}
+
 function markPermission(element) {
     let input = document.getElementById(element)
     if(input.checked) document.getElementById(element).removeAttribute('checked')
@@ -87,6 +95,13 @@ function markRol(element) {
     if(input.checked) document.getElementById(element).removeAttribute('checked')
     else   document.getElementById(element).setAttribute('checked', '');
     addRol(input);
+}
+
+function markGroupRol(element) {
+    let input = document.getElementById(element)
+    if(input.checked) document.getElementById(element).removeAttribute('checked')
+    else   document.getElementById(element).setAttribute('checked', '');
+    addGroupRol(input);
 }
 
 
@@ -107,6 +122,11 @@ function loading(destiny, url, method, data, type){
             console.log(success)
             document.getElementById(destiny).style.backgroundImage = null;
             document.getElementById(destiny).style.backgroundColor = type ? 'rgba(0,5,50,0.7)' : null;
+            if(type){
+                (new Audio(location.origin + '/sounds/default.ogg')).play();
+            }else{
+                (new Audio(location.origin +'/sounds/remove.ogg')).play();
+            }
         },
         error: (error)=> {
             console.log(error)

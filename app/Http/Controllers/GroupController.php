@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\GroupRole;
 use App\Repositories\GroupRepository;
+use App\Repositories\GroupRoleRepository;
+use App\Repositories\RoleRepository;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Permission;
 
 class GroupController extends Controller
 {
@@ -16,12 +19,23 @@ class GroupController extends Controller
     private $groupRepository;
 
     /**
+     * @var RoleRepository
+     */
+    private $roleRepository;
+
+    private $groupRolRepository;
+
+    /**
      * GroupController constructor.
      * @param GroupRepository $groupRepo
+     * @param RoleRepository $roleRepo
+     * @param GroupRoleRepository $groupRoleRepo
      */
-    public function __construct(GroupRepository $groupRepo)
+    public function __construct(GroupRepository $groupRepo, RoleRepository $roleRepo, GroupRoleRepository $groupRoleRepo)
     {
         $this->groupRepository = $groupRepo;
+        $this->roleRepository = $roleRepo;
+        $this->groupRolRepository = $groupRoleRepo;
     }
 
     /**
@@ -136,4 +150,35 @@ class GroupController extends Controller
             abort(403, $e->getMessage());
         }
     }
+
+    public function  assign(Request $request){
+        $groups =   $this->groupRepository;
+        $groups =   $groups->search(isset($request['search'])? $request['search'] : '');
+        $groups =   $groups->paginate(10);
+        return view('pages.groups.assign')->with('groups', $groups);
+    }
+
+    public function assign_post(Request $request){
+        try {
+            DB::beginTransaction();
+            $input = $request->all();
+            $role = $this->roleRepository->find($input['role']);
+            $group = $this->groupRepository->find($input['group']);
+
+            if($input['active'] === 'true') {
+                GroupRole::firstOrCreate([
+                    'role' => $role->id,
+                    'group' =>  $group->id
+                ]);
+            } else {
+                GroupRole::query()->where('role' , $role->id,)->where('group' ,  $group->id)->delete();
+            }
+            DB::commit();
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(500, $e->getMessage());
+        }
+    }
+
+
 }

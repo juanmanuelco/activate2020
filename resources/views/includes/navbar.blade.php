@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand navbar-light  topbar mb-4 static-top shadow" style="background-color: var(--ground, #000532)">
+<nav class="navbar navbar-expand navbar-light  topbar mb-4 static-top shadow" id="navbar_principal" style="background-color: var(--ground, #000532)">
 
     <button id="sidebarToggleTop" class="btn d-md-none rounded-circle mr-3" style="background-color: white">
         <i class="fa fa-bars"></i>
@@ -33,30 +33,31 @@
         </li>
 
 
-        <!-- Nav Item - Alerts -->
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img src="{{asset('images/notification.png')}}" alt="{{__('notification')}}" width="40px">
-                <!-- Counter - Alerts -->
-                <span class="badge badge-light badge-counter" style="margin-top: -18px; margin-right: 8px">3+</span>
+                <span v-if="notifications_not_readed > 0" class="badge badge-light badge-counter" style="margin-top: -18px; margin-right: 8px">@{{ notifications_not_readed }}+</span>
             </a>
             <!-- Dropdown - Alerts -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
-                    Alerts Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="mr-3">
-                        <div class="icon-circle bg-success">
-                            <i class="fas fa-donate text-white"></i>
+                <h6 class="dropdown-header">{{__('notification_center')}}</h6>
+                <div class="dropdown-item" v-for="notification in notifications" :id="'notification_' + notification.id">
+                    <div style="text-align: right">
+                        <a href="#" v-on:click="closeNotification('notification_' + notification.id, notification)">
+                            <span style="font-size: 18px; color: #64acad;"><i class="far fa-times-circle"></i></span>
+                        </a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="mr-3">
+                            <div class="icon-circle bg-success"><i :class="notification.icon + ' text-white'"></i></div>
+                        </div>
+                        <div>
+                            <div class="small text-gray-500">@{{ notification.created  }}</div>
+                            @{{ notification.detail }}
                         </div>
                     </div>
-                    <div>
-                        <div class="small text-gray-500">December 7, 2019</div>
-                        $290.29 has been deposited into your account!
-                    </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                </div>
+                <a class="dropdown-item text-center small text-gray-500" href="#">{{__('see_all')}}</a>
             </div>
         </li>
 
@@ -91,5 +92,40 @@
         </li>
 
     </ul>
-
 </nav>
+@section('vue_scripts')
+    <script>
+        const navbar_principal = new Vue({
+            el: '#navbar_principal',
+            data: {
+                notifications   : @json(getNotifications()),
+                notifications_not_readed : @json(getNotifications('readed')),
+                messages        : [],
+                messages_not_readed :0
+            },
+            created(){
+                let elem = this;
+                Echo.channel('channel-notification').listen('.notification-event', function(data) {
+                    elem.notifications_not_readed =elem.notifications_not_readed +1;
+                    elem.notifications.unshift(data.notification);
+                    (new Audio(location.origin +'/sounds/default.ogg')).play();
+                });
+            },
+            methods: {
+                closeNotification : function (destiny, notification) {
+                    let url = location.origin + '/notification/remove';
+                    let data = {notification : notification.id};
+                    loading(destiny, url, 'POST', data, false)
+                    this.remove_method(this.notifications, notification);
+                },
+                remove_method : function removeItemOnce(arr, value) {
+                    //USE THIS METHOD FOR DELETE ELEMENT ON LIST
+                    const index = arr.indexOf(value);
+                    if (index > -1) arr.splice(index, 1);
+                    (new Audio(location.origin +'/sounds/remove.ogg')).play();
+                    return arr;
+                },
+            }
+        });
+    </script>
+@endsection

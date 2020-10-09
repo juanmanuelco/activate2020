@@ -67,5 +67,8 @@
     "how_to_use"        :   "¿Qué usos le quieres dar a tu cuenta?",
     "apply"             :   "Aplicar a este rol",
     "apply_in_process"  :   "Hemos recibido tu solicitud para unirte a nuestro equipo de :type , asegurate de llenar tus datos con información real y verificable para poder activar tus servicios",
-    "error_permission"  :   "Sorry, but that role cannot be obtained."
+    "error_permission"  :   "lo sentimos, pero no puedes aplicar a este rol",
+    "notification"      :   "Notificación",
+    "notification_center": "Centro de notificaciones",
+    "see_all"           :   "Ver todas"
 }

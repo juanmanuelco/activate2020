@@ -19,7 +19,8 @@
         use App\Models\Group;
         $roles  = Auth::user()->getRoleNames();
         $roles  = Role::whereIn('name', $roles)->pluck('id');
-        $groups = DB::table('groups_roles')->whereIn('role',$roles)->leftJoin('groups', 'groups.id', '=', 'groups_roles.group')->distinct('groups.name')->orderBy('groups.name')->get();
+        $groups = DB::table('groups_roles')->whereIn('role',$roles)->leftJoin('groups', 'groups.id', '=', 'groups_roles.group')->pluck('groups.id');
+        $groups = Group::query()->whereIn('id', $groups)->orderBy('name', 'asc')->get();
         $links = \App\Models\Link::get();
     @endphp
     @if(count($links) > 0)
@@ -60,9 +61,11 @@
                         $permissions = Group::find($group->id)->permissions()->orderBy('permissions.detail')->get();
                     @endphp
                     @foreach($permissions as $permission)
-                        <div class="collapse-inner rounded" style="background-color: #000532">
-                            <a class="collapse-item" href="{{route($permission->name)}}">{{$permission->detail}}</a>
-                        </div>
+                        @can($permission->name)
+                            <div class="collapse-inner rounded" style="background-color: #000532">
+                                <a class="collapse-item" href="{{get_route($permission->name)}}">{{$permission->detail}}</a>
+                            </div>
+                        @endcan
                     @endforeach
                 </div>
             </li>

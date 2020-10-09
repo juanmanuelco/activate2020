@@ -6,7 +6,7 @@
     @include('includes.menu')
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
-                <div class="animationload" id="loading_gif" style="display: none">
+                <div class="animationload" id="loading_gif" style="display: block">
                     <button class="btn btn-light close-loading" ><i class="fa fa-close"></i></button>
                     <div class="osahanloading"></div>
                 </div>

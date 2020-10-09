@@ -36,5 +36,8 @@
     "how_to_use"        :  "What uses do you want to give your account?",
     "apply"             :  "Apply to this role",
     "apply_in_process"  :  "We have received your request to join our: type team, make sure to fill in your details with real and verifiable information in order to activate your services",
-    "error_permission"   :
+    "error_permission"   :  "Sorry, but that role cannot be obtained.",
+    "notification"      :   "Notification",
+    "notification_center": "Notification center",
+    "see_all"           :   "See all"
 }

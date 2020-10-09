@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\GroupController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +29,8 @@ Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name
 
 
 Route::middleware(['auth', 'permissions'])->group(function () {
+    Route::get('group/assign', [GroupController::class, 'assign'] )->name('group.assign');
+    Route::post('group/assign', [GroupController::class, 'assign_post'] )->name('group.assign_post');
     Route::resource('group', 'GroupController');
     Route::resource('builder', 'BuilderController');
     Route::resource('imageFIle', 'ImageFileController');
@@ -37,10 +41,12 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::get('role/apply/{role}', [RoleController::class, 'apply'])->name('role.apply');
     Route::resource('role', 'RoleController');
 
+    Route::post('notification/remove',  [NotificationController::class, 'remove'])->name('notification.remove');
+    Route::resource('notification', 'NotificationController');
+
     Route::get('permission/assign', [PermissionController::class, 'assign'])->name('permission.assign');
     Route::post('permission/assign', [PermissionController::class, 'assign_post'])->name('permission.assign_post');
     Route::resource('permission', 'PermissionController');
 });
 
 Route::get('/page/{page}', 'BuilderController@page')->name('page_name');
-
