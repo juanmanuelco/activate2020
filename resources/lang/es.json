@@ -70,5 +70,10 @@
     "error_permission"  :   "lo sentimos, pero no puedes aplicar a este rol",
     "notification"      :   "Notificación",
     "notification_center": "Centro de notificaciones",
-    "see_all"           :   "Ver todas"
+    "see_all"           :   "Ver todas",
+    "created_at"        :   "Emitido en",
+    "expiration"        :   "Expiración",
+    "role"              :   "Rol",
+    "user"              :   "Usuario"
+
 }

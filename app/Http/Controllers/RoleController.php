@@ -183,8 +183,31 @@ class RoleController extends Controller
             $role = $this->roleRepository->find($input['role']);
             $user = $this->userRepository->find($input['user']);
 
-            if($input['active'] === 'true')     $user->assignRole($role->name);
-            else                                $user->removeRole($role->name);
+            if($input['active'] === 'true')  {
+                $notification = $this->notificationRepository->create([
+                    'detail' => "Felicidades, se te ha asignado el rol de $role->name, Por favor actualiza tu información para poder activar tus servicios",
+                    'icon'   => 'fas fa-glass-cheers',
+                    'emisor'    =>  Auth::user()->id
+                ]);
+                $destiny = [
+                    ['receiver' => $user->id , 'type' => 'user', 'notification' => $notification->id]
+                ];
+                setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+
+                $user->assignRole($role->name);
+            } else{
+                $notification = $this->notificationRepository->create([
+                    'detail' => "Lo sentimos, tu rol de $role->name ha sido removido por el administrador",
+                    'icon'   => 'fas fa-heart-broken',
+                    'emisor'    =>  Auth::user()->id
+                ]);
+                $destiny = [
+                    ['receiver' => $user->id , 'type' => 'user', 'notification' => $notification->id]
+                ];
+                setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+
+                $user->removeRole($role->name);
+            }
             DB::commit();
         }catch (\Throwable $e){
             DB::rollBack();

@@ -39,5 +39,9 @@
     "error_permission"   :  "Sorry, but that role cannot be obtained.",
     "notification"      :   "Notification",
     "notification_center": "Notification center",
-    "see_all"           :   "See all"
+    "see_all"           :   "See all",
+    "created_at"        :   "Created at",
+    "expiration"        :   "Expiration",
+    "role"              :   "Role",
+    "user"              :   "User"
 }

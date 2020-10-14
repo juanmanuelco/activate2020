@@ -12,7 +12,6 @@
                 </div>
               <div id="app" >
                   @include('includes.navbar')
-                  @include('includes.messages')
                   @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'builder.create' || \Illuminate\Support\Facades\Route::currentRouteName() == 'builder.edit')
                       <div>
                   @else

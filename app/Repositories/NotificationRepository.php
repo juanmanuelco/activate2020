@@ -20,11 +20,11 @@ class NotificationRepository extends BaseRepository {
                 $response = $response->orWhere($field, 'like', '%' . $param . '%');
             }
         }
-        return $response->orderBy('id');
+        return $response->orderBy('id', 'desc');
     }
 
     public function orderBy($param){
-        return $this->orderBy($param);
+        return $this->orderBy($param, 'desc');
     }
 
     public function model(){

@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <a class="dropdown-item text-center small text-gray-500" href="#">{{__('see_all')}}</a>
+                <a class="dropdown-item text-center small text-gray-500" href="{{route('notification.my_notifications')}}">{{__('see_all')}}</a>
             </div>
         </li>
 
@@ -93,6 +93,15 @@
 
     </ul>
 </nav>
+@include('includes.messages')
+<div class="progress" style="margin-bottom:30px">
+    <div class="progress-bar progress-bar-striped bg-info" id="progress_nav" role="progressbar" style="width: 0%" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+@php
+    $user_roles = \Illuminate\Support\Facades\Auth::user()->getRoleNames();
+    $user_roles = \Spatie\Permission\Models\Role::query()->whereIn('name', $user_roles)->pluck('id');
+@endphp
 @section('vue_scripts')
     <script>
         const navbar_principal = new Vue({
@@ -105,17 +114,23 @@
             },
             created(){
                 let elem = this;
-                Echo.channel('channel-notification').listen('.notification-event', function(data) {
-                    elem.notifications_not_readed =elem.notifications_not_readed +1;
-                    elem.notifications.unshift(data.notification);
-                    (new Audio(location.origin +'/sounds/default.ogg')).play();
+                @foreach($user_roles as $user_rol)
+                    Echo.channel('private-role_channel.@json($user_rol)' ).listen('.role_event', function(data) {
+                        new Notification('Nueva notificación', {body : data.notification.detail})
+                        elem.notification_callback(elem, data)
+                    });
+                @endforeach
+                Echo.channel('private-user_channel.@json(\Illuminate\Support\Facades\Auth::id())' ).listen('.user_event', function(data) {
+                    elem.notification_callback(elem, data)
+                    new Notification('Nueva notificación', {body : data.notification.detail})
                 });
             },
             methods: {
                 closeNotification : function (destiny, notification) {
                     let url = location.origin + '/notification/remove';
                     let data = {notification : notification.id};
-                    loading(destiny, url, 'POST', data, false)
+                    loading('', url, 'POST', data, false)
+                    this.notifications_not_readed = 0;
                     this.remove_method(this.notifications, notification);
                 },
                 remove_method : function removeItemOnce(arr, value) {
@@ -125,6 +140,11 @@
                     (new Audio(location.origin +'/sounds/remove.ogg')).play();
                     return arr;
                 },
+                notification_callback : function (elem, data) {
+                    elem.notifications_not_readed =elem.notifications_not_readed +1;
+                    elem.notifications.unshift(data.notification);
+                    (new Audio(location.origin +'/sounds/default.ogg')).play();
+                }
             }
         });
     </script>

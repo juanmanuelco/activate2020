@@ -114,14 +114,21 @@ function loading(destiny, url, method, data, type){
             var xhr = new XMLHttpRequest();
             xhr.upload.onprogress = (e) => {
                 let percent = Math.round((e.loaded / e.total) * 100);
-                document.getElementById(destiny).style.backgroundImage = `linear-gradient(to left,white ${100-percent}%, #64acad ${percent}%)`;
+                document.getElementById('progress_nav').style.width = percent + '%';
+                if(destiny.length > 0 ){
+                    document.getElementById(destiny).style.backgroundImage = `linear-gradient(to left,white ${100-percent}%, #64acad ${percent}%)`;
+                }
+
             };
             return xhr;
         },
         success: (success) => {
-            console.log(success)
-            document.getElementById(destiny).style.backgroundImage = null;
-            document.getElementById(destiny).style.backgroundColor = type ? 'rgba(0,5,50,0.7)' : null;
+            document.getElementById('progress_nav').style.width =  '100%';
+            if(destiny.length > 0 ) {
+                document.getElementById(destiny).style.backgroundImage = null;
+                document.getElementById(destiny).style.backgroundColor = type ? 'rgba(0,5,50,0.7)' : null;
+            }
+
             if(type){
                 (new Audio(location.origin + '/sounds/default.ogg')).play();
             }else{
@@ -129,12 +136,14 @@ function loading(destiny, url, method, data, type){
             }
         },
         error: (error)=> {
-            console.log(error)
-            document.getElementById(destiny).style.backgroundImage = null;
-            document.getElementById(destiny).style.backgroundColor ='red';
+            document.getElementById('progress_nav').style.width =  '100%';
+            if(destiny.length > 0 ) {
+                document.getElementById(destiny).style.backgroundImage = null;
+                document.getElementById(destiny).style.backgroundColor ='red';
+            }
         },
         complete: ()=> {
-
+            document.getElementById('progress_nav').style.width =  '0%';
         }
     });
 }

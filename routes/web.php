@@ -41,8 +41,9 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::get('role/apply/{role}', [RoleController::class, 'apply'])->name('role.apply');
     Route::resource('role', 'RoleController');
 
+    Route::get('notification/my-notifications',  [NotificationController::class, 'my_notifications'])->name('notification.my_notifications');
     Route::post('notification/remove',  [NotificationController::class, 'remove'])->name('notification.remove');
-    Route::resource('notification', 'NotificationController');
+    Route::resource('notification', 'NotificationController')->except(['destroy', 'edit', 'update']);
 
     Route::get('permission/assign', [PermissionController::class, 'assign'])->name('permission.assign');
     Route::post('permission/assign', [PermissionController::class, 'assign_post'])->name('permission.assign_post');

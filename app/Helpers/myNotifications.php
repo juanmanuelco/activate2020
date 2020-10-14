@@ -1,5 +1,10 @@
 <?php
 
+use App\Events\NotificationRole;
+use App\Events\NotificationUser;
+use Spatie\Permission\Models\Role;
+use App\Models\User;
+
 
 /**
  * @param string $type
@@ -33,6 +38,12 @@ function getNotifications($type = ""){
 function setReceiver($destinies, $repository, $notification){
     foreach ($destinies as $destiny ){
         $repository->create($destiny);
-        event(new \App\Events\Notificacion($notification));
+        if($destiny['type'] == 'role'){
+            $role = Role::findById($destiny['receiver']);
+            event(new NotificationRole($role, $notification));
+        }else{
+            $user = User::query()->find($destiny['receiver']);
+            event(new NotificationUser($user, $notification));
+        }
     }
 }

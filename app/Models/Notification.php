@@ -16,7 +16,7 @@ class Notification extends Model
     public $fillable = [
         'detail',
         'emisor',
-        'cursor'
+        'icon'
     ];
 
 

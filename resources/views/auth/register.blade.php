@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container container_data" >
-
+    @include('includes.messages')
     <div class="card register" >
         <article class="card-body">
             <h4 class="card-title mt-3 text-center text-white">{{__('create_account')}}</h4>

@@ -1,4 +1,4 @@
-<div style="margin-top:-25px;">
+<div>
     @if (count($errors)>0)
         <div class="mensaje-error-sistema animated flash">
             <h4 class="calibri" >
