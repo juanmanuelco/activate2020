@@ -147,3 +147,16 @@ function loading(destiny, url, method, data, type){
         }
     });
 }
+function show_image_preview(input){
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#img_receiver').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
+}
+
+$("#image_content").change(function() {
+    show_image_preview(this);
+});

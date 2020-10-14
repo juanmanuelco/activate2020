@@ -116,7 +116,6 @@
                 let elem = this;
                 @foreach($user_roles as $user_rol)
                     Echo.channel('private-role_channel.@json($user_rol)' ).listen('.role_event', function(data) {
-                        new Notification('Nueva notificación', {body : data.notification.detail})
                         elem.notification_callback(elem, data)
                     });
                 @endforeach
@@ -141,9 +140,10 @@
                     return arr;
                 },
                 notification_callback : function (elem, data) {
+                    (new Audio(location.origin +'/sounds/default.ogg')).play();
+                    new Notification('Nueva notificación', {body : data.notification.detail})
                     elem.notifications_not_readed =elem.notifications_not_readed +1;
                     elem.notifications.unshift(data.notification);
-                    (new Audio(location.origin +'/sounds/default.ogg')).play();
                 }
             }
         });

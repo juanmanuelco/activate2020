@@ -74,6 +74,8 @@
     "created_at"        :   "Emitido en",
     "expiration"        :   "Expiración",
     "role"              :   "Rol",
-    "user"              :   "Usuario"
-
+    "user"              :   "Usuario",
+    "add_new_image"     :   "Añadir nueva imágen",
+    "select"            :   "Seleccionar",
+    "select_an_image"   :   "Seleccionar una imágen"
 }

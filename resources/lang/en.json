@@ -43,5 +43,8 @@
     "created_at"        :   "Created at",
     "expiration"        :   "Expiration",
     "role"              :   "Role",
-    "user"              :   "User"
+    "user"              :   "User",
+    "add_new_image"     :   "Add new image",
+    "select"            :   "Select",
+    "select_an_image"   :   "Select an image"
 }
