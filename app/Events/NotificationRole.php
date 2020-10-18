@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\ImageFile;
 use App\Models\Notification;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -18,6 +19,7 @@ class NotificationRole  implements ShouldBroadcast
 
     private Role $role;
     public Notification $notification;
+    public $imageFile;
 
     /**
      * Create a new event instance.
@@ -29,6 +31,11 @@ class NotificationRole  implements ShouldBroadcast
     {
         $this->role = $role;
         $this->notification = $notification;
+        if(!empty($notification->getImage())){
+            $this->imageFile = $notification->getImage();
+        }else{
+            $this->imageFile = ['extension' => ''];
+        }
     }
 
     /**

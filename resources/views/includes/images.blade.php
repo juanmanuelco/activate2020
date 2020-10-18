@@ -1,39 +1,45 @@
-<div class="row">
-    <div class="col-lg-4" style="text-align: center">
-        <div class="panel-body">
-            <div class="upload-drop-zone" id="drop-zone">
-                <input type="file" name="file" id="image_content" class="inputfile" />
-                <label for="image_content" style="height: 100%; width: 100%; padding: 15px">
-                    <div style="margin: 15px">
-                        {{__('add_new_image')}}
-                    </div>
-                    <img src="" alt="" id="img_receiver" width="100%" style="max-height: 320px">
-                </label>
-            </div>
-            <button class="btn btn-primary btn-block" type="button"></button>
-        </div>
-    </div>
-    @php
-        $images = \App\Models\ImageFile::select('id', 'extension', 'name')->orderBy('id', 'desc')->limit(1000)->get();
-    @endphp
-    <div class="col-lg-8">
+@php
+    $images = \App\Models\ImageFile::where('owner', \Illuminate\Support\Facades\Auth::id())->select('id', 'extension', 'name')->orderBy('id', 'desc')->limit(1000)->get();
+@endphp
+<div id="image_container">
+    <div class="panel-body">
         <label for="">{{__('select_an_image')}}</label>
-        <div style="max-height: 440px; min-height: 440px;overflow-y: scroll; overflow-x: hidden; background-color: #f2f2f2">
-            @foreach($images as $image)
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#" data-image-id="" data-toggle="modal" data-title="{{$image->name}}"
-                       data-image="{{'/images/system/' . $image->id . '.' . $image->extension}}"
-                       data-target="#image-gallery">
-                        <img class="img-thumbnail rounded "
-                             src="{{'/images/system/' . $image->id . '.' . $image->extension}}"
-                             alt="{{$image->name}}">
-                    </a>
-                    <button type="button" class="btn btn-info btn-block">{{__('select')}}</button>
+        <div class="upload-drop-zone" id="drop-zone" style="background-color: #f2f2f2">
+            <input type="file" name="file" id="image_content" class="inputfile" accept=".jpg, .jpeg, .png"/>
+            <label for="image_content" style="height: 100%; width: 100%; padding: 15px">
+                <div style="width: 100%; text-align: center">
+                    <p id="image_label">{{__('add_new_image')}}</p>
+                    <img :src="image_source" alt="" id="img_receiver" width="50%" style="max-height: 380px; margin-bottom: 15px">
                 </div>
-            @endforeach
+            </label>
         </div>
     </div>
+
+    <div id="custom-search-input">
+        <div class="input-group col-md-12">
+            <input type="text" class="form-control input-lg" placeholder="Buscar" v-model="search" />
+            <span class="input-group-btn">
+                <button class="btn btn-info btn-lg" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+
+    <div class="row" style="max-height: 230px; overflow-y: scroll; margin-top: 15px">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 thumb" v-for="image in images" v-if="compare(image)" v-bind:style= "image.id === image_selected ? 'background-color:#f2f2f2': 'background-color:#ffffff'">
+            <a class="thumbnail" href="#" :data-image-id="image.id" data-toggle="modal" :data-title="image.name"
+               :data-image="'/images/system/' + image.id + '.' + image.extension"
+               data-target="#image-gallery">
+                <img class="img-thumbnail rounded" :src="'/images/system/' + image.id + '.' + image.extension" width="100%" height="150px">
+                <p style="text-align: center; padding-left: 4px; padding-right: 4px">@{{ image.name }}</p>
+            </a>
+            <button type="button" class="btn btn-info btn-block" v-on:click="select_image(image)">{{__('select')}}</button>
+        </div>
+    </div>
+    <input type="hidden" name="image" v-model="image_selected">
 </div>
+
 <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -55,4 +61,40 @@
         </div>
     </div>
 </div>
+
+@section('image_vue')
+    <script>
+        var image_component = new Vue({
+            el: '#image_container',
+            data: {
+                search          :   '',
+                images          :   @json($images),
+                image_selected  :   null,
+                image_source    :   @json(isset($image) ? '/images/system/' . $image->id . '.' . $image->extension : null)
+            },
+            methods :{
+                addImage : function (image) {
+                    this.images.unshift(image);
+                    this.select_image(image)
+                    document.getElementById('image_label').style.display = 'block'
+                    try{
+                        vue_configuration.images.unshift(image);
+                    }catch (e) {
+
+                    }
+                },
+                compare : function(image){
+                    let filter = this.search.toLowerCase();
+                    if(filter.trim().length<1) return true;
+                    let objective = image.name.toLowerCase();
+                    return (objective.indexOf(filter) > -1);
+                },
+                select_image : function (image){
+                    this.image_selected = image.id
+                    this.image_source = location.origin +'/images/system/' + image.id + '.'+ image.extension
+                }
+            }
+        });
+    </script>
+@endsection
 

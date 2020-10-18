@@ -1,5 +1,12 @@
 <div class="row">
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+        <div class="form-group">
+            {!! Form::label('title', __('title')); !!}
+            {!! Form::text('title',old('title'), ['class'=> 'form-control', 'required'=> true]); !!}
+        </div>
+
+
         <div class="form-group">
             {!! Form::label('detail', __('detail')); !!}
             {!! Form::textarea('detail',old('detail'), ['class'=> 'form-control', 'required'=> true, 'rows' => 3]); !!}
@@ -26,7 +33,10 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+        @include('includes.receivers')
+    </div>
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
         @include('includes.images')
     </div>
 </div>

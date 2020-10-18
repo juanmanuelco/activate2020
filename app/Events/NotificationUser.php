@@ -18,6 +18,7 @@ class NotificationUser  implements ShouldBroadcast
 
     public Notification $notification;
     private User $user;
+    public $imageFile;
 
     /**
      * Create a new event instance.
@@ -29,6 +30,12 @@ class NotificationUser  implements ShouldBroadcast
     {
         $this->notification = $notification;
         $this->user = $user;
+        if(!empty($notification->getImage())){
+            $this->imageFile = $notification->getImage();
+        }else{
+            $this->imageFile = ['extension' => ''];
+        }
+
     }
 
     /**

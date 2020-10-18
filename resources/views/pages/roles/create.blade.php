@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @include('includes.form', [
-                                    'tittle' => 'Roles',
+                                    'title' => 'Roles',
                                     'description'=> 'Son roles necesarios para asignar permisos',
                                     'route'=> 'role.store',
                                     'method' => 'POST',

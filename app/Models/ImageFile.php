@@ -14,7 +14,8 @@ class ImageFile extends Model
         'name',
         'extension',
         'size',
-        'mimetype'
+        'mimetype',
+        'owner'
     ];
 
 }

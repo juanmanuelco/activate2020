@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @include('includes.form', [
-                                    'tittle' => 'Notificaciones',
+                                    'title' => 'Notificaciones',
                                     'description'=> 'Notificaciones push a los usuarios del sistema',
                                     'route'=> 'notification.store',
                                     'method' => 'POST',

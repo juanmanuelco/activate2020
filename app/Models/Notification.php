@@ -16,7 +16,9 @@ class Notification extends Model
     public $fillable = [
         'detail',
         'emisor',
-        'icon'
+        'icon',
+        'title',
+        'image'
     ];
 
 
@@ -26,5 +28,9 @@ class Notification extends Model
 
     public function readed (){
         return $this->hasOne(NotificationReceiver::class, 'notification', 'id')->where('receiver', Auth::user()->id);
+    }
+
+    public function getImage(){
+        return $this->hasOne(ImageFile::class, 'id', 'image')->first();
     }
 }

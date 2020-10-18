@@ -147,16 +147,103 @@ function loading(destiny, url, method, data, type){
         }
     });
 }
+
 function show_image_preview(input){
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e) {
             $('#img_receiver').attr('src', e.target.result);
+            document.getElementById('image_label').style.display = 'none'
+
+            let formData = new FormData();
+            formData.append("files", input.files[0]);
+            $.ajax(location.origin+'/imageFIle', {
+                method: 'POST',
+                data: formData,
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                processData: false,
+                contentType: false,
+                xhr: ()=> {
+                    var xhr = new XMLHttpRequest();
+                    xhr.upload.onprogress = (e) => {
+                        let percent = Math.round((e.loaded / e.total) * 100);
+                        document.getElementById('progress_nav').style.width = percent + '%';
+                    };
+                    return xhr;
+                },
+                success: (success) => {
+                    document.getElementById('progress_nav').style.width = '100%';
+                    image_component.addImage(success);
+                },
+                error: (error)=> {
+                    document.getElementById('progress_nav').style.width = '100%';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: JSON.parse(error.responseText).message
+                    })
+                },
+                complete: ()=> {
+                    document.getElementById('progress_nav').style.width =  '0%';
+                }
+            });
         }
         reader.readAsDataURL(input.files[0]); // convert to base64 string
     }
 }
 
-$("#image_content").change(function() {
-    show_image_preview(this);
-});
+$("#image_content").change(function() {  show_image_preview(this); });
+
+let elem = document.getElementById('role_all');
+if(elem != null){
+    elem.onclick = () => {
+        let roles = document.getElementsByClassName('roles_checked');
+        let users = document.getElementsByClassName('users_checked');
+        if (document.getElementById('role_all').checked) {
+            for(let i=0; i < roles.length ; i ++){
+                roles[i].checked = true;
+            }
+            for(let i=0; i < users.length ; i ++){
+                users[i].checked = true;
+            }
+        }else{
+            for(let i=0; i < roles.length ; i ++){
+                roles[i].checked = false;
+            }
+            for(let i=0; i < users.length ; i ++){
+                users[i].checked = false;
+            }
+        }
+    }
+}
+
+
+function setChecked(element){
+    let users = document.getElementsByClassName(element.id);
+    if (element.checked) {
+        for(let i=0; i < users.length ; i ++){
+            users[i].checked = true;
+        }
+    }else{
+        for(let i=0; i < users.length ; i ++){
+            users[i].checked = false;
+            document.getElementById('role_all').checked = false;
+        }
+    }
+}
+
+function  setCheckedCustom(role) {
+    let role_current =  document.getElementById(role)
+    let users_role = document.getElementsByClassName(role);
+    let result = 0;
+    for(let i = 0; i < users_role.length; i++){
+        if(!users_role[i].checked) result ++;
+    }
+    if(result > 0) {
+        role_current.checked = false;
+        document.getElementById('role_all').checked = false;
+    }else{
+        role_current.checked = true;
+    }
+
+}

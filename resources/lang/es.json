@@ -75,7 +75,16 @@
     "expiration"        :   "Expiración",
     "role"              :   "Rol",
     "user"              :   "Usuario",
+    "roles_destiny"     :   "Roles",
+    "users_destiny"     :   "Usuarios",
     "add_new_image"     :   "Añadir nueva imágen",
     "select"            :   "Seleccionar",
-    "select_an_image"   :   "Seleccionar una imágen"
+    "select_an_image"   :   "Seleccionar una imágen",
+    "receivers"         :   "Destinatarios",
+    "role_all"          :   "Seleccionar todos",
+    "title"            :   "Título",
+    "param_config"      : "Configuración de parametros",
+    "config_detail"     :   "Datos que permiten el funcionamiento del sistema",
+    "type"              :   "Tipo",
+    "value"             :   "Valor"
 }

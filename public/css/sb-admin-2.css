@@ -11218,7 +11218,7 @@ body.sidebar-toggled footer.sticky-footer {
 }
 /* layout.css Style */
 .upload-drop-zone {
-    height: 200px;
+    height: 250px;
     border-width: 2px;
     margin-bottom: 20px;
 }
@@ -11228,9 +11228,9 @@ body.sidebar-toggled footer.sticky-footer {
     color: #ccc;
     border-style: dashed;
     border-color: #ccc;
-    height: 440px;
     padding: 10px;
-    text-align: center
+    text-align: center;
+    overflow-y: scroll;
 }
 .upload-drop-zone.drop {
     color: #222;

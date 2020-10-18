@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @include('includes.form', [
-                                    'tittle' => 'Grupos',
+                                    'title' => 'Grupos',
                                     'description'=> 'Grupos de enlaces que se mostrarán en el menú izquierdo',
                                     'route'=> 'group.store',
                                     'method' => 'POST',

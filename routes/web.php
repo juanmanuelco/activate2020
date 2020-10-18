@@ -48,6 +48,9 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::get('permission/assign', [PermissionController::class, 'assign'])->name('permission.assign');
     Route::post('permission/assign', [PermissionController::class, 'assign_post'])->name('permission.assign_post');
     Route::resource('permission', 'PermissionController');
+
+    Route::post('configuration/delete', 'ConfigurationController@delete')->name('configuration.delete');
+    Route::resource('configuration', 'ConfigurationController');
 });
 
 Route::get('/page/{page}', 'BuilderController@page')->name('page_name');

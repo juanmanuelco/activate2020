@@ -46,5 +46,12 @@
     "user"              :   "User",
     "add_new_image"     :   "Add new image",
     "select"            :   "Select",
-    "select_an_image"   :   "Select an image"
+    "select_an_image"   :   "Select an image",
+    "receivers"         :   "Receivers",
+    "role_all"          :   "Select all",
+    "title"            :   "Title",
+    "param_config"      :   "Configuration parameters",
+    "config_detail": "Data that allow the system to function",
+    "type"              :   "Type",
+    "value"             :   "Value"
 }

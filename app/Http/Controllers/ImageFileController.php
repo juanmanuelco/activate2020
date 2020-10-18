@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ImageFile;
 use App\Repositories\ImageFileRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ImageFileController extends Controller
@@ -53,6 +54,9 @@ class ImageFileController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'files' => 'required|image|mimes:jpeg,png,jpg',
+        ]);
         try {
             DB::beginTransaction();
             $image = $request->file('files');
@@ -60,7 +64,8 @@ class ImageFileController extends Controller
                 'name'=> $image->getClientOriginalName(),
                 'extension' => $image->getClientOriginalExtension(),
                 'size' =>   $image->getSize(),
-                'mimetype' =>   $image->getClientMimeType()
+                'mimetype' =>   $image->getClientMimeType(),
+                'owner' =>  Auth::id()
             ]);
             $url = 'images/system/';
             $image->move($url,$current_image->id . '.' . $image->getClientOriginalExtension());

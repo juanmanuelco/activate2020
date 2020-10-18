@@ -75,7 +75,7 @@
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 @if(\Illuminate\Support\Facades\Auth::user()->hasRole('Super Admin'))
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{route('configuration.index')}}">
                         <i class="fas fa-toolbox fa-sm fa-fw mr-2 text-gray-400"></i>
                         {{__('configuration')}}
                     </a>
@@ -121,7 +121,6 @@
                 @endforeach
                 Echo.channel('private-user_channel.@json(\Illuminate\Support\Facades\Auth::id())' ).listen('.user_event', function(data) {
                     elem.notification_callback(elem, data)
-                    new Notification('Nueva notificación', {body : data.notification.detail})
                 });
             },
             methods: {
@@ -136,12 +135,18 @@
                     //USE THIS METHOD FOR DELETE ELEMENT ON LIST
                     const index = arr.indexOf(value);
                     if (index > -1) arr.splice(index, 1);
-                    (new Audio(location.origin +'/sounds/remove.ogg')).play();
                     return arr;
                 },
                 notification_callback : function (elem, data) {
-                    (new Audio(location.origin +'/sounds/default.ogg')).play();
-                    new Notification('Nueva notificación', {body : data.notification.detail})
+                    new Notification(data.notification.title, {
+                        body : data.notification.detail,
+                        title : data.notification.title,
+                        image   : location.origin +'/images/system/' + data.notification.image + '.'+data.imageFile.extension,
+                        icon    :   location.origin + '/images/brand.png',
+                        badge   :   location.origin + '/images/notification.png',
+                        sound   :   location.origin +'/sounds/default.ogg',
+                        vibrate :   [200, 100, 200]
+                    })
                     elem.notifications_not_readed =elem.notifications_not_readed +1;
                     elem.notifications.unshift(data.notification);
                 }
