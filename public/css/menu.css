@@ -3,10 +3,13 @@
     scrollbar-color: transparent transparent;
 }
 .menu-up{
-    background-image: linear-gradient(rgba(25, 25, 50, 0.6), #000532);
+    background-image: linear-gradient(rgba(25, 25, 50, 0.6), var(--background, #000000));
 }
 .menu-down{
-    background-image: linear-gradient(#000532, rgba(25, 25, 50, 0.6));
+    background-image: linear-gradient(var(--background, #000000), rgba(25, 25, 50, 0.6));
+}
+input:disabled{
+    background: lightgray;
 }
 
 .td_permission{

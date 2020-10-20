@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand navbar-light  topbar mb-4 static-top shadow" id="navbar_principal" style="background-color: var(--ground, #000532)">
+<nav class="navbar navbar-expand navbar-light  topbar mb-4 static-top shadow" id="navbar_principal" style="background-color: var(--background, #000000)">
 
     <button id="sidebarToggleTop" class="btn d-md-none rounded-circle mr-3" style="background-color: white">
         <i class="fa fa-bars"></i>
@@ -8,7 +8,7 @@
 
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="{{asset('images/email.png')}}" alt="{{__('messages')}}" width="70px">
+                <img src="{{getConfiguration('image', 'MENSAJE-ICONO')}}" alt="{{__('messages')}}" width="70px">
                 <!-- Counter - Alerts -->
                 <span class="badge badge-light badge-counter" style="margin-top: -18px; margin-right: 8px">3+</span>
             </a>
@@ -35,7 +35,7 @@
 
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="{{asset('images/notification.png')}}" alt="{{__('notification')}}" width="40px">
+                <img src="{{getConfiguration('image', 'NOTIFICACION-ICONO')}}" alt="{{__('notification')}}" width="40px">
                 <span v-if="notifications_not_readed > 0" class="badge badge-light badge-counter" style="margin-top: -18px; margin-right: 8px">@{{ notifications_not_readed }}+</span>
             </a>
             <!-- Dropdown - Alerts -->
@@ -94,7 +94,7 @@
     </ul>
 </nav>
 @include('includes.messages')
-<div class="progress" style="margin-bottom:30px">
+<div class="progress">
     <div class="progress-bar progress-bar-striped bg-info" id="progress_nav" role="progressbar" style="width: 0%" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
 

@@ -24,8 +24,8 @@ function deleteRow(url) {
         text: "Este cambio no podrá ser revertido",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: 'var(--confirm, var(--confirm, #3085d6))',
+        cancelButtonColor: 'var(--cancel, #d33)',
         confirmButtonText: '¡Si, eliminar!'
     }).then((result) => {
         if (result.isConfirmed) {
@@ -43,7 +43,7 @@ function deleteRow(url) {
             .catch(error => {
                 Swal.fire({
                     title: 'Error!',
-                    text: 'No se pudo eliminar el registro',
+                    text: NO_ELIMINO,
                     icon: 'error',
                     confirmButtonText: 'Aceptar'
                 })

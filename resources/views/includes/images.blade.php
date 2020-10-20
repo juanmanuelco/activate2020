@@ -77,11 +77,6 @@
                     this.images.unshift(image);
                     this.select_image(image)
                     document.getElementById('image_label').style.display = 'block'
-                    try{
-                        vue_configuration.images.unshift(image);
-                    }catch (e) {
-
-                    }
                 },
                 compare : function(image){
                     let filter = this.search.toLowerCase();

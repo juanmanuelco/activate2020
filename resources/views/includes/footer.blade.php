@@ -1,8 +1,8 @@
 
-<footer class="sticky-footer bg-white">
+<footer class="sticky-footer" style="background-color: var(--footer_background, #ffffff)">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
-            <span>{{env('APP_NAME')}} {{date('Y')}}</span>
+            <span>{{getConfiguration('text', 'FOOTER-TEXTO')}}</span>
         </div>
     </div>
 </footer>

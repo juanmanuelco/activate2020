@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
     <link rel="shortcut icon" type="image/png" href="{{asset('images/brand.png')}}"/>
 </head>
-<body style="background-color: #000532">
+<body style="background-color:var(--background, #000000)">
     <div id="app">
         <div class="site-wrapper">
             <div class="site-wrapper-inner">

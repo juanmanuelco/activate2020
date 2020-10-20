@@ -3,7 +3,7 @@
     <!-- Sidebar - Brand -->
     <a class=" align-items-center justify-content-center" href="{{route('home')}}" >
         <div class="sidebar-brand-icon" style="padding:30px 0px 30px 0px; text-align: center">
-            <img src="{{asset('images/brand.png')}}" width="80%" alt="{{env('APP_NAME')}}">
+            <img src="{{getConfiguration('image', 'LOGOTIPO')}}" width="80%" alt="{{env('APP_NAME')}}">
         </div>
     </a>
 
@@ -62,7 +62,7 @@
                     @endphp
                     @foreach($permissions as $permission)
                         @can($permission->name)
-                            <div class="collapse-inner rounded" style="background-color: #000532">
+                            <div class="collapse-inner rounded" style="background-color: var(--background, #000000)">
                                 <a class="collapse-item" href="{{get_route($permission->name)}}">{{$permission->detail}}</a>
                             </div>
                         @endcan

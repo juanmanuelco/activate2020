@@ -3,7 +3,7 @@
     @php
         $images = \App\Models\ImageFile::where('owner', \Illuminate\Support\Facades\Auth::id())->select('id', 'extension', 'name')->orderBy('id', 'desc')->limit(1000)->get();
     @endphp
-    <div class="text-justify">
+    <div class="text-justify" style="margin-top: 30px">
         <h1>{{__('param_config')}}</h1>
         <p>{{__('config_detail')}}</p>
         <hr>
@@ -104,13 +104,13 @@
                         this.remove_method(this.configurations, configuration);
                     }else{
                         Swal.fire({
-                            title: '¿Está usted seguro?',
-                            text: "Este cambio no podrá ser revertido!",
+                            title: @json(getConfiguration('text', 'ESTA-SEGURO')),
+                            text: @json(getConfiguration('text', 'NO-REVERSIBLE')),
                             icon: 'warning',
                             showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Si, eliminar!'
+                            confirmButtonColor: 'var(--confirm, var(--confirm, #3085d6))',
+                            cancelButtonColor: 'var(--cancel, #d33)',
+                            confirmButtonText: @json(getConfiguration('text', 'CONFIRMACION-ELIMINAR'))
                         }).then((result) => {
                             this.variation_list = [];
                             if (result.value) {
@@ -132,7 +132,7 @@
                                     error: (error)=> {
                                         Swal.fire({
                                             title: 'Error!',
-                                            text: 'No se pudo eliminar el registro',
+                                            text: NO_ELIMINO,
                                             icon: 'error',
                                             confirmButtonText: 'Aceptar'
                                         })
@@ -162,7 +162,7 @@
                             console.log(success)
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Registro guardado con éxito',
+                                title: '@json(getConfiguration('text', 'GUARDADO'))',
                                 showConfirmButton: false,
                                 timer: 1500
                             })
@@ -170,7 +170,7 @@
                         error: (error)=> {
                             Swal.fire({
                                 title: 'Error!',
-                                text: 'No se pudo guardar el registro',
+                                text: @json(getConfiguration('text', 'NO-GUARDO')),
                                 icon: 'error',
                                 confirmButtonText: 'Aceptar'
                             })

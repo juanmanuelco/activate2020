@@ -31,6 +31,6 @@
 }
 
 thead tr th{
-    background-color: var(--ground, #000532) !important;
+    background-color: var(--background, #000000) !important;
 }
 
