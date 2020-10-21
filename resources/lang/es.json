@@ -86,5 +86,10 @@
     "param_config"      : "Configuración de parametros",
     "config_detail"     :   "Datos que permiten el funcionamiento del sistema",
     "type"              :   "Tipo",
-    "value"             :   "Valor"
+    "value"             :   "Valor",
+    "description"               :   "Acción",
+    "object"                :   "Objeto",
+    "causer"                :   "Persona que lo realizó",
+    "properties"                :   "Propiedades",
+    "date"              :   "Fecha y hora"
 }

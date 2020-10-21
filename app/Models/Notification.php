@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Notification extends Model
 {
     use HasFactory;
-
+    use LogsActivity;
 
     public $table = 'notifications';
+    protected static $logAttributes = ['*'];
     public $fillable = [
         'detail',
         'emisor',

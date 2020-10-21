@@ -109,4 +109,16 @@ input:disabled{
     color: white !important;
 }
 
+#map {
+    height: 100%;
+    width: 100%;
+}
+.chat_zone{
+    position:absolute;
+    background-color:rgba(0,0,0,0.75);
+    height:100%;
+    width:400px;
+    z-index: 2;
+}
+
 

@@ -51,6 +51,10 @@ Route::middleware(['auth', 'permissions'])->group(function () {
 
     Route::post('configuration/delete', 'ConfigurationController@delete')->name('configuration.delete');
     Route::resource('configuration', 'ConfigurationController');
+
+    Route::resource('audit', 'AuditController');
+
+    Route::get('/chat', 'ChatController@index')->name('chat.index');
 });
 
 Route::get('/page/{page}', 'BuilderController@page')->name('page_name');

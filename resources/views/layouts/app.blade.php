@@ -15,7 +15,7 @@
                   @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'builder.create' || \Illuminate\Support\Facades\Route::currentRouteName() == 'builder.edit')
                       <div>
                   @else
-                      <div style="padding: 0px 10px 0px 10px;text-align: center">
+                      <div style="height: 100%">
                   @endif
                       @yield('content')
               </div>
@@ -27,7 +27,7 @@
 @include('includes.scripts')
     <script>
         $('.close-loading').click((event)=>{
-            document.getElementById('loading_gif').style.display = 'none'
+            document.getElementById('loading_gif').style.display = 'none';
         })
     </script>
 </body>

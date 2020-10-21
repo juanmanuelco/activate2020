@@ -40,7 +40,7 @@ function getConfiguration($type, $configuration){
             $response =  $configuration->datetime;
             break;
         case 'boolean':
-            $response = $configuration->boolean;
+            $response = $configuration->boolean ? 'true' : 'false';
             break;
         case 'image':
             $image =  $configuration->image;

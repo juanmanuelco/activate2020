@@ -40,7 +40,7 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="text" v-model="configuration.text" v-if="configuration.type === 'text'" class="form-control">
+                                <textarea v-model="configuration.text" v-if="configuration.type === 'text'" class="form-control"></textarea>
                                 <input type="color" v-model="configuration.text" v-if="configuration.type === 'color'" class="form-control">
                                 <input type="double" v-model="configuration.number" v-if="configuration.type === 'number'" class="form-control">
                                 <input type="date" v-model="configuration.date" v-if="configuration.type === 'date'" class="form-control">

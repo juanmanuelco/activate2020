@@ -53,5 +53,10 @@
     "param_config"      :   "Configuration parameters",
     "config_detail": "Data that allow the system to function",
     "type"              :   "Type",
-    "value"             :   "Value"
+    "value"             :   "Value",
+    "description"               :   "Actions",
+    "object"                :   "Object",
+    "causer"                :   "Causer",
+    "properties"                :   "Properties",
+    "date"              :   "Date time"
 }
