@@ -33,7 +33,6 @@
     @yield('custom_styles')
 
     <script>
-        Notification.requestPermission();
         if (navigator.geolocation)  navigator.geolocation.getCurrentPosition(()=>{});
     </script>
 </head>

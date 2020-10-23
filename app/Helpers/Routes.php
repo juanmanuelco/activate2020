@@ -56,3 +56,12 @@ function getConfiguration($type, $configuration){
     }
     return $response;
 }
+
+function getCivilStates(){
+    return [
+        'Soltero(a)' => 'Soltero(a)',
+        'Casado(a)' => 'Casado(a)',
+        'Divorciado(a)' => 'Divorciado(a)',
+        'Viudo(a)' =>   'Viudo(a)'
+    ];
+}

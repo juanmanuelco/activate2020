@@ -32,7 +32,6 @@ class ConfigurationController extends Controller
          */
         $configurations = $this->configurationRepository;
         $configurations = $configurations->search(isset($request['search'])? $request['search'] : '');
-        $configurations = $configurations->paginate(30);
         return view('pages.configuration.index')->with('configurations', $configurations);
     }
 

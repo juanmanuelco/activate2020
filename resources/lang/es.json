@@ -43,7 +43,7 @@
     "or"                :   "O",
     "roles"             :   "¿La cuenta será usada como?",
     "phone"             :   "Teléfono",
-    "birth"             :   "Fecha de cumpleaños",
+    "birth"             :   "Fecha de nacimiento",
     "id"                :   "Id",
     "actions"           :   "Acciones",
     "icon"              :   "Icono",
@@ -91,5 +91,8 @@
     "object"                :   "Objeto",
     "causer"                :   "Persona que lo realizó",
     "properties"                :   "Propiedades",
-    "date"              :   "Fecha y hora"
+    "date"              :   "Fecha y hora",
+    "activity"          :   "Actividad",
+    "about_me"          : "Acerca de mi",
+    "other_data"    : "Otros datos (opcionales)"
 }

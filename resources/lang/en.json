@@ -58,5 +58,8 @@
     "object"                :   "Object",
     "causer"                :   "Causer",
     "properties"                :   "Properties",
-    "date"              :   "Date time"
+    "date"              :   "Date time",
+    "activity"          :   "Activity",
+    "about_me"          : "About me",
+    "other_data" : "Another data (optional)"
 }

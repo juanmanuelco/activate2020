@@ -54,6 +54,8 @@ Route::middleware(['auth', 'permissions'])->group(function () {
 
     Route::resource('audit', 'AuditController');
 
+    Route::get('/profile', 'UserController@profile')->name('profile.index');
+
     Route::get('/chat', 'ChatController@index')->name('chat.index');
 });
 

@@ -15,7 +15,7 @@
                   @if(\Illuminate\Support\Facades\Route::currentRouteName() == 'builder.create' || \Illuminate\Support\Facades\Route::currentRouteName() == 'builder.edit')
                       <div>
                   @else
-                      <div style="height: 100%">
+                      <div style="height: 100%; padding: 15px">
                   @endif
                       @yield('content')
               </div>
