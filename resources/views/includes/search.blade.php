@@ -5,11 +5,13 @@
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
                          <span class="input-group-btn">
-                             <a href="{{route(str_replace('index','create',Illuminate\Support\Facades\Route::currentRouteName()))}}">
-                                 <button class="btn btn-info btn-lg" type="button">
-                                    <i class="fas fa-plus"></i>
-                                 </button>
-                             </a>
+                             @if(Illuminate\Support\Facades\Route::has(str_replace('index','create',Illuminate\Support\Facades\Route::currentRouteName())))
+                                 <a href="{{route(str_replace('index','create',Illuminate\Support\Facades\Route::currentRouteName()))}}">
+                                     <button class="btn btn-info btn-lg" type="button">
+                                        <i class="fas fa-plus"></i>
+                                     </button>
+                                 </a>
+                             @endif
                         </span>
                         <input type="text" class="form-control input-lg" name="search" value="{{isset($_REQUEST['search']) ? $_REQUEST['search'] : ''}}" placeholder="Buscar" />
                         <span class="input-group-btn">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\GroupRole;
+use Illuminate\Support\Facades\DB;
 
 function get_route($route){
     try {
@@ -21,7 +22,7 @@ function exists_group_rol($group, $rol){
 
 function getConfiguration($type, $configuration){
     $response = "";
-    $configuration = \App\Models\Configuration::where('name', $configuration)->first();
+    $configuration = DB::table('configuration')->where('name', $configuration)->first();
     if(empty($configuration)) return '';
     switch ($type){
         case 'text' :

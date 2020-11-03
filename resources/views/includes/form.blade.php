@@ -1,4 +1,4 @@
-<div class="text-justify" style="margin-top:30px">
+<div>
     <h1>{{$title}}</h1>
     <p>{{$description}}</p>
     <hr>

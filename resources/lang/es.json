@@ -94,5 +94,19 @@
     "date"              :   "Fecha y hora",
     "activity"          :   "Actividad",
     "about_me"          : "Acerca de mi",
-    "other_data"    : "Otros datos (opcionales)"
+    "other_data"    : "Otros datos (opcionales)",
+    "images"    :   "Imágenes",
+    "direction" : "Dirección",
+    "country" : "País",
+    "state" : "Provincia",
+    "city"  :   "Ciudad",
+    "address1" : "Calle principal",
+    "address2"  :   "Calle secundaria",
+    "postcode" : "Código postal",
+    "my_contact" :  "Mis datos de contacto",
+    "identification" : "Cédula / pasaporte",
+    "civil_state" : "Estado civil",
+    "change_password" : "Cambiar contraseña",
+    "new_password" : "Nueva contraseña",
+    "confirm_password" : "Confirmar contraseña"
 }

@@ -61,5 +61,19 @@
     "date"              :   "Date time",
     "activity"          :   "Activity",
     "about_me"          : "About me",
-    "other_data" : "Another data (optional)"
+    "other_data" : "Another data (optional)",
+    "images"    :   "Images",
+    "direction" :   "Direction",
+    "country" : "Country",
+    "state" : "State",
+    "city"  :   "City",
+    "address1" : "Address 1",
+    "address2"  :   "Address 2",
+    "postcode" : "Postcode",
+    "my_contact" :  "My contact data",
+    "identification" : "ID / passport",
+    "civil_state" : "Civil state",
+    "change_password" : "Change password",
+    "new_password" : "New password",
+    "confirm_password" : "Confirm password"
 }

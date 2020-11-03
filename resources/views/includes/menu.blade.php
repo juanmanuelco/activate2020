@@ -17,10 +17,14 @@
         use Illuminate\Support\Facades\DB;
         use \Spatie\Permission\Models\Role;
         use App\Models\Group;
-        $roles  = Auth::user()->getRoleNames();
-        $roles  = Role::whereIn('name', $roles)->pluck('id');
-        $groups = DB::table('groups_roles')->whereIn('role',$roles)->leftJoin('groups', 'groups.id', '=', 'groups_roles.group')->pluck('groups.id');
-        $groups = Group::query()->whereIn('id', $groups)->orderBy('name', 'asc')->get();
+        if(Auth::check()){
+            $roles  = Auth::user()->getRoleNames();
+            $roles  = Role::whereIn('name', $roles)->pluck('id');
+            $groups = DB::table('groups_roles')->whereIn('role',$roles)->leftJoin('groups', 'groups.id', '=', 'groups_roles.group')->pluck('groups.id');
+            $groups = Group::query()->whereIn('id', $groups)->orderBy('name', 'asc')->get();
+        }else{
+            $groups = [];
+        }
         $links = \App\Models\Link::get();
     @endphp
     @if(count($links) > 0)

@@ -26,10 +26,6 @@ class ConfigurationController extends Controller
      */
     public function index(Request $request)
     {
-        /*
-          $group = $this->groupRepository;
-        $group = $group->search(isset($request['search'])? $request['search'] : '');
-         */
         $configurations = $this->configurationRepository;
         $configurations = $configurations->search(isset($request['search'])? $request['search'] : '');
         return view('pages.configuration.index')->with('configurations', $configurations);
@@ -67,17 +63,6 @@ class ConfigurationController extends Controller
             DB::rollBack();
             abort(500, $e->getMessage());
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Configuration  $configuration
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Configuration $configuration)
-    {
-        //
     }
 
     public function delete(Request $request){

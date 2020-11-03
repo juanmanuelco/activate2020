@@ -50,10 +50,15 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::resource('permission', 'PermissionController');
 
     Route::post('configuration/delete', 'ConfigurationController@delete')->name('configuration.delete');
-    Route::resource('configuration', 'ConfigurationController');
+    Route::resource('configuration', 'ConfigurationController')->except('create', 'edit', 'show');
 
     Route::resource('audit', 'AuditController');
 
+    Route::post('/profile/password', 'UserController@profile_password')->name('profile.password');
+    Route::post('/profile/direction', 'UserController@profile_direction')->name('profile.direction');
+    Route::post('/profile/configuration', 'UserController@profile_configuration')->name('profile.configuration');
+    Route::post('/profile/image', 'UserController@profile_image')->name('profile.image');
+    Route::post('/profile', 'UserController@profile_post')->name('profile.post');
     Route::get('/profile', 'UserController@profile')->name('profile.index');
 
     Route::get('/chat', 'ChatController@index')->name('chat.index');

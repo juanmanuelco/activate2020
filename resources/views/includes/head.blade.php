@@ -19,7 +19,8 @@
         }
     </style>
     <script>
-        var NO_ELIMINO = @json(getConfiguration('text', 'NO-ELIMINO'))
+        var NO_ELIMINO = @json(getConfiguration('text', 'NO-ELIMINO'));
+        var GUARDADO = @json(getConfiguration('text', 'GUARDADO'));
     </script>
     <script src="{{ asset('css/app.css') }}"></script>
     <title>{{getConfiguration('text', 'NOMBRE-SITIO')}}</title>

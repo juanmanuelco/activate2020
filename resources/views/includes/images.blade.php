@@ -90,6 +90,7 @@
                 }
             }
         });
+        $("#image_content").change(function() {  show_image_preview(this); });
     </script>
 @endsection
 

@@ -18,6 +18,7 @@ var quill_toolbar = [
     ['clean']                                         // remove formatting button
 ];
 
+
 function deleteRow(url) {
     Swal.fire({
         title: '¿Estas seguro(a)?',
@@ -134,6 +135,12 @@ function loading(destiny, url, method, data, type){
             }else{
                 (new Audio(location.origin +'/sounds/remove.ogg')).play();
             }
+            Swal.fire({
+                icon: 'success',
+                title: GUARDADO,
+                showConfirmButton: false,
+                timer: 850
+            })
         },
         error: (error)=> {
             document.getElementById('progress_nav').style.width =  '100%';
@@ -141,11 +148,57 @@ function loading(destiny, url, method, data, type){
                 document.getElementById(destiny).style.backgroundImage = null;
                 document.getElementById(destiny).style.backgroundColor ='red';
             }
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: JSON.parse(error.responseText).message
+            })
         },
         complete: ()=> {
             document.getElementById('progress_nav').style.width =  '0%';
         }
     });
+}
+
+function show_image_profile(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#profile_avatar').attr('src', e.target.result);
+            let formData = new FormData();
+            formData.append("files", input.files[0]);
+            $.ajax(location.origin+'/profile/image', {
+                method: 'POST',
+                data: formData,
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                processData: false,
+                contentType: false,
+                xhr: ()=> {
+                    var xhr = new XMLHttpRequest();
+                    xhr.upload.onprogress = (e) => {
+                        let percent = Math.round((e.loaded / e.total) * 100);
+                        document.getElementById('progress_nav').style.width = percent + '%';
+                    };
+                    return xhr;
+                },
+                success: (success) => {
+                    document.getElementById('progress_nav').style.width = '100%';
+                },
+                error: (error)=> {
+                    document.getElementById('progress_nav').style.width = '100%';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: JSON.parse(error.responseText).message
+                    })
+                },
+                complete: ()=> {
+                    document.getElementById('progress_nav').style.width =  '0%';
+                }
+            });
+        }
+        reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
 }
 
 function show_image_preview(input){
@@ -191,8 +244,6 @@ function show_image_preview(input){
         reader.readAsDataURL(input.files[0]); // convert to base64 string
     }
 }
-
-$("#image_content").change(function() {  show_image_preview(this); });
 
 let elem = document.getElementById('role_all');
 if(elem != null){
@@ -245,5 +296,47 @@ function  setCheckedCustom(role) {
     }else{
         role_current.checked = true;
     }
+}
 
+function changeConfiguration(element, field) {
+    let data = {'field' : field, 'status' : element.checked};
+    loading('', location.origin + '/profile/configuration', 'POST', data, true)
+}
+
+function save_direction() {
+    let data = {
+        'country'   : document.getElementById('country').value,
+        'state'     : document.getElementById('state').value,
+        'city'      : document.getElementById('city').value,
+        'address1'  : document.getElementById('address1').value,
+        'address2'  : document.getElementById('address2').value,
+        'postcode'  : document.getElementById('postcode').value
+    }
+    loading('', location.origin + '/profile/direction', 'POST', data, true)
+}
+function change_password() {
+    let new_pass = document.getElementById('new_password').value;
+    let conf_pass = document.getElementById('confirm_password').value;
+    if(new_pass.length < 8 || conf_pass.length < 8){
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'La contraseña debe tener un mínimo de 8 caracteres'
+        })
+        return;
+    }
+    if(new_pass !== conf_pass){
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Contraseñas no coinciden'
+        })
+        return;
+    }
+    let data = {
+        'password' : document.getElementById('password').value,
+        'new_password' : document.getElementById('new_password').value,
+        'confirm_password' : document.getElementById('confirm_password').value
+    }
+    loading('', location.origin + '/profile/password', 'POST', data, true)
 }

@@ -35,8 +35,10 @@
                                                         $image = !empty($value) ?  \App\Models\ImageFile::find($value)->extension : '';
                                                     @endphp
                                                     <img src="{{asset("images/system/$value.$image")}}" alt="" width="75px">
+                                                @elseif($key == 'photo')
+                                                    <img src="{{$value}}" alt="" width="75px">
                                                 @else
-                                                    {{$value}}
+                                                    {!! $value !!}
                                                 @endif
                                             </p>
                                         </li>
