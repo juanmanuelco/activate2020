@@ -75,5 +75,7 @@
     "civil_state" : "Civil state",
     "change_password" : "Change password",
     "new_password" : "New password",
-    "confirm_password" : "Confirm password"
+    "confirm_password" : "Confirm password",
+    "subject" : "Subject",
+    "body" : "Body"
 }

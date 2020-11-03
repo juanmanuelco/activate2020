@@ -108,5 +108,7 @@
     "civil_state" : "Estado civil",
     "change_password" : "Cambiar contraseña",
     "new_password" : "Nueva contraseña",
-    "confirm_password" : "Confirmar contraseña"
+    "confirm_password" : "Confirmar contraseña",
+    "subject" : "Asunto",
+    "body" : "Cuerpo"
 }

@@ -12,6 +12,9 @@ try {
     window.Swal = require('sweetalert2');
     window.moment = require('moment');
     require('bootstrap');
+    window.hljs = require('hljs');
+    window.katex = require('katex');
+    window.ImageResize = require('../../node_modules/quill-image-resize-module/image-resize.min');
 } catch (e) {}
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

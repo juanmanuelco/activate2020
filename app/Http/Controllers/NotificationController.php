@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mail as Mail_;
+use App\Models\MailReceiver;
 use App\Models\Notification;
 use App\Models\NotificationReaded;
 use App\Models\NotificationReceiver;
 use App\Models\User;
+use App\Repositories\MailReceiverRepository;
+use App\Repositories\MailRepository;
 use App\Repositories\NotificationReadedRepository;
 use App\Repositories\NotificationReceiverRepository;
 use App\Repositories\NotificationRepository;
@@ -14,6 +18,7 @@ use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 
 class NotificationController extends Controller
@@ -23,7 +28,10 @@ class NotificationController extends Controller
 
     private RoleRepository $roleRepository;
     private UserRepository $userRepository;
-    private $notificationReceiverRepository;
+    private NotificationReceiverRepository $notificationReceiverRepository;
+
+    private MailRepository $mailRepository;
+    private MailReceiverRepository $mailReceiverRepository;
 
     /**
      * NotificationController constructor.
@@ -32,13 +40,17 @@ class NotificationController extends Controller
      * @param RoleRepository $roleRepo
      * @param UserRepository $userRepo
      * @param NotificationReceiverRepository $notificationReceiverRepo
+     * @param MailRepository $mailRepo
+     * @param MailReceiverRepository $mailReceiverRepo
      */
     public function __construct(
         NotificationRepository $notificationRepo,
         NotificationReadedRepository $notificationReadedRepo,
         RoleRepository $roleRepo,
         UserRepository $userRepo,
-        NotificationReceiverRepository $notificationReceiverRepo
+        NotificationReceiverRepository $notificationReceiverRepo,
+        MailRepository $mailRepo,
+        MailReceiverRepository $mailReceiverRepo
     )
     {
         $this->notificationRepository = $notificationRepo;
@@ -47,6 +59,9 @@ class NotificationController extends Controller
         $this->roleRepository = $roleRepo;
         $this->userRepository = $userRepo;
         $this->notificationReceiverRepository = $notificationReceiverRepo;
+
+        $this->mailRepository = $mailRepo;
+        $this->mailReceiverRepository =  $mailReceiverRepo;
     }
 
     /**
@@ -153,5 +168,36 @@ class NotificationController extends Controller
             DB::rollBack();
             return abort(500);
         }
+    }
+
+    public function mail(){
+        return view('pages.notifications.email')->with('roles', $this->roles_users());
+    }
+    public function mailing(Request $request){
+        $input = $request->all();
+        try {
+            DB::beginTransaction();
+            $receivers = array_unique($input['users']);
+            $mail = $this->mailRepository->create([
+                'subject' => $input['subject'],
+                'body' => $input['email']
+            ]);
+
+            $email_addresses =  $this->userRepository->makeModel()->whereIn('id', $receivers)->pluck('email', 'id');
+
+            foreach ($email_addresses as $key => $receiver){
+                $this->mailReceiverRepository->create([
+                    'receiver' => $key,
+                    'mail' => $mail->id
+                ]);
+                Mail::to($receiver)->send(new \App\Mail\Notification($mail));
+            }
+            DB::commit();
+            return redirect()->back()->with('status', 'Correos enviados con éxito');
+        }catch (\Throwable $e){
+            DB::rollBack();
+            return redirect()->back()->with('status', $e->getMessage());
+        }
+
     }
 }
