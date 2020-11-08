@@ -110,5 +110,10 @@
     "new_password" : "Nueva contraseña",
     "confirm_password" : "Confirmar contraseña",
     "subject" : "Asunto",
-    "body" : "Cuerpo"
+    "body" : "Cuerpo",
+    "gjs-html" :  "Código HTML",
+    "gjs-css" : "Código CSS",
+    "option" : "Opción de uso",
+    "preview" : "Vista previa",
+    "active" : "Activo"
 }

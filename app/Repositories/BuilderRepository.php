@@ -16,7 +16,9 @@ class BuilderRepository extends BaseRepository
         'gjs-components',
         'gjs-assets',
         'gjs-css',
-        'gjs-styles'
+        'gjs-styles',
+        'option',
+        'active'
     ];
 
     /**

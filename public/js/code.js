@@ -341,3 +341,20 @@ function change_password() {
     }
     loading('', location.origin + '/profile/password', 'POST', data, true)
 }
+
+function compile() {
+    var html = document.getElementById("gjs-html");
+    var css = document.getElementById("gjs-css");
+    var code = document.getElementById("code").contentWindow.document;
+
+    document.body.onkeyup = function(){
+        code.open();
+        code.writeln(html.value+"<style>"+css.value+"</style>");
+        code.close();
+    };
+};
+
+function changeZoom(id, element){
+    document.getElementById(id).style.width = element.value + "%";
+    document.getElementById(id).style.height = (80000/element.value) + "px";
+}

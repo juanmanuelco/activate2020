@@ -77,5 +77,10 @@
     "new_password" : "New password",
     "confirm_password" : "Confirm password",
     "subject" : "Subject",
-    "body" : "Body"
+    "body" : "Body",
+    "gjs-html" :  "Html code",
+    "gjs-css" : "Css code",
+    "option" : "Opción",
+    "preview" : "Preview",
+    "active" : "Active"
 }

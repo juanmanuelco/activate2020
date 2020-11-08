@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BuilderController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
@@ -32,6 +33,11 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::get('group/assign', [GroupController::class, 'assign'] )->name('group.assign');
     Route::post('group/assign', [GroupController::class, 'assign_post'] )->name('group.assign_post');
     Route::resource('group', 'GroupController');
+
+    Route::get('builder/edit/{id}', [BuilderController::class, 'edition'])->name('builder.edition');
+    Route::get('builder/insert', [BuilderController::class, 'insert'])->name('builder.insert');
+    Route::post('builder/insert/post', [BuilderController::class, 'insert_post'])->name('builder.insert_post');
+    Route::put('builder/insert/update', [BuilderController::class, 'insert_update'])->name('builder.insert_update');
     Route::resource('builder', 'BuilderController');
     Route::resource('imageFIle', 'ImageFileController');
 
