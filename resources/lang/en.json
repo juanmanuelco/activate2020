@@ -82,5 +82,6 @@
     "gjs-css" : "Css code",
     "option" : "Opción",
     "preview" : "Preview",
-    "active" : "Active"
+    "active" : "Active",
+    "Edit_manually" : "Edit manually"
 }

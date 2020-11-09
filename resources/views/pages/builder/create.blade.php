@@ -1,6 +1,32 @@
-@extends('layouts.app')
+@extends('layouts.builder')
+@section('content')
 
-@section('custom_styles')
+    @if(Illuminate\Support\Facades\Route::currentRouteName() == 'builder.create')
+        <div class="row text-white" style="background-color: black; padding: 10px">
+            <div class="col-lg-1">{{__('Name')}}</div>
+            <div class="col-lg-3">
+                <input type="text" id="builder_name" name="name" class="form-control">
+            </div>
+            <div class="col-lg-1">{{__('slug') }}</div>
+            <div class="col-lg-3">
+                <input type="text" id="builder_slug" name="slug" class="form-control">
+            </div>
+            <div class="col-lg-1">
+                <button type="button" id="load_builder" class="btn-light btn">{{__('load')}}</button>
+            </div>
+        </div>
+    @else
+        <div class="row text-white" style="background-color: black; padding: 10px">
+            <div class="col-lg-1">{{__('Name')}}</div>
+            <div class="col-lg-3">
+                {{$builder->name}}
+            </div>
+            <div class="col-lg-1">{{__('slug') }}</div>
+            <div class="col-lg-3">
+                {{$builder->slug}}
+            </div>
+        </div>
+    @endif
     <link rel="stylesheet" href="{{asset('css/toastr.css')}}">
     <link rel="stylesheet" href="{{asset('css/grape.css')}}">
     <link rel="stylesheet" href="{{asset('css/grapesjs-preset-webpage.css')}}">
@@ -26,57 +52,24 @@
         </style>
     @endif
 
-@endsection
-@section('content')
-
-    @if(Illuminate\Support\Facades\Route::currentRouteName() == 'builder.create')
-    <div class="row text-white" style="background-color: black; padding: 10px">
-        <div class="col-lg-1">{{__('Name')}}</div>
-        <div class="col-lg-3">
-            <input type="text" id="builder_name" name="name" class="form-control">
+    <div id="builder_panel">
+        <div class="panel__top">
+            <div class="panel__basic-actions"></div>
+            <div class="panel__devices"></div>
+            <div class="panel__switcher"></div>
         </div>
-        <div class="col-lg-1">{{__('slug') }}</div>
-        <div class="col-lg-3">
-            <input type="text" id="builder_slug" name="slug" class="form-control">
-        </div>
-            <div class="col-lg-1">
-                <button type="button" id="load_builder" class="btn-light btn">{{__('load')}}</button>
+        <div class="editor-row">
+            <div class="editor-canvas">
+                <div id="gjs"></div>
             </div>
+            <div class="panel__right">
+                <div class="layers-container"></div>
+                <div class="styles-container"></div>
+                <div class="traits-container"></div>
+            </div>
+        </div>
+        <div id="blocks"></div>
     </div>
-    @else
-        <div class="row text-white" style="background-color: black; padding: 10px">
-            <div class="col-lg-1">{{__('Name')}}</div>
-            <div class="col-lg-3">
-                {{$builder->name}}
-            </div>
-            <div class="col-lg-1">{{__('slug') }}</div>
-            <div class="col-lg-3">
-               {{$builder->slug}}
-            </div>
-        </div>
-    @endif
-
-   <div id="builder_panel">
-       <div class="panel__top">
-           <div class="panel__basic-actions"></div>
-           <div class="panel__devices"></div>
-           <div class="panel__switcher"></div>
-       </div>
-       <div class="editor-row">
-           <div class="editor-canvas">
-               <div id="gjs"></div>
-           </div>
-           <div class="panel__right">
-               <div class="layers-container"></div>
-               <div class="styles-container"></div>
-               <div class="traits-container"></div>
-           </div>
-       </div>
-       <div id="blocks"></div>
-   </div>
-@endsection
-
-@section('new_scripts')
     <script src="{{asset('vendor/jquery/jquery.js')}}"></script>
     <script src="{{asset('vendor/grape/toastr.js')}}"></script>
     <script src="{{asset('vendor/grape/grapeJs.js')}}"></script>

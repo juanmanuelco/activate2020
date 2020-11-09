@@ -115,5 +115,6 @@
     "gjs-css" : "Código CSS",
     "option" : "Opción de uso",
     "preview" : "Vista previa",
-    "active" : "Activo"
+    "active" : "Activo",
+    "Edit_manually" : "Editar manualmente"
 }

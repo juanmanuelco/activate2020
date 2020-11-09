@@ -8,7 +8,8 @@
                 <th>{{__('id')}}</th>
                 <th>{{__('actions')}}</th>
                 <th>{{__('Name')}}</th>
-                <th>{{__('Slug')}}</th>
+                <th>{{__('Slug')}}
+                <th>{{__('Edit_manually')}}</th>
             </tr>
             </thead>
             <tbody>
@@ -21,6 +22,13 @@
                     <td> {{$builder->name}} </td>
                     <td>
                         <a href="{{route('page_name', ['page'=>$builder->slug])}}" target="_blank">{{$builder->slug}}</a>
+                    </td>
+                    <td>
+                        <a href="{{route('builder.edition', ['id' => $builder->id])}}">
+                            <button class="btn btn-outline-primary">
+                                <i class="fa fa-pen"></i>
+                            </button>
+                        </a>
                     </td>
                 </tr>
             @endforeach
