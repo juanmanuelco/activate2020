@@ -18,7 +18,7 @@ class AuditRepository extends BaseRepository
      **/
     public function model()
     {
-        return Activity::class;
+        return Activity::class; 
     }
 
     public function search($param){
@@ -27,7 +27,7 @@ class AuditRepository extends BaseRepository
             'description',
             'subject_type',
             'causer_type',
-            'properties'
+            'properties',
         ];
         $response = Activity::query();
         if(!empty($param)){

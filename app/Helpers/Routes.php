@@ -22,6 +22,7 @@ function exists_group_rol($group, $rol){
 
 function getConfiguration($type, $configuration){
     $response = "";
+    
     $configuration = DB::table('configuration')->where('name', $configuration)->first();
     if(empty($configuration)) return '';
     switch ($type){
@@ -55,6 +56,7 @@ function getConfiguration($type, $configuration){
             $response = !empty($configuration->text) ? $configuration->text  : '#000000';
             break;
     }
+    
     return $response;
 }
 
