@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.4",
         "ajcastro/searchable": "^1.5",
+        "davejamesmiller/laravel-breadcrumbs": "5.x",
         "doctrine/dbal": "~2.3",
         "dyrynda/laravel-cascade-soft-deletes": "^4.0",
         "fideloper/proxy": "^4.2",

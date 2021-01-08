@@ -4706,7 +4706,6 @@ input[type="button"].btn-block {
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
   list-style: none;
-  background-color: var(--hover_item, #ffffff);
   border-radius: 0.35rem;
 }
 
@@ -4721,7 +4720,7 @@ input[type="button"].btn-block {
 .breadcrumb-item + .breadcrumb-item::before {
   display: inline-block;
   padding-right: 0.5rem;
-  color: var(--text_color, #ffffff);
+  color: black;
   content: "/";
 }
 
@@ -4734,7 +4733,7 @@ input[type="button"].btn-block {
 }
 
 .breadcrumb-item.active {
-  color: var(--text_color, #ffffff);
+  color: var(--background, #ffffff);
 }
 
 .pagination {

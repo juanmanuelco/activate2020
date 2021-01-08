@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $custom = \App\Models\Builder::where('option', 'index')->where('active', true)->first();
     return view('welcome')->with('custom', $custom);
-});
+})->name('home.index');
 
 Auth::routes();
 
