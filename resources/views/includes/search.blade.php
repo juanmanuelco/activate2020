@@ -1,5 +1,5 @@
 <div class="row justify-content-between" style="margin-top:15px">
-    <div class="col-lg-3 col-md-6 col-sm-8 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
         @php
             $currentRouteName = Illuminate\Support\Facades\Route::currentRouteName();
             $explode = explode('.', $currentRouteName);
@@ -10,7 +10,7 @@
             {{ DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs::render($currentRouteName, $object) }}
         @endif
     </div>
-    <div class="col-lg-3 col-md-6 col-sm-8 col-xs-12">
+    <div class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
         <div class="form-group">
             <form method="GET">
                 <div id="custom-search-input">

@@ -71,6 +71,13 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::get('/profile', 'UserController@profile')->name('profile.index');
 
     Route::get('/chat', 'ChatController@index')->name('chat.index');
+
+
+    Route::resource('category', 'CategoryController');
+
+    Route::resource('store', 'StoreController');
+
+
 });
 
 Route::get('/page/{page}', 'BuilderController@page')->name('page_name');

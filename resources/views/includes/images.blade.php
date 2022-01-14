@@ -2,10 +2,18 @@
     $images = \App\Models\ImageFile::where('owner', \Illuminate\Support\Facades\Auth::id())->select('id', 'extension', 'name')->orderBy('id', 'desc')->limit(1000)->get();
 @endphp
 <div id="image_container">
+    <img width="260px"
+        src="<?php echo isset($object) && !empty($object->getImage())  ? '/images/system/' . $object->getImage()->id . '.' . $object->getImage()->extension : '' ?>" alt="">
     <div class="panel-body">
         <label for="">{{__('select_an_image')}}</label>
         <div class="upload-drop-zone" id="drop-zone" style="background-color: #f2f2f2">
             <input type="file" name="file" id="image_content" class="inputfile" accept=".jpg, .jpeg, .png"/>
+            @if(isset($object) && $object->getImage() != null)
+                <input type="hidden" name="image" id="image_for_object" value="<?php echo $object->getImage()->id ?>">
+            @else
+                <input type="hidden" name="image" id="image_for_object">
+            @endif
+
             <label for="image_content" style="height: 100%; width: 100%; padding: 15px">
                 <div style="width: 100%; text-align: center">
                     <p id="image_label">{{__('add_new_image')}}</p>
@@ -64,6 +72,7 @@
 
 @section('image_vue')
     <script>
+
         var image_component = new Vue({
             el: '#image_container',
             data: {
@@ -86,6 +95,7 @@
                 },
                 select_image : function (image){
                     this.image_selected = image.id
+                    document.getElementById('image_for_object').value = image.id;
                     this.image_source = location.origin +'/images/system/' + image.id + '.'+ image.extension
                 }
             }

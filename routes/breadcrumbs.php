@@ -3,6 +3,13 @@ use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
 use Illuminate\Support\Facades\Route;
 
 
+Breadcrumbs::for('notification.mail', function ($trail) {
+    $trail->parent('home.index');
+    $trail->push('Send mails', route('notification.mail'));
+});
+
+
+
 
 foreach(Route::getRoutes() as $route){
     try {
@@ -33,5 +40,5 @@ foreach(Route::getRoutes() as $route){
     }catch (\Throwable $e){
         $ee = $e;
     }
-}
 
+}
