@@ -66,7 +66,8 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param array $data
-     * @return \App\Models\User
+     *
+     * @return string
      * @throws \Exception
      */
     protected function create(array $data)
@@ -89,7 +90,7 @@ class RegisterController extends Controller
             return $new_user;
         }catch (\Throwable $e){
             DB::rollBack();
-            abort(403);
+            abort(403, $e->getMessage());
         }
     }
 }

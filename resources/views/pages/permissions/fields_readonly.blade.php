@@ -26,6 +26,14 @@
             </div>
 
         </div>
+
+        <div class="form-group">
+            {!! Form::label('show_in_menu', __('Show in menu')); !!} <i id="selected_icon"></i>
+            <div style="color: black">
+                {{$object->show_in_menu? 'Mostrar en menú': 'No mostrar en menu'}}
+            </div>
+        </div>
+
     </div>
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">

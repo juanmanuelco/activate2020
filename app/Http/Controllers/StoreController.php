@@ -31,6 +31,9 @@ class StoreController extends Controller
     {
         $stores= $this->storeRepository;
         $stores = $stores->search(isset($request['search'])? $request['search'] : '');
+        if(!auth()->user()->hasRole('Super Admin')){
+            $stores->where('owner', auth()->user()->id);
+        }
         $stores = $stores->paginate(15);
         return view('pages.stores.index')->with('stores', $stores);
     }

@@ -21,7 +21,7 @@ class UserDataProfile extends Migration
             $table->boolean('show_phone')->default(false)->after('show_name');
             $table->boolean('show_location')->default(false)->after('show_phone');
             $table->boolean('show_age')->default(false)->after('show_location');
-            $table->longText('photo')->default(null)->after('show_age');
+            $table->longText('photo')->nullable()->after('show_age');
         });
     }
 

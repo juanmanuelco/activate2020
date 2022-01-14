@@ -28,7 +28,7 @@ class Group extends Model
     }
 
     public function permissions(){
-        return $this->hasMany(Permission::class, 'group', 'id');
+        return $this->hasMany(Permission::class, 'group', 'id')->where('show_in_menu', '=', true);
     }
 
 }

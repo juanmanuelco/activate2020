@@ -61,6 +61,7 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
+        $request['show_in_menu'] = $request['show_in_menu'] == 'on';
         $input = $request->all();
         $this->validate($request, [
             'name' => 'required|max:255|unique:permissions',
@@ -104,6 +105,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
+        $request['show_in_menu'] = $request['show_in_menu'] == 'on';
         $input = $request->all();
         try {
             DB::beginTransaction();

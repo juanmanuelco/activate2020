@@ -66,9 +66,17 @@
                     @endphp
                     @foreach($permissions as $permission)
                         @can($permission->name)
-                            <div class="collapse-inner rounded" style="background-color: var(--background, #000000)">
-                                <a class="collapse-item" href="{{get_route($permission->name)}}">{{$permission->detail}}</a>
-                            </div>
+                            <?php try{
+                                route($permission->name);
+                                ?>
+                                <div class="collapse-inner rounded" style="background-color: var(--background, #000000)">
+                                    <a class="collapse-item" href="{{get_route($permission->name)}}">{{$permission->detail}}</a>
+                                </div>
+                                <?php
+                            }catch (\Throwable $e){
+
+                            } ?>
+
                         @endcan
                     @endforeach
                 </div>

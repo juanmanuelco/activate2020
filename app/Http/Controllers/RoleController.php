@@ -237,7 +237,7 @@ class RoleController extends Controller
             return redirect('home')->with('status', __('apply_in_process', ['type' => $role->name]));
         }catch (\Throwable $e){
             DB::rollBack();
-            return redirect('home')->with('error', __('error_permission'));
+            return redirect('home')->with('error', $e->getMessage());
         }
     }
 }

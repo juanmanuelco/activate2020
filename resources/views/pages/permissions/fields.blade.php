@@ -19,6 +19,18 @@
             {!! Form::select('group',$groups,null, ['class'=> 'form-control']); !!}
             <small id="" class="form-text text-muted">{{__('group_help')}}</small>
         </div>
+
+        <div class="form-group">
+            {!! Form::label('show_in_menu', __('Show in menu')); !!} <i id="selected_icon"></i>
+            <div style="color: black">
+                @if(empty($object))
+                    {!! Form::checkbox('show_in_menu',old('show_in_menu')); !!}
+                @else
+                    {!! Form::checkbox('show_in_menu',old('show_in_menu'), $object->show_in_menu ); !!}
+                @endif
+
+            </div>
+        </div>
     </div>
 
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
