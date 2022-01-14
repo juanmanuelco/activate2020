@@ -25,11 +25,12 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $categories= $this->categoryRepository;
         $categories = $categories->search(isset($request['search'])? $request['search'] : '');
         $categories = $categories->paginate(15);
+
         return view('pages.categories.index')->with('categories', $categories);
     }
 

@@ -1,5 +1,13 @@
 @php
-    $images = \App\Models\ImageFile::where('owner', \Illuminate\Support\Facades\Auth::id())->select('id', 'extension', 'name')->orderBy('id', 'desc')->limit(1000)->get();
+
+
+    if(auth()->user()->hasRole('Super Admin')){
+        $images = \App\Models\ImageFile::select('id', 'extension', 'name')->orderBy('id', 'desc')->limit(1000)->get();
+    }else{
+        $images = \App\Models\ImageFile::where('owner', \Illuminate\Support\Facades\Auth::id())
+        ->select('id', 'extension', 'name')
+        ->orderBy('id', 'desc')->limit(1000)->get();
+    }
 @endphp
 <div id="image_container">
     <img width="260px"
@@ -8,12 +16,6 @@
         <label for="">{{__('select_an_image')}}</label>
         <div class="upload-drop-zone" id="drop-zone" style="background-color: #f2f2f2">
             <input type="file" name="file" id="image_content" class="inputfile" accept=".jpg, .jpeg, .png"/>
-            @if(isset($object) && $object->getImage() != null)
-                <input type="hidden" name="image" id="image_for_object" value="<?php echo $object->getImage()->id ?>">
-            @else
-                <input type="hidden" name="image" id="image_for_object">
-            @endif
-
             <label for="image_content" style="height: 100%; width: 100%; padding: 15px">
                 <div style="width: 100%; text-align: center">
                     <p id="image_label">{{__('add_new_image')}}</p>
@@ -78,7 +80,7 @@
             data: {
                 search          :   '',
                 images          :   @json($images),
-                image_selected  :   null,
+                image_selected  :   @json(isset($object) && $object->getImage() != null ? $object->getImage()->id : null),
                 image_source    :   @json(isset($image) ? '/images/system/' . $image->id . '.' . $image->extension : null)
             },
             methods :{

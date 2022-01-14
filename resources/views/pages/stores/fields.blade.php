@@ -59,6 +59,35 @@
         </div>
 
 
+        <hr>
+        <div id="branch_container">
+            <h2><button v-on:click="addBranch()" type="button" class="btn btn-primary"> <i class="fa fa-plus"></i> </button> {{__('Branches')}} </h2>
+            <hr>
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>{{__('Name')}}</td>
+                    <td>{{__('Latitude')}}</td>
+                    <td>{{__('Longitude')}}</td>
+                    <td>{{__('Option')}}</td>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="branch in branches" :key="branch.id">
+                        <td><input class="form-control" type="text" v-model:id="branch.name"></td>
+                        <td><input class="form-control" type="number" step="0.0000000001" v-model:id="branch.longitude"></td>
+                        <td><input class="form-control" type="number" step="0.0000000001" v-model:id="branch.latitude"></td>
+                        <td>
+                            <button class="btn btn-danger" v-on:click="removeBranch(branch.id, branch.exists)" type="button">
+                                <i class="fa fa-trash"> </i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="hidden" name="branches" v-model="this.jsonBranches()">
+        </div>
+
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         @include('includes.images')
@@ -82,6 +111,69 @@
             if(selected[i].getAttribute('selected')) val= true;
         }
         if(!val)   document.getElementById('category').selectedIndex = -1;
+
+
+        var branch_container = new Vue({
+            el: '#branch_container',
+            data: {
+                branches : @json(isset($object) ? $object->branchesJson() : [] )
+            },
+            methods :{
+                addBranch : function () {
+                    this.branches.push({
+                        'id': (new Date()).getMilliseconds(),
+                        'name': '',
+                        'latitude' : 0,
+                        'longitude' : 0,
+                        'exists' : false
+                    })
+                },
+                jsonBranches : function(){
+                    return JSON.stringify(this.branches);
+                },
+                deleteBranch : function(branch){
+                    this.branches = this.branches.filter((value, index, arr)=>{
+                        return value.id !== branch;
+                    });
+                },
+                removeBranch : function (branch, exists) {
+                    if(exists){
+                        console.log(location.origin+'/branch/' + branch);
+                        $.ajax(location.origin+'/branch/' + branch, {
+                            method: 'DELETE',
+                            data: {'id' : branch},
+                            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                            processData: false,
+                            contentType: false,
+                            xhr: ()=> {
+                                var xhr = new XMLHttpRequest();
+                                xhr.upload.onprogress = (e) => {
+                                    let percent = Math.round((e.loaded / e.total) * 100);
+                                    document.getElementById('progress_nav').style.width = percent + '%';
+                                };
+                                return xhr;
+                            },
+                            success: (success) => {
+                                this.deleteBranch(branch);
+                            },
+                            error: (error)=> {
+                                document.getElementById('progress_nav').style.width = '100%';
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: JSON.parse(error.responseText).message
+                                })
+                            },
+                            complete: ()=> {
+                                document.getElementById('progress_nav').style.width =  '0%';
+                            }
+                        });
+                    }else {
+                        this.deleteBranch(branch);
+                    }
+                },
+            }
+        });
 
 
     </script>

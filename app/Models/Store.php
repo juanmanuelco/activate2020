@@ -41,4 +41,23 @@ class Store extends Model
     public function getImage(){
         return $this->hasOne(ImageFile::class, 'id', 'image')->first();
     }
+
+    public function branches(){
+        return $this->hasMany(Branch::class, 'store', 'id');
+    }
+
+    public function branchesJson(){
+        $the_branches =  $this->branches()->get();
+        $response = [];
+        foreach ($the_branches as $branch){
+            array_push($response, [
+                'id' => $branch->id,
+                'name' => $branch->name,
+                'latitude' => $branch->latitude,
+                'longitude' => $branch->longitude,
+                'exists' => true
+            ]);
+        }
+        return $response;
+    }
 }

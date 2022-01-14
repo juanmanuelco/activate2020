@@ -77,6 +77,15 @@ Route::middleware(['auth', 'permissions'])->group(function () {
 
     Route::resource('store', 'StoreController');
 
+    Route::resource('branch', 'BranchController');
+
+//    Route::get('/store/{$store}/branches', 'BranchController@index')->name('branch.index');
+//    Route::get('/store/{$store}/branches/create', 'BranchController@create')->name('branch.create');
+//    Route::post('/store/{$store}/branches/create', 'BranchController@store')->name('branch.store');
+//    Route::get('/store/{$store}/branches/edit/{$branch}', 'BranchController@edit')->name('branch.edit');
+//    Route::put('/store/{$store}/branches/edit/{$branch}', 'BranchController@update')->name('branch.update');
+//    Route::delete('/store/{$store}/branches/destroy/{$branch}', 'BranchController@destroy')->name('branch.destroy');
+
 
 });
 

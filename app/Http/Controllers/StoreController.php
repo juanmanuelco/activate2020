@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use App\Models\Category;
 use App\Models\Store;
 use App\Models\User;
@@ -27,7 +28,7 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $stores= $this->storeRepository;
         $stores = $stores->search(isset($request['search'])? $request['search'] : '');
@@ -69,13 +70,16 @@ class StoreController extends Controller
         ]);
 
         if(!auth()->user()->hasRole('Super Admin')){
-            $input['owner'] = auth()->user()->id;
+            $request['owner'] = auth()->user()->id;
         }
+
+        $branches = json_decode($request['branches']);
 
         try {
             DB::beginTransaction();
             $input = $request->all();
-            $this->storeRepository->create($input);
+            $store = $this->storeRepository->create($input);
+            $this->createBranches( $branches, $store );
             DB::commit();
             return redirect(route('store.create'))->with('status', __('saved_success'));
         }catch (\Throwable $e){
@@ -125,8 +129,10 @@ class StoreController extends Controller
     public function update(Request $request, Store $store)
     {
         if(!auth()->user()->hasRole('Super Admin')){
-            $input['owner'] = auth()->user()->id;
+            $request['owner'] = auth()->user()->id;
         }
+
+        $branches = json_decode($request['branches']);
 
         $this->validate($request, [
             'name' => 'required|max:255',
@@ -136,7 +142,9 @@ class StoreController extends Controller
             DB::beginTransaction();
             $input = $request->all();
             $store->update($input);
+            $this->createBranches( $branches, $store );
             DB::commit();
+
             return redirect()->back()->with('status', __('updated_success'));
         }catch (\Throwable $e){
             DB::rollBack();
@@ -161,6 +169,30 @@ class StoreController extends Controller
         }catch (\Throwable $e){
             DB::rollBack();
             abort(403, $e->getMessage());
+        }
+    }
+
+    /**
+     * @param $branches
+     * @param \Illuminate\Database\Eloquent\Model $store
+     */
+    public function createBranches( $branches, \Illuminate\Database\Eloquent\Model $store ): void {
+        foreach ( $branches as $branch ) {
+            if ( $branch->exists ) {
+                $toBranch            = Branch::find( $branch->id );
+                $toBranch->name      = $branch->name;
+                $toBranch->store     = $store->id;
+                $toBranch->latitude  = $branch->latitude;
+                $toBranch->longitude = $branch->longitude;
+                $toBranch->save();
+            } else {
+                Branch::create( [
+                    'name'      => $branch->name,
+                    'store'     => $store->id,
+                    'latitude'  => $branch->latitude,
+                    'longitude' => $branch->longitude
+                ] );
+            }
         }
     }
 }
