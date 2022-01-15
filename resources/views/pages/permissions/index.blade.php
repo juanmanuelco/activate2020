@@ -14,7 +14,7 @@
             </thead>
             <tbody>
             @foreach($permissions as $permission)
-                <tr>
+                <tr id="td_row_{{$permission->id}}">
                     <td> {{$permission->id}} </td>
                     <td>
                         @include('includes.table_actions', ['identity' => $permission->id])

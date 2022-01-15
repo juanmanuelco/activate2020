@@ -97,7 +97,7 @@
                 },
                 select_image : function (image){
                     this.image_selected = image.id
-                    document.getElementById('image_for_object').value = image.id;
+                    //document.getElementById('image_for_object').value = image.id;
                     this.image_source = location.origin +'/images/system/' + image.id + '.'+ image.extension
                 }
             }

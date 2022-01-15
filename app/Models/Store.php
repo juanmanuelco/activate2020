@@ -15,7 +15,7 @@ class Store extends Model
     public $table = 'stores';
     protected static $logAttributes = ['*'];
 
-    protected $cascadeDeletes = ['category'];
+    protected $cascadeDeletes = [];
 
     public $fillable = [
         'name',
@@ -44,6 +44,10 @@ class Store extends Model
 
     public function branches(){
         return $this->hasMany(Branch::class, 'store', 'id');
+    }
+
+    public function benefits(){
+        return $this->hasMany(Benefit::class, 'store', 'id');
     }
 
     public function branchesJson(){

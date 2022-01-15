@@ -12,6 +12,6 @@
 
 @if(Route::has(Route::current()->uri. ".destroy"))
     @can(Route::current()->uri. ".destroy")
-        <a href="javascript:deleteRow('{{route(Route::current()->uri. ".destroy", [ Route::current()->uri. "" => $identity])}}')" class="button_delete">  <i class="fa fa-trash"></i> </a>
+        <a href="javascript:deleteRow('{{route(Route::current()->uri. ".destroy", [ Route::current()->uri. "" => $identity])}}', {{$identity}})" class="button_delete">  <i class="fa fa-trash"></i> </a>
     @endcan
 @endif

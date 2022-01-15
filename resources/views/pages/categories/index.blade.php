@@ -15,7 +15,7 @@
             </thead>
             <tbody>
             @foreach($categories as $category)
-                <tr>
+                <tr id="td_row_{{$category->id}}">
                     <td> {{$category->id}} </td>
                     <td>
                         @include('includes.table_actions', ['identity' => $category->id])

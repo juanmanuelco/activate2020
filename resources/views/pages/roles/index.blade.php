@@ -13,7 +13,7 @@
             </thead>
             <tbody>
             @foreach($roles as $role)
-                <tr>
+                <tr id="td_row_{{$role->id}}">
                     <td> {{$role->id}} </td>
                     <td>
                         @include('includes.table_actions', ['identity' => $role->id])

@@ -14,7 +14,7 @@
             </thead>
             <tbody>
             @foreach($builders as $builder)
-                <tr>
+                <tr id="td_row_{{$builder->id}}">
                     <td> {{$builder->id}} </td>
                     <td>
                         @include('includes.table_actions', ['identity' => $builder->id])

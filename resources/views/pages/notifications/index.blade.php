@@ -21,7 +21,7 @@
             </thead>
             <tbody>
             @foreach($notifications as $notification)
-                <tr>
+                <tr id="td_row_{{$notification->id}}">
                     <td> {{$notification->id}} </td>
                     <td>
                         @include('includes.table_actions', ['identity' => $notification->id])

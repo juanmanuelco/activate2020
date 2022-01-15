@@ -16,7 +16,7 @@
             </thead>
             <tbody>
             @foreach($stores as $store)
-                <tr>
+                <tr id="td_row_{{$store->id}}">
                     <td> {{$store->id}} </td>
                     <td>
                         @include('includes.table_actions', ['identity' => $store->id])

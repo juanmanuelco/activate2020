@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Benefit;
 use App\Models\Branch;
 use App\Models\Category;
 use App\Models\Store;
@@ -163,6 +164,8 @@ class StoreController extends Controller
     {
         try {
             DB::beginTransaction();
+            Benefit::query()->where('store', '=', $store->id)->delete();
+            Branch::query()->where('store', '=', $store->id)->delete();
             $store->delete();
             DB::commit();
             return response()->json(['delete' => 'success']);

@@ -20,7 +20,7 @@ var quill_toolbar = [
 ];
 
 
-function deleteRow(url) {
+function deleteRow(url, identity) {
     Swal.fire({
         title: '¿Estas seguro(a)?',
         text: "Este cambio no podrá ser revertido",
@@ -52,10 +52,12 @@ function deleteRow(url) {
             })
             .then(response =>{
                 console.log(response)
+
+                document.getElementById('td_row_' + identity).remove();
             })
             .finally(()=>{
                 document.getElementById('loading_gif').style.display = 'none'
-                location.reload();
+                //location.reload();
             });
         }
     })

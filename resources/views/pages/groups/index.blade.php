@@ -13,7 +13,7 @@
            </thead>
            <tbody>
                @foreach($groups as $group)
-                   <tr>
+                   <tr id="td_row_{{$group->id}}">
                        <td> {{$group->id}} </td>
                        <td>
                            @include('includes.table_actions', ['identity' => $group->id])
