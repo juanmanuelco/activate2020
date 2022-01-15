@@ -80,7 +80,8 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::resource('branch', 'BranchController');
     Route::resource('benefit', 'BenefitController');
     Route::resource('card', 'CardController');
-
+    Route::resource('market', 'MarketController');
+    Route::resource('seller', 'MarketController');
 
 
 

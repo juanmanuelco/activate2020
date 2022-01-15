@@ -2,41 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Benefit;
-use App\Models\Branch;
 use App\Models\Card;
-use App\Models\Category;
 use App\Models\Market;
-use App\Models\Store;
-use App\Models\User;
-use App\Repositories\CardRepository;
+use App\Repositories\MarketRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class CardController extends Controller
+class MarketController extends Controller
 {
 
-    private $cardRepository;
+    private $marketRepository;
 
     /**
-     * @param $cardRepository
+     * @param $marketRepository
      */
-    public function __construct( CardRepository $cardRepository ) {
-        $this->cardRepository = $cardRepository;
+    public function __construct( MarketRepository $marketRepo ) {
+        $this->marketRepository = $marketRepo;
     }
-
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
-        $cards= $this->cardRepository;
-        $cards = $cards->search(isset($request['search'])? $request['search'] : '');
-        $cards = $cards->paginate(15);
-        return view('pages.cards.index')->with('cards', $cards);
+        $markets= $this->marketRepository;
+        $markets = $markets->search(isset($request['search'])? $request['search'] : '');
+        $markets = $markets->paginate(15);
+        return view('pages.markets.index')->with('markets', $markets);
     }
 
     /**
@@ -46,8 +39,8 @@ class CardController extends Controller
      */
     public function create()
     {
-        $stores = Store::query()->pluck('name', 'id');
-        return view('pages.cards.create', ['stores' => $stores]);
+        $cards = Card::query()->pluck('name', 'id');
+        return view('pages.markets.create', ['cards' => $cards]);
     }
 
     /**
@@ -59,20 +52,12 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        $request['hidden'] = $request['hidden'] == 'on';
         try {
             DB::beginTransaction();
             $input = $request->all();
-            if($input['start'] >= $input['end']){
-                throw  new \Exception(__("End value should be grater than start"));
-            }
-            $card = $this->cardRepository->create($input);
-            if(isset($request['stores'])){
-                $card->stores()->sync($input['stores']);
-            }
-
+            $this->marketRepository->create($input);
             DB::commit();
-            return redirect(route('card.create'))->with('status', __('saved_success'));
+            return redirect(route('market.create'))->with('status', __('saved_success'));
         }catch (\Throwable $e){
             DB::rollBack();
             return redirect()->back()->with('error', $e->getMessage() . ' in line '. $e->getLine());
@@ -82,49 +67,42 @@ class CardController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Card  $card
+     * @param  \App\Models\Market  $market
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show(Card $card)
+    public function show(Market $market)
     {
-        $stores = Store::query()->pluck('name', 'id');
-        return view('pages.cards.show')->with('card', $card)->with('stores', $stores);
+        return view('pages.markets.show')->with('market', $market);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Card  $card
+     * @param  \App\Models\Market  $market
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit(Card $card)
+    public function edit(Market $market)
     {
-        $stores = Store::query()->pluck('name', 'id');
-        return view('pages.cards.edit')->with('card', $card)->with('stores', $stores);
+        $cards = Card::query()->pluck('name', 'id');
+        return view('pages.markets.edit')->with('market', $market)->with('cards', $cards);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Card  $card
+     * @param  \App\Models\Market  $market
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    public function update(Request $request, Card $card)
+    public function update(Request $request, Market $market)
     {
-        $request['hidden'] = $request['hidden'] == 'on';
         try {
             DB::beginTransaction();
             $input = $request->all();
-
-            $card->update($input);
-
-            if(isset($request['stores'])){
-                $card->stores()->sync($input['stores']);
-            }
+            $market->update($input);
             DB::commit();
             return redirect()->back()->with('status', __('updated_success'));
         }catch (\Throwable $e){
@@ -136,17 +114,15 @@ class CardController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Card  $card
+     * @param  \App\Models\Market  $market
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function destroy(Card $card)
+    public function destroy(Market $market)
     {
         try {
             DB::beginTransaction();
-            DB::table('store_cards')->where('card', $card->id)->delete();
-            Market::query()->where('card', $card->id)->delete();
-            $card->delete();
+            $market->delete();
             DB::commit();
             return response()->json(['delete' => 'success']);
         }catch (\Throwable $e){
