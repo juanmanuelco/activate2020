@@ -6369,7 +6369,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /*
-Core highlighting function. Accepts a string with the code to highlight and 
+Core highlighting function. Accepts a string with the code to highlight and
 optionaly a language name. Returns an object with the following properties:
 
 - language (detected language)
@@ -6581,7 +6581,7 @@ var hljs = function(value, language_name) {
     if (isIllegal(lexem, current_mode))
       throw 'Illegal';
   }
-    
+
   function langRe(language, value, global) {
     return RegExp(
       value,
@@ -6654,7 +6654,7 @@ var hljs = function(value, language_name) {
   var relevance = 0;
   var keyword_count = 0;
   var result = '';
-  compileMode(language.defaultMode, language, true);    
+  compileMode(language.defaultMode, language, true);
   try {
     var mode_info, index = 0;
     language.defaultMode.buffer = '';
@@ -10450,7 +10450,7 @@ hljs.LANGUAGES.haskell = function(){
 }();
 /*
 Language: Erlang
-Description: Erlang is a general-purpose functional language, with strict evaluation, single assignment, and dynamic typing.
+Description: Erlang is a general-purpose functional language, with strict evaluation, single assignments, and dynamic typing.
 Author: Nikolay Zakharov <nikolay.desh@gmail.com>, Dmitry Kovega <arhibot@gmail.com>
 */
 
@@ -12273,7 +12273,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 				"<select disabled='disabled'><option/></select>";
 
 			// Support: Windows 8 Native Apps
-			// The type and name attributes are restricted during .innerHTML assignment
+			// The type and name attributes are restricted during .innerHTML assignments
 			var input = document.createElement( "input" );
 			input.setAttribute( "type", "hidden" );
 			el.appendChild( input ).setAttribute( "name", "D" );
@@ -15139,7 +15139,7 @@ Data.prototype = {
 			if ( acceptData( owner ) ) {
 
 				// If it is a node unlikely to be stringify-ed or looped over
-				// use plain assignment
+				// use plain assignments
 				if ( owner.nodeType ) {
 					owner[ this.expando ] = value;
 
@@ -29916,9 +29916,9 @@ var letCommand = function letCommand(parser, name, tok, global) {
   }
 
   parser.gullet.macros.set(name, macro, global);
-}; // <assignment> -> <non-macro assignment>|<macro assignment>
-// <non-macro assignment> -> <simple assignment>|\global<non-macro assignment>
-// <macro assignment> -> <definition>|<prefix><macro assignment>
+}; // <assignments> -> <non-macro assignments>|<macro assignments>
+// <non-macro assignments> -> <simple assignments>|\global<non-macro assignments>
+// <macro assignments> -> <definition>|<prefix><macro assignments>
 // <prefix> -> \global|\long|\outer
 
 
@@ -30007,8 +30007,8 @@ defineFunction({
       mode: parser.mode
     };
   }
-}); // <simple assignment> -> <let assignment>
-// <let assignment> -> \futurelet<control sequence><token><token>
+}); // <simple assignments> -> <let assignments>
+// <let assignments> -> \futurelet<control sequence><token><token>
 //     | \let<control sequence><equals><one optional space><token>
 // <equals> -> <optional spaces>|<optional spaces>=
 
@@ -53298,7 +53298,7 @@ var Echo = /*#__PURE__*/function () {
     /**
      * This method is like `_.assignIn` except that it accepts `customizer`
      * which is invoked to produce the assigned values. If `customizer` returns
-     * `undefined`, assignment is handled by the method instead. The `customizer`
+     * `undefined`, assignments is handled by the method instead. The `customizer`
      * is invoked with five arguments: (objValue, srcValue, key, object, source).
      *
      * **Note:** This method mutates `object`.
@@ -53331,7 +53331,7 @@ var Echo = /*#__PURE__*/function () {
     /**
      * This method is like `_.assign` except that it accepts `customizer`
      * which is invoked to produce the assigned values. If `customizer` returns
-     * `undefined`, assignment is handled by the method instead. The `customizer`
+     * `undefined`, assignments is handled by the method instead. The `customizer`
      * is invoked with five arguments: (objValue, srcValue, key, object, source).
      *
      * **Note:** This method mutates `object`.
@@ -54065,7 +54065,7 @@ var Echo = /*#__PURE__*/function () {
      * destination object. Source properties that resolve to `undefined` are
      * skipped if a destination value exists. Array and plain object properties
      * are merged recursively. Other objects and value types are overridden by
-     * assignment. Source objects are applied from left to right. Subsequent
+     * assignments. Source objects are applied from left to right. Subsequent
      * sources overwrite property assignments of previous sources.
      *
      * **Note:** This method mutates `object`.
@@ -81241,7 +81241,7 @@ function preventOverflow(data, options) {
   // resets the popper's position so that the document size can be calculated excluding
   // the size of the popper element itself
   var transformProp = getSupportedPropertyName('transform');
-  var popperStyles = data.instance.popper.style; // assignment to help minification
+  var popperStyles = data.instance.popper.style; // assignments to help minification
   var top = popperStyles.top,
       left = popperStyles.left,
       transform = popperStyles[transformProp];
@@ -98025,7 +98025,7 @@ function genComponentModel (
 }
 
 /**
- * Cross-platform codegen helper for generating v-model value assignment code.
+ * Cross-platform codegen helper for generating v-model value assignments code.
  */
 function genAssignmentCode (
   value,
@@ -103001,7 +103001,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -103021,7 +103021,7 @@ component.options.__file = "resources/js/components/ExampleComponent.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ExampleComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 

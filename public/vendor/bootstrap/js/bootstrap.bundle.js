@@ -3420,7 +3420,7 @@
     // resets the popper's position so that the document size can be calculated excluding
     // the size of the popper element itself
     var transformProp = getSupportedPropertyName('transform');
-    var popperStyles = data.instance.popper.style; // assignment to help minification
+    var popperStyles = data.instance.popper.style; // assignments to help minification
     var top = popperStyles.top,
         left = popperStyles.left,
         transform = popperStyles[transformProp];

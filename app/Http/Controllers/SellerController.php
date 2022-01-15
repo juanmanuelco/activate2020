@@ -53,7 +53,11 @@ class SellerController extends Controller
                            $q->where("name", "Vendedor");
                        })->has('seller')->pluck('name', 'id');
         }else{
-            $sellers = Seller::query()->where('user', auth()->user()->id )->get()->pluck('name', 'id');
+            $sellers = User::whereHas("roles", function($q){
+                $q->where("name", "Vendedor");
+            })->whereHas('seller', function ($q){
+                $q->where('user', auth()->user()->id );
+            })->pluck('name', 'id');
         }
         return view('pages.sellers.create', ['users'=> $users, 'superiors' => $sellers]);
     }

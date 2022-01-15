@@ -36,4 +36,8 @@ class Card extends Model
     public function stores(){
         return $this->belongsToMany(Store::class, 'store_cards', 'card', 'store');
     }
+
+    public function assignments(){
+        return $this->hasMany(Assignment::class, 'card', 'id')->orderBy('seller');
+    }
 }

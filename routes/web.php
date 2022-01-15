@@ -83,6 +83,7 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::resource('market', 'MarketController');
     Route::resource('seller', 'SellerController');
 
+    Route::resource('assignments', 'AssignmentController');
 
 
 });

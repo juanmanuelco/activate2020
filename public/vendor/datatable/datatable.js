@@ -2127,7 +2127,7 @@
             th.addClass( oClasses.sSortableNone ); // Have to add class here as order event isn't called
         }
 
-        /* Check that the class assignment is correct for sorting */
+        /* Check that the class assignments is correct for sorting */
         var bAsc = $.inArray('asc', oCol.asSorting) !== -1;
         var bDesc = $.inArray('desc', oCol.asSorting) !== -1;
         if ( !oCol.bSortable || (!bAsc && !bDesc) )
@@ -9760,7 +9760,7 @@
         "bVisible": null,
 
         /**
-         * Store for manual type assignment using the `column.type` option. This
+         * Store for manual type assignments using the `column.type` option. This
          * is held in store so we can manipulate the column's `sType` property.
          *  @type string
          *  @default null
@@ -14237,7 +14237,7 @@
          * Type based plug-ins.
          *
          * Each column in DataTables has a type assigned to it, either by automatic
-         * detection or by direct assignment using the `type` option for the column.
+         * detection or by direct assignments using the `type` option for the column.
          * The type of a column will effect how it is ordering and search (plug-ins
          * can also make use of the column type if required).
          *
