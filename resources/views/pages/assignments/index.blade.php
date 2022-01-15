@@ -14,7 +14,7 @@
 
                 <div class="flex" style="margin-left: 20px; overflow-y: scroll; max-height: 550px">
                     @foreach($card->assignments()->get() as $assignment)
-                        @if(in_array($assignment->seller, $seller_ids))
+                        @if(in_array($assignment->seller, $seller_ids) && empty($assignment->email))
                         <div class="card" style="margin: 5px">
                             <div class="card-body">
                                 <p>

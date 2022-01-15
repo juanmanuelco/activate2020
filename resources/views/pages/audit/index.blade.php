@@ -13,7 +13,7 @@
                             <p><strong>{{__('id')}}:</strong> {{$audit->id}}</p>
                             <p><strong>{{__('description')}}:</strong> {{$audit->description}}</p>
                             <p><strong>{{__('object')}}:</strong> {{$audit->subject_type}}</p>
-                            <p><strong>{{__('causer')}}:</strong> {{\App\Models\User::find($audit->causer_id)->name}}</p>
+                            <p><strong>{{__('causer')}}:</strong> {{\App\Models\User::find($audit->causer_id) != null ? \App\Models\User::find($audit->causer_id)->name : ''}}</p>
                             <p><strong>{{__('date')}}:</strong> {{CarbonImmutable::parse($audit->created_at)->calendar()}}</p>
                             <p>
                                 <a data-toggle="collapse" href="#collapseProperties{{$audit->id}}" role="button" aria-expanded="false" >

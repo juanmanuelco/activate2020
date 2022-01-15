@@ -30,9 +30,9 @@ class UserController extends Controller
         $user = Auth::user();
         $phone_codes = Country::select(DB::raw("CONCAT(nicename,' ',phonecode) AS code"),'id')->pluck('code', 'id');
         $activities = [
-            ['name' => 'Mis puntos', 'count' => 0],
+            ['name' => 'Mis puntos', 'count' => $user->points],
             ['name' => 'Mi ahorro', 'count' => "$ 0.00"],
-            ['name' => 'Mi ganancia', 'count'=> "$ 0.00"],
+            ['name' => 'Mi ganancia', 'count'=> "$ " . number_format($user->gains,2,'.', ',')],
             ['name' => 'Mensajes enviados', 'count' => 0],
             ['name' => 'Mensajes recibidos', 'count' => 0],
             ['name' => 'Notificaciones recibidas', 'count' => NotificationReaded::where('reader', Auth::id())->count()],

@@ -25,7 +25,9 @@ class User extends Authenticatable
         'phone',
         'code_phone',
         'user_token',
-        'birthday'
+        'birthday',
+        'points',
+        'gains'
     ];
 
     protected static $logAttributes = ['*'];

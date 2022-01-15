@@ -10,20 +10,21 @@
             {{ DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs::render($currentRouteName, $object) }}
         @endif
     </div>
-    <div class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
-        <div class="form-group">
-            <form method="GET">
-                <div id="custom-search-input">
-                    <div class="input-group col-md-12">
+   @if(!isset($no_search))
+        <div class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
+            <div class="form-group">
+                <form method="GET">
+                    <div id="custom-search-input">
+                        <div class="input-group col-md-12">
                          <span class="input-group-btn">
                              @php
-                               $execute = false;
-                                try {
-                                    $num = route(Illuminate\Support\Facades\Route::currentRouteName());
-                                    $execute = true;
-                                }catch (\Throwable $e){
-                                    $execute = false;
-                                }
+                                 $execute = false;
+                                  try {
+                                      $num = route(Illuminate\Support\Facades\Route::currentRouteName());
+                                      $execute = true;
+                                  }catch (\Throwable $e){
+                                      $execute = false;
+                                  }
                              @endphp
                              @if($execute)
                                  @if(Illuminate\Support\Facades\Route::has(str_replace('index','create',Illuminate\Support\Facades\Route::currentRouteName())))
@@ -35,17 +36,18 @@
                                  @endif
                              @endif
                         </span>
-                        <input type="text" class="form-control input-lg" name="search" value="{{isset($_REQUEST['search']) ? $_REQUEST['search'] : ''}}" placeholder="Buscar" />
-                        <span class="input-group-btn">
+                            <input type="text" class="form-control input-lg" name="search" value="{{isset($_REQUEST['search']) ? $_REQUEST['search'] : ''}}" placeholder="Buscar" />
+                            <span class="input-group-btn">
                             <button class="btn btn-info btn-lg" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </span>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    @endif
 </div>
 
 

@@ -9,6 +9,11 @@ Breadcrumbs::for('notification.mail', function ($trail) {
 });
 
 
+Breadcrumbs::for('sale.sale', function ($trail) {
+    $trail->parent('home.index');
+    $trail->push(__('Sale Card'), route('sale.index'));
+});
+
 
 
 foreach(Route::getRoutes() as $route){

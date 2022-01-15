@@ -387,3 +387,7 @@ function change_assignment(id){
         }
     });
 }
+
+function modal_sell(id){
+    location.replace(location.origin + '/sell/' +id);
+}
