@@ -139,7 +139,7 @@ class AssignmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Assignment  $assignment
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Assignment $assignment)
     {
@@ -148,6 +148,7 @@ class AssignmentController extends Controller
             $input = $request->all();
             $assignment->update(['seller' => $input['seller']]);
             DB::commit();
+            return response()->json(['update' => 'success']);
         }catch (\Throwable $e){
             DB::rollBack();
             return redirect()->back()->with('error', $e->getMessage() . ' in line '. $e->getLine());

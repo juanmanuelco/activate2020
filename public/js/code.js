@@ -391,3 +391,33 @@ function change_assignment(id){
 function modal_sell(id){
     location.replace(location.origin + '/sell/' +id);
 }
+
+
+function ExportToExcel(type, fn, dl) {
+    var elt = document.getElementById('report_sheet');
+    var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+    return dl ?
+        XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+        XLSX.writeFile(wb, fn || ('Report of Sales.' + (type || 'xlsx')));
+}
+
+function pay_sale(id){
+    Swal.fire({
+        title: '¿Estas seguro(a)?',
+        text: "Este cambio no se podrá revertir",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'var(--confirm, var(--confirm, #3085d6))',
+        cancelButtonColor: 'var(--cancel, #d33)',
+        confirmButtonText: '¡Si, Pagar!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let url = location.origin + '/sale-payer/' +id;
+            let body = { 'id' : id };
+            let callback =()=>{
+                document.getElementById('is_payed_'+id).innerText = 'Paid'
+            };
+            loading('', url, 'PUT', body, true, callback );
+        }
+    });
+}

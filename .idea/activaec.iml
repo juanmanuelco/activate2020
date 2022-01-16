@@ -152,5 +152,6 @@
     <orderEntry type="library" name="quill.snow" level="application" />
     <orderEntry type="library" name="jquery-3.5.1" level="application" />
     <orderEntry type="library" name="jquery-ui" level="application" />
+    <orderEntry type="library" name="xlsx" level="application" />
   </component>
 </module>

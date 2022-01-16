@@ -22,7 +22,8 @@ class Sale extends Model
         'assignment',
         'payment',
         'paid',
-        'payment_date'
+        'payment_date',
+        'payer'
     ];
 
     public function getSeller(){
@@ -30,6 +31,10 @@ class Sale extends Model
     }
 
     public function getCard(){
-        return $this->hasOne(Card::class, 'id', 'assignment')->first();
+        return $this->hasOne(Assignment::class, 'id', 'assignment')->first();
+    }
+
+    public function payer(){
+        return $this->hasOne(User::class, 'id', 'payer')->first();
     }
 }

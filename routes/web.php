@@ -86,8 +86,10 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::resource('assignments', 'AssignmentController');
     Route::resource('sale', 'SaleController');
 
-    Route::get('sale/reports', 'SaleController@report')->name('sale.report');
+
     Route::get('sell/{id}', 'SaleController@sale')->name('sale.sale');
+    Route::get('sale-report', 'SaleController@report')->name('sale.report');
+    Route::put('sale-payer/{sale}', 'SaleController@payer')->name('sale.payer');
 
 
 });

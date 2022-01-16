@@ -156,7 +156,7 @@ class SaleController extends Controller
             ]);
             if($user != null){
                 $destiny = [
-                    ['receiver' => $user->id , 'type' => 'card', 'notification' => $notification->id]
+                    ['receiver' => $user->id , 'type' => 'user', 'notification' => $notification->id]
                 ];
                 setReceiver($destiny, $this->notificationReceiverRepository, $notification);
             }
@@ -244,5 +244,77 @@ class SaleController extends Controller
         }
         return view('pages.sales.sale', ['card'=> $card, 'seller', $seller]);
 
+    }
+
+    public function report(Request $request){
+        if(auth()->user()->hasRole('Super Admin')){
+            $cards = Assignment::query()->whereNotNull('email')->orderBy('sale_date', 'desc')->paginate(20);
+        }else{
+
+            $array_sellers = Seller::where('user', \auth()->user()->id)->orWhere('superior', \auth()->user()->id )->pluck('id')->toArray();
+
+            $cards = Assignment::query()->whereNotNull('email')
+                                        ->whereIn('seller',$array_sellers )
+                                        ->orderBy('sale_date', 'desc')->paginate(20);
+
+
+        }
+        return view('pages.reports.sales')->with('cards', $cards);
+    }
+
+    public function  payer(Sale $sale){
+        try {
+            DB::beginTransaction();
+            $today = date('Y-m-d h:i:sa');
+            $sale->payer = \auth()->user()->id;
+            $sale->paid = true;
+            $sale->payment_date = CarbonImmutable::parse($today);
+            $sale->save();
+
+            $current_seller = $sale->getSeller();
+            $current_seller->gains = $current_seller->gains + $sale->payment;
+            $current_seller->save();
+
+            $current_seller = $sale->getSeller()->getUser();
+            $current_seller->gains =  $current_seller->gains + $sale->payment;
+            $current_seller->save();
+
+
+            $notification = $this->notificationRepository->create([
+                'detail' => "Se ha marcado como pagada la comisión por venta de la tarjeta N° " . $sale->getCard()->number ." por el valor de $" . $sale->payment,
+                'icon'   => 'fas fa-credit-card',
+                'emisor'    =>  Auth::user()->id
+            ]);
+
+
+            $destiny = [
+                ['receiver' => $current_seller->id , 'type' => 'user', 'notification' => $notification->id]
+            ];
+            setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+
+
+            $mail = $this->mailRepository->create([
+                'subject' => "Payment sent",
+                'body' => "Se ha marcado como pagada la comisión por venta de la tarjeta N° " . $sale->getCard()->number ." por el valor de $" . $sale->payment,
+            ]);
+
+
+            $this->mailReceiverRepository->create([
+                'receiver' => $current_seller->id,
+                'mail' => $mail->id
+            ]);
+
+
+
+            Mail::to($current_seller->email)->send(new \App\Mail\Notification($mail));
+
+
+
+            DB::commit();
+            return response()->json(['payer' => \auth()->user()->name]);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage() . ' in line '. $e->getLine());
+        }
     }
 }

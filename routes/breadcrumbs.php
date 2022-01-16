@@ -15,6 +15,12 @@ Breadcrumbs::for('sale.sale', function ($trail) {
 });
 
 
+Breadcrumbs::for('sale.report', function ($trail) {
+    $trail->parent('home.index');
+    $trail->push(__('Sale Report'), route('sale.index'));
+});
+
+
 
 foreach(Route::getRoutes() as $route){
     try {
