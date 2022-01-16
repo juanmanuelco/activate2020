@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assignment;
 use App\Models\Benefit;
 use App\Models\Branch;
 use App\Models\Card;
@@ -153,5 +154,20 @@ class CardController extends Controller
             DB::rollBack();
             abort(403, $e->getMessage());
         }
+    }
+
+    public function my_cards(){
+        $cards = Card::query()->whereHas('assignments', function ($q){
+            $q->where('email', auth()->user()->email);
+        })->paginate(10);
+        return view('pages.profile.my_cards')->with('cards', $cards);
+    }
+
+    public function my_cards_stores(Assignment $assignment){
+        if($assignment->email != auth()->user()->email){
+            abort(403, __('Not allowed'));
+        }
+        $stores = $assignment->getCard()->stores()->paginate(10);
+        return view('pages.profile.my_cards_stores')->with('stores', $stores);
     }
 }

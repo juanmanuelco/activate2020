@@ -20,6 +20,17 @@ Breadcrumbs::for('sale.report', function ($trail) {
     $trail->push(__('Sale Report'), route('sale.index'));
 });
 
+Breadcrumbs::for('card.my_cards', function ($trail) {
+    $trail->parent('home.index');
+
+});
+
+Breadcrumbs::for('card.my_cards_stores', function ($trail) {
+    $trail->parent('home.index');
+});
+
+
+
 
 
 foreach(Route::getRoutes() as $route){
