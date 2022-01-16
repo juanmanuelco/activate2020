@@ -40,7 +40,7 @@
                         {{$benefit->restriction}}
                     </td>
                     <td>
-                        {{$benefit->store()->name }}
+                        {{$benefit->store()->first()->name }}
                     </td>
                     <td>
                         @if(!empty($benefit->getImage()))

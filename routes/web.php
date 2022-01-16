@@ -94,6 +94,10 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::get('sale-report', 'SaleController@report')->name('sale.report');
     Route::put('sale-payer/{sale}', 'SaleController@payer')->name('sale.payer');
 
+    Route::get('apply-benefits', 'StoreController@apply_benefit')->name('store.apply_benefit');
+    Route::post('apply-benefits', 'StoreController@apply_benefit_save')->name('store.apply_benefit_save');
+    Route::get('applied-benefits', 'StoreController@applied_benefits')->name('store.applied_benefits');
+    Route::get('my-applied-benefits', 'StoreController@my_applied_benefits')->name('store.my_applied_benefits');
 
 });
 

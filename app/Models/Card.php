@@ -33,6 +33,10 @@ class Card extends Model
         return $this->hasOne(ImageFile::class, 'id', 'image')->first();
     }
 
+    public function image(){
+        return $this->hasOne(ImageFile::class, 'id', 'image');
+    }
+
     public function stores(){
         return $this->belongsToMany(Store::class, 'store_cards', 'card', 'store');
     }

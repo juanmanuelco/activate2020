@@ -21,7 +21,7 @@
             <div class="col-6">
                 <div class="form-group">
                     {!! Form::label('store', __('Store')); !!}
-                    : {{$object->store()->name}}
+                    : {{$object->store()->first()->name}}
 
                 </div>
             </div>

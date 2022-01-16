@@ -29,6 +29,15 @@ Breadcrumbs::for('card.my_cards_stores', function ($trail) {
     $trail->parent('home.index');
 });
 
+Breadcrumbs::for('store.applied_benefits', function ($trail) {
+    $trail->parent('home.index');
+});
+
+Breadcrumbs::for('store.my_applied_benefits', function ($trail) {
+    $trail->parent('home.index');
+});
+
+
 
 
 

@@ -35,11 +35,15 @@ class Store extends Model
     }
 
     public function category(){
-        return $this->hasOne(Category::class, 'parent', 'id')->first();
+        return $this->hasOne(Category::class, 'id', 'category')->first();
     }
 
     public function getImage(){
         return $this->hasOne(ImageFile::class, 'id', 'image')->first();
+    }
+
+    public function image(){
+        return $this->hasOne(ImageFile::class, 'id', 'image');
     }
 
     public function branches(){

@@ -28,10 +28,14 @@ class Benefit extends Model
     ];
 
     public function store(){
-        return $this->hasOne(Store::class, 'id', 'store')->first();
+        return $this->hasOne(Store::class, 'id', 'store');
     }
 
     public function getImage(){
         return $this->hasOne(ImageFile::class, 'id', 'image')->first();
+    }
+
+    public function image(){
+        return $this->hasOne(ImageFile::class, 'id', 'image');
     }
 }

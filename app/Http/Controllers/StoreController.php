@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
+use App\Models\Assignment;
 use App\Models\Benefit;
 use App\Models\Branch;
+use App\Models\Card;
 use App\Models\Category;
 use App\Models\Store;
 use App\Models\User;
@@ -196,6 +199,86 @@ class StoreController extends Controller
                     'longitude' => $branch->longitude
                 ] );
             }
+        }
+    }
+
+    public function apply_benefit(){
+        if(auth()->user()->hasRole('Local')){
+            $stores = Store::query()->where('owner', auth()->user()->id)
+                                    ->with('benefits')
+                                    ->with('benefits.image')
+                                    ->with('image')
+                                    ->with('branches')->get();
+            $cards = Card::query()->with('image')->get();
+            return view('pages.stores.apply_benefit', ['stores' => $stores, 'cards' => $cards]);
+        }else{
+            return redirect()->back()->with('error', __('Not allowed'));
+        }
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function apply_benefit_save(Request $request){
+        try {
+            if(!auth()->user()->hasRole('Local')){
+                throw new \Exception(__('Not allowed'));
+            }
+            $input = $request->all();
+            DB::beginTransaction();
+            $benefit = Benefit::find($input['benefit']);
+            if($benefit == null) abort(404, __('Benefit not found'));
+            $card = Assignment::query()->where('card', $input['card'])->where('number', $input['number'] )->first();
+            if($card == null) abort(404, __('Card number not found'));
+            if(!$benefit->unlimited){
+                $exist_application = Application::query()->where('assignment', $card->id)->where('benefit', $benefit->id)->first();
+                if($exist_application != null) abort(403, __('Benefit not allowed'));
+            }
+            Application::create([
+               'assignment' => $card->id,
+                'benefit' => $benefit->id
+            ]);
+            DB::commit();
+            return response()->json(['save' => 'success']);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(403, $e->getMessage());
+        }
+    }
+
+    public function applied_benefits(){
+        try {
+            if(auth()->user()->hasRole('Super Admin')){
+                $applications = Application::query()->orderBy('created_at', 'desc')->paginate(20);
+            }else if(auth()->user()->hasRole('Local')){
+                $applications = Application::query()->whereHas('benefit', function($q){
+                    $q->whereHas('store', function($k){
+                        $k->where('owner', auth()->user()->id);
+                    });
+                })->orderBy('created_at', 'desc')->paginate(20);
+            }else {
+                $applications = Application::query()->whereHas('assignment', function ($q){
+                    $q->where('email', auth()->user()->email);
+                })->orderBy('created_at', 'desc')->paginate(20);
+            }
+            return view('pages.reports.applied_benefits', ['applications' => $applications]);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(403, $e->getMessage());
+        }
+    }
+
+    public function my_applied_benefits(){
+        try {
+            $applications = Application::query()->whereHas('assignment', function ($q){
+                $q->where('email', auth()->user()->email);
+            })->orderBy('created_at', 'desc')->paginate(20);
+            return view('pages.reports.applied_benefits', ['applications' => $applications]);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(403, $e->getMessage());
         }
     }
 }

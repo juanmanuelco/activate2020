@@ -30,8 +30,9 @@ class BenefitController extends Controller
         $benefits = $benefits->search(isset($request['search'])? $request['search'] : '');
         if(!auth()->user()->hasRole('Super Admin')){
             $benefits->whereHas('store', function (Builder $query){
-                $query->where('owner', '=', auth()->user()->id);
+                $query->where('owner', auth()->user()->id);
             });
+
         }
         $benefits->orderBy('store' );
         $benefits = $benefits->paginate(15);

@@ -35,7 +35,6 @@
                 </div>
             </div>
         </div>
-
         <div class="form-group">
             {!! Form::label('category', __('Category')); !!}
             : {{$object->category()->name}}
