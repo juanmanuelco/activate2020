@@ -158,7 +158,7 @@ class UserController extends Controller
             $input = $request->all();
             $user = \auth()->user();
             $user->latitude = $input['latitude'];
-            $user->longitude = $input['latitude'];
+            $user->longitude = $input['longitude'];
             $user->location_updated = CarbonImmutable::parse( date('Y-m-d h:i:sa'));
             $user->save();
             DB::commit();
