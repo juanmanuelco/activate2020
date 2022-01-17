@@ -32,8 +32,4 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <link rel="stylesheet" href="{{asset('css/bootstrap-datetimepicker.css')}}">
     @yield('custom_styles')
-
-    <script>
-        if (navigator.geolocation)  navigator.geolocation.getCurrentPosition(()=>{});
-    </script>
 </head>

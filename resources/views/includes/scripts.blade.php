@@ -12,3 +12,22 @@
 <script>
     document.getElementById('loading_gif').style.display = 'none';
 </script>
+<script>
+    @if(auth()->check())
+    if (navigator.geolocation)  navigator.geolocation.getCurrentPosition((position)=>{
+        let data = {'latitude' : position.coords.latitude, 'longitude' : position.coords.longitude};
+        $.ajax(location.origin + '/location', {
+            method: 'POST',
+            data: data,
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+
+            success: (success) => {
+               console.log(success)
+            },
+            error: (error)=> {
+                console.log(error)
+            }
+        });
+    });
+    @endif
+</script>

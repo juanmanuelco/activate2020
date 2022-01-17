@@ -27,7 +27,10 @@ class User extends Authenticatable
         'user_token',
         'birthday',
         'points',
-        'gains'
+        'gains',
+        'latitude',
+        'longitude',
+        'location_updated'
     ];
 
     protected static $logAttributes = ['*'];

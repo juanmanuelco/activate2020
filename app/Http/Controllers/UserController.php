@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\NotificationReaded;
 use App\Models\User;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -145,6 +146,23 @@ class UserController extends Controller
             User::where('id', Auth::user()->id)->update($input);
             DB::commit();
             return redirect()->back()->with('status', 'Cambios guardados con éxito');
+        }catch (\Throwable $e){
+            DB::rollBack();
+            return  abort(500, $e->getMessage());
+        }
+    }
+
+    public function location(Request $request){
+        try {
+            DB::beginTransaction();
+            $input = $request->all();
+            $user = \auth()->user();
+            $user->latitude = $input['latitude'];
+            $user->longitude = $input['latitude'];
+            $user->location_updated = CarbonImmutable::parse( date('Y-m-d h:i:sa'));
+            $user->save();
+            DB::commit();
+            return response()->json(['save' => 'success']);
         }catch (\Throwable $e){
             DB::rollBack();
             return  abort(500, $e->getMessage());

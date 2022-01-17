@@ -21,7 +21,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $custom = \App\Models\Builder::where('option', 'index')->where('active', true)->first();
-    return view('welcome')->with('custom', $custom);
+    if(Auth::check()){
+        return view('home')->with('custom', $custom);
+    }else{
+        return view('welcome')->with('custom', $custom);
+    }
+
 })->name('home.index');
 
 Auth::routes();
@@ -69,6 +74,7 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::post('/profile/image', 'UserController@profile_image')->name('profile.image');
     Route::post('/profile', 'UserController@profile_post')->name('profile.post');
     Route::get('/profile', 'UserController@profile')->name('profile.index');
+    Route::post('/location', 'UserController@location')->name('user.location');
 
     Route::get('/chat', 'ChatController@index')->name('chat.index');
 

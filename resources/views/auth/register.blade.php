@@ -1,116 +1,60 @@
-@extends('layouts.guest')
+@if(isset($custom))
+    {!! $custom->{'gjs-html'} !!}}
+    <style>
+        {!! $custom->{'gjs-css'} !!}
+    </style>
+@else
 
-@section('content')
-<div class="container container_data" >
-    @include('includes.messages')
-    <div class="card register" >
-        <article class="card-body">
-            <h4 class="card-title mt-3 text-center text-white">{{__('create_account')}}</h4>
-            <img src="{{asset('images/brand.png')}}" alt="Logotipo" width="50%" style="margin-bottom: 10px">
-            <div class='g-sign-in-button'>
-                <div class=content-wrapper>
-                    <div class='logo-wrapper'>
-                        <img src='{{asset('images/g-logo.png')}}'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+    <link href="http://fonts.cdnfonts.com/css/rounded-elegance" rel="stylesheet">
+    <style>
+        body{
+            font-family: 'Rounded Elegance', sans-serif;
+        }
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-bottom: 1px solid #3c3d41">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="{{getConfiguration('image', 'LOGOTIPO')}}" width="70px" alt="{{env('APP_NAME')}}">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 left_spacing" style="--bs-scroll-height: 100px;">
+                    <li class="nav-item">
+                        <a class="nav-link"  href="#">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Funcionamiento</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">¿Quienes somos?</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <div style="background-color: #3c3d41; border-radius: 50%; padding:5px; margin:10px">
+                        <img src="{{getConfiguration('image', 'WHATTSAPP')}}" height="20px" alt="Whattsapp">
                     </div>
-                    <span class='text-container'>
-                        <span>{{__('login_google')}}</span>
-                    </span>
+                    <div style="background-color: #3c3d41; border-radius: 50%; padding:5px; margin:10px">
+                        <img src="{{getConfiguration('image', 'INSTAGRAM')}}" height="20px" alt="Instagram">
+                    </div>
+                    <div style="background-color: #3c3d41; border-radius: 50%; padding:5px; margin:10px">
+                        <img src="{{getConfiguration('image', 'FACEBOOK')}}" height="20px" alt="facebook">
+                    </div>
                 </div>
             </div>
+        </div>
+    </nav>
 
-            <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   {{__('login_facebook')}}</a>
-            <p class="divider-text">
-                <span class="bg-light">{{__('or')}}</span>
-            </p>
-            <form method="POST" action="{{ route('register') }}">
-                @csrf
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-                    </div>
-                    <input class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="{{ __('Name') }}" type="text">
-                    @error('name')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div> <!-- form-group// -->
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
-                    </div>
-                    <input class="form-control @error('email') is-invalid @enderror" name="email" placeholder="{{__('E-Mail Address')}}" type="email" value="{{ old('email') }}" required autocomplete="name" autofocus>
-                    @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+    @include('guest_register')
 
-                </div> <!-- form-group// -->
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
-                    </div>
-                    <select class="custom-select" style="max-width: 120px;" name="country" required>
-                        @php
-                            use App\Models\Country;$countries = Country::get();
-                        @endphp
-                        @foreach($countries as $country)
-                            <option value="{{$country->id}}" @if($country->iso == 'EC') selected @endif>
-                                {{$country->nicename . ' +' . $country->phonecode}}
-                            </option>
-                        @endforeach
-                    </select>
-                    <input name="phone" class="form-control" required placeholder="{{__('phone')}}" type="text">
-                </div> <!-- form-group// -->
-                <label for="" class="text-white">{{__('birth')}}</label>
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"> <i class="fa fa-birthday-cake"></i> </span>
-                    </div>
-                    <input class="form-control  @error('birth') is-invalid @enderror" name="birth" required placeholder="{{ __('birth') }}" type="date" >
-                    @error('birth')
-                    <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-
-                <label for="" class="text-white">{{__('roles')}}</label>
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"> <i class="fa fa-building"></i> </span>
-                    </div>
-                    <select class="form-control" multiple size="4" name="permission[]" required>
-                        @foreach(Spatie\Permission\Models\Role::all()->where('public', '=', true) as $rol)
-                            <option value="{{$rol->id}}" @if($rol->id == 3) selected @endif>■ {{$rol->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                    </div>
-                    <input class="form-control  @error('password') is-invalid @enderror" name="password"  placeholder="{{ __('Password') }}" type="password" required autocomplete="new-password">
-                    @error('password')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                    </div>
-                    <input class="form-control" name="password_confirmation" placeholder="{{ __('Confirm Password') }}" type="password" required autocomplete="new-password">
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block"> {{ __('Register') }}  </button>
-                </div>
-                <p class="text-center">Have an account? <a href="">Log In</a> </p>
-            </form>
-        </article>
-    </div>
-</div>
-@endsection
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+@endif
