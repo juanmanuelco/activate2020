@@ -141,4 +141,15 @@ class CategoryController extends Controller
             abort(403, $e->getMessage());
         }
     }
+
+    public function api_index(Request $request){
+        $categories = Category::query();
+        if(!isset($request['parent'])){
+            $categories =$categories->whereNull('parent');
+        }else{
+            $categories->where('parent', $request['parent']);
+        }
+        $categories = $categories->with('image')->limit(9)->get();
+        return response()->json(['categories' => $categories]);
+    }
 }

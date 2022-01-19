@@ -10,8 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Response;
 use Image;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -167,5 +169,67 @@ class UserController extends Controller
             DB::rollBack();
             return  abort(500, $e->getMessage());
         }
+    }
+
+    public function api_login(Request $request){
+        $current_user = User::query()->where('email', $request['email'])->first();
+        if ($current_user && Hash::check($request['password'], $current_user->password)) {
+            $new_user = User::query()->where('id', $current_user->id)->with('roles')->first();
+            return response()->json($new_user);
+        }else{
+            abort(403);
+        }
+    }
+
+    public function api_register(Request $request){
+
+        try {
+            DB::beginTransaction();
+            $country = Country::find($request['code_phone']);
+            if(isset($request['roles'])){
+                $permissions = Role::whereIn('name', $request['roles'])->where('public', true)->pluck('name');
+            }else{
+                $permissions = Role::where('name', "Cliente")->where('public', true)->pluck('name');
+            }
+
+            $user = User::query()->where('email', $request['email'])->first();
+            if($user != null) abort(403);
+
+
+            $new_user = User::create([
+                'name'          => $request['name'],
+                'email'         => $request['email'],
+                'phone'         => $request['phone'],
+                'code_phone'    => '+' . $country->phonecode,
+                'password'      => Hash::make($request['password']),
+                'user_token'    => mb_strtoupper(bin2hex(random_bytes(25))),
+                'gains'         => 0
+            ]);
+
+            $new_user->syncRoles($permissions);
+
+            DB::commit();
+            $new_user = User::query()->where('id', $new_user->id)->with('roles')->first();
+
+            return response()->json($new_user);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(403, $e->getMessage());
+        }
+    }
+
+    public function api_recovery (request $request){
+        $user = User::query()->where('email', $request['email'])->first();
+        if($user == null) abort(403);
+
+        Password::broker()->sendResetLink(['email' => $request['email']]);
+        flash('Reset password link sent', 'success');
+        return response()->json(['success', true]);
+    }
+
+    public function current_user(Request $request){
+        $user = User::query()->where('user_token', $request['user_token'])->with('roles')->first();
+        if($user == null) abort(403);
+        return response()->json($user);
     }
 }

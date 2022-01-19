@@ -200,4 +200,21 @@ class NotificationController extends Controller
         }
 
     }
+
+    public function api_notifications(Request $request){
+        $user = User::query()->where('user_token', $request['user_token'])->first();
+        if($user == null) abort(403);
+
+        $roles = $user->getRoleNames();
+        $roles = Role::query()->whereIn('name', $roles)->pluck('id');
+        $receivers = NotificationReceiver::query()->where(function ($q) use ($roles){
+            $q->where('type', 'role');
+            $q->whereIn('receiver', $roles);
+        })->orWhere(function ($q) use ($user){
+            $q->where('type', 'user');
+            $q->where('receiver', $user->id);
+        })->distinct('notification')->pluck('notification');
+        $notifications = Notification::query()->whereIn('notifications.id', $receivers)->with('image')->orderBy('created_at', 'DESC')->get();
+        return response()->json( $notifications);
+    }
 }

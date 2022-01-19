@@ -35,4 +35,7 @@ class Notification extends Model
     public function getImage(){
         return $this->hasOne(ImageFile::class, 'id', 'image')->first();
     }
+    public function image(){
+        return $this->hasOne(ImageFile::class, 'id', 'image');
+    }
 }

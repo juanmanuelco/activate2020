@@ -37,4 +37,8 @@ class Category extends Model
         return $this->hasOne(ImageFile::class, 'id', 'image')->first();
     }
 
+    public function image(){
+        return $this->hasOne(ImageFile::class, 'id', 'image');
+    }
+
 }
