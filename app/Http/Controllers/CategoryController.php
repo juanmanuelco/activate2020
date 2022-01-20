@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Group;
+use App\Models\Store;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -145,11 +146,15 @@ class CategoryController extends Controller
     public function api_index(Request $request){
         $categories = Category::query();
         if(!isset($request['parent'])){
-            $categories =$categories->whereNull('parent');
+            $categories =$categories->whereNull('parent')
+                                    ->with('stores')->with('stores.image')->with('stores.benefits')->with('stores.benefits.image');
         }else{
-            $categories->where('parent', $request['parent']);
+            $categories->where('parent', $request['parent'])
+                       ->whereHas('stores')->with('stores')->with('stores.image')
+                        ->with('stores.benefits')->with('stores.benefits.image');
         }
         $categories = $categories->with('image')->limit(9)->get();
+
         return response()->json(['categories' => $categories]);
     }
 }

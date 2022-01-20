@@ -33,12 +33,18 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent', 'id')->get();
     }
 
+
+
     public function getImage(){
         return $this->hasOne(ImageFile::class, 'id', 'image')->first();
     }
 
     public function image(){
         return $this->hasOne(ImageFile::class, 'id', 'image');
+    }
+
+    public function stores(){
+        return $this->hasMany(Store::class, 'category', 'id');
     }
 
 }

@@ -38,6 +38,10 @@ class Store extends Model
         return $this->hasOne(Category::class, 'id', 'category')->first();
     }
 
+    public function categoryR(){
+        return $this->hasOne(Category::class, 'id', 'category');
+    }
+
     public function getImage(){
         return $this->hasOne(ImageFile::class, 'id', 'image')->first();
     }
