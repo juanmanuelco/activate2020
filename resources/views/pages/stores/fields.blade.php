@@ -60,7 +60,7 @@
                     {!! $store->schedule !!}
                 @endif
             </div>
-            <input type="hidden" id="desc_schedule" name="benefit" value="{{ empty($store) ? '' : $store->schedule  }}">
+            <input type="hidden" id="desc_schedule" name="schedule" value="{{ empty($store) ? '' : $store->schedule  }}">
 
         </div>
 
@@ -80,7 +80,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="branch in branches" :key="branch.id">
-                        <td><input class="form-control" type="text" v-model:id="branch.name"></td>
+                        <td><input class="form-control" type="text" v-model:id="branch.name" required></td>
                         <td><input class="form-control" type="number" step="0.000000000000000001" required v-model:id="branch.longitude"></td>
                         <td><input class="form-control" type="number" step="0.000000000000000001" required v-model:id="branch.latitude"></td>
                         <td>

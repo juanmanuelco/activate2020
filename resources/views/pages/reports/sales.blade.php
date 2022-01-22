@@ -38,12 +38,6 @@
                         {{$card->email}}
                     </td>
                     <td>
-                        @php
-                            use Spatie\Permission\Models\Role;
-                            $roles = auth()->user()->getRoleNames()->toArray();
-                            $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
-
-                            @endphp
                         @foreach($card->getPayments() as $payment)
                             @if(
 	                            !empty($roles) ||

@@ -1,9 +1,4 @@
 @php
-
-    use Spatie\Permission\Models\Role;
-$roles = auth()->user()->getRoleNames()->toArray();
-    $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
-
 	    if(!empty($roles)){
             $images = \App\Models\ImageFile::select('id', 'extension', 'name')->orderBy('id', 'desc')->limit(1000)->get();
         }else{

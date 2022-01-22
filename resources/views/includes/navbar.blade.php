@@ -1,3 +1,8 @@
+<?php
+use Spatie\Permission\Models\Role;
+$roles = auth()->user()->getRoleNames()->toArray();
+$roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+?>
 <div>
     <nav class="navbar navbar-expand navbar-light  topbar mb-4 static-top shadow" id="navbar_principal" style="background-color: var(--background, #000000);">
 
@@ -75,11 +80,6 @@
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                    @php
-                        use Spatie\Permission\Models\Role;
-                           $roles = auth()->user()->getRoleNames()->toArray();
-                           $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
-                    @endphp
                     @if(!empty($roles))
                         <a class="dropdown-item" href="{{route('configuration.index')}}">
                             <i class="fas fa-toolbox fa-sm fa-fw mr-2 text-gray-400"></i>
