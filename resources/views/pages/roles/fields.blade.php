@@ -27,6 +27,19 @@
             </div>
             <small id="nameHelp" class="form-text text-muted">{{__('public_help')}} </small>
         </div>
+
+        <div class="form-group">
+            {!! Form::label('is_admin', __('Is Administrator')); !!} <i id="selected_icon"></i>
+            <div style="color: black">
+                @if(empty($object))
+                    {!! Form::checkbox('is_admin',old('is_admin')); !!}
+                @else
+                    {!! Form::checkbox('is_admin',old('is_admin'), $object->is_admin ); !!}
+                @endif
+
+            </div>
+        </div>
+
     </div>
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">

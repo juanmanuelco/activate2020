@@ -10,6 +10,7 @@ use App\Repositories\StoreRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class BenefitController extends Controller
 {
@@ -28,7 +29,11 @@ class BenefitController extends Controller
     {
         $benefits= $this->benefitRepository;
         $benefits = $benefits->search(isset($request['search'])? $request['search'] : '');
-        if(!auth()->user()->hasRole('Super Admin')){
+
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(empty($roles)){
             $benefits->whereHas('store', function (Builder $query){
                 $query->where('owner', auth()->user()->id);
             });
@@ -46,7 +51,10 @@ class BenefitController extends Controller
      */
     public function create()
     {
-        if(auth()->user()->hasRole('Super Admin')){
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(!empty($roles)){
             $stores = Store::query()->orderBy('name')->pluck('name', 'id');
         }else{
             $stores = Store::query()->where('owner', '=', auth()->user()->id )->orderBy('name')->pluck('name', 'id');
@@ -74,7 +82,10 @@ class BenefitController extends Controller
             DB::beginTransaction();
             $input = $request->all();
 
-            if(!auth()->user()->hasRole('Super Admin')){
+            $roles = auth()->user()->getRoleNames()->toArray();
+            $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+            if(empty($roles)){
                 $store = Store::find($request['store'])->where('owner', auth()->user()->id)->first();
                 if($store == null)  throw new \Exception("Store forbidden for current user");
             }
@@ -109,7 +120,10 @@ class BenefitController extends Controller
      */
     public function edit(Benefit $benefit)
     {
-        if(auth()->user()->hasRole('Super Admin')){
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(!empty($roles)){
             $stores = Store::query()->orderBy('name')->pluck('name', 'id');
         }else{
             $stores = Store::query()->where('owner', '=', auth()->user()->id )->orderBy('name')->pluck('name', 'id');
@@ -136,7 +150,10 @@ class BenefitController extends Controller
             DB::beginTransaction();
             $input = $request->all();
 
-            if(!auth()->user()->hasRole('Super Admin')){
+            $roles = auth()->user()->getRoleNames()->toArray();
+            $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+            if(empty($roles)){
                 $store = Store::find($request['store'])->where('owner', auth()->user()->id)->first();
                 if($store == null)  throw new \Exception("Store forbidden for current user");
             }

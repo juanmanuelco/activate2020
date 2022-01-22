@@ -76,6 +76,7 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $request['public'] = $request['public'] == 'on';
+        $request['is_admin'] = $request['is_admin'] == 'on';
         $input = $request->all();
         try {
             DB::beginTransaction();
@@ -130,6 +131,7 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         $request['public'] = $request['public'] == 'on';
+        $request['is_admin'] = $request['is_admin'] == 'on';
         $input = $request->all();
         $role = Role::findById($id);
         try {

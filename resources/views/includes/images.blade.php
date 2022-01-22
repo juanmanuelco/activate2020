@@ -1,13 +1,15 @@
 @php
 
+    $roles = auth()->user()->getRoleNames()->toArray();
+    $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
 
-    if(auth()->user()->hasRole('Super Admin')){
-        $images = \App\Models\ImageFile::select('id', 'extension', 'name')->orderBy('id', 'desc')->limit(1000)->get();
-    }else{
-        $images = \App\Models\ImageFile::where('owner', \Illuminate\Support\Facades\Auth::id())
-        ->select('id', 'extension', 'name')
-        ->orderBy('id', 'desc')->limit(1000)->get();
-    }
+	    if(!empty($roles)){
+            $images = \App\Models\ImageFile::select('id', 'extension', 'name')->orderBy('id', 'desc')->limit(1000)->get();
+        }else{
+            $images = \App\Models\ImageFile::where('owner', \Illuminate\Support\Facades\Auth::id())
+            ->select('id', 'extension', 'name')
+            ->orderBy('id', 'desc')->limit(1000)->get();
+        }
 @endphp
 <div id="image_container">
     <img width="260px"

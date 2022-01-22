@@ -36,7 +36,10 @@ class StoreController extends Controller
     {
         $stores= $this->storeRepository;
         $stores = $stores->search(isset($request['search'])? $request['search'] : '');
-        if(!auth()->user()->hasRole('Super Admin')){
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(empty($roles)){
             $stores->where('owner', auth()->user()->id);
         }
         $stores = $stores->paginate(15);
@@ -50,7 +53,10 @@ class StoreController extends Controller
      */
     public function create()
     {
-        if(auth()->user()->hasRole('Super Admin')){
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(!empty($roles)){
             $owners = User::query()->orderBy('id')->pluck('name', 'id');
         }else{
             $owners = User::query()->where('id',auth()->user()->id)->pluck('name', 'id');
@@ -73,7 +79,10 @@ class StoreController extends Controller
             'description' => 'required|max:255',
         ]);
 
-        if(!auth()->user()->hasRole('Super Admin')){
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(empty($roles)){
             $request['owner'] = auth()->user()->id;
         }
 
@@ -114,7 +123,11 @@ class StoreController extends Controller
     public function edit(Store $store)
     {
         $categories = Category::query()->orderBy('id')->pluck('name', 'id');
-        if(auth()->user()->hasRole('Super Admin')){
+
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(!empty($roles)){
             $owners = User::query()->orderBy('id')->pluck('name', 'id');
         }else{
             $owners = User::query()->where('id',auth()->user()->id)->pluck('name', 'id');
@@ -132,7 +145,10 @@ class StoreController extends Controller
      */
     public function update(Request $request, Store $store)
     {
-        if(!auth()->user()->hasRole('Super Admin')){
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(empty($roles)){
             $request['owner'] = auth()->user()->id;
         }
 
@@ -250,7 +266,10 @@ class StoreController extends Controller
 
     public function applied_benefits(){
         try {
-            if(auth()->user()->hasRole('Super Admin')){
+            $roles = auth()->user()->getRoleNames()->toArray();
+            $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+            if(!empty($roles)){
                 $applications = Application::query()->orderBy('created_at', 'desc')->paginate(20);
             }else if(auth()->user()->hasRole('Local')){
                 $applications = Application::query()->whereHas('benefit', function($q){

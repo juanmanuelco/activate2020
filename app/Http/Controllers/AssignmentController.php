@@ -23,8 +23,10 @@ class AssignmentController extends Controller
      */
     public function index(Request $request)
     {
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
 
-        if(auth()->user()->hasRole('Super Admin')){
+        if(!empty($roles)){
             $sellers = Seller::query()->pluck('name', 'id');
             $sellers_ids =Seller::query()->pluck('id')->toArray();
             $cards = $this->cardRepository

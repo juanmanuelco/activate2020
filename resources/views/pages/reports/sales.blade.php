@@ -38,9 +38,15 @@
                         {{$card->email}}
                     </td>
                     <td>
+                        @php
+                            use Spatie\Permission\Models\Role;
+                            $roles = auth()->user()->getRoleNames()->toArray();
+                            $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+                            @endphp
                         @foreach($card->getPayments() as $payment)
                             @if(
-	                            auth()->user()->hasRole('Super Admin') ||
+	                            !empty($roles) ||
 	                            $payment->getSeller()->user == auth()->user()->id ||
 	                            $payment->getSeller()->superior == auth()->user()->id
 	                            )

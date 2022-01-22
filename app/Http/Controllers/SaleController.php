@@ -247,7 +247,10 @@ class SaleController extends Controller
     }
 
     public function report(Request $request){
-        if(auth()->user()->hasRole('Super Admin')){
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(!empty($roles)){
             $cards = Assignment::query()->whereNotNull('email')->orderBy('sale_date', 'desc')->paginate(20);
         }else{
 

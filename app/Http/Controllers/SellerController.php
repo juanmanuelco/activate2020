@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Repositories\SellerRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class SellerController extends Controller
 {
@@ -30,7 +31,11 @@ class SellerController extends Controller
     {
         $sellers= $this->sellerRepository;
         $sellers = $sellers->search(isset($request['search'])? $request['search'] : '');
-        if(!auth()->user()->hasRole('Super Admin')){
+
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(empty($roles)){
             $sellers->where('superior', auth()->user()->id);
         }
         $sellers = $sellers->paginate(15);
@@ -48,7 +53,10 @@ class SellerController extends Controller
                     $q->where("name", "Vendedor");
                 })->doesntHave('seller')->where('id', '!=', auth()->user()->id)->pluck('name', 'id');
 
-        if(auth()->user()->hasRole('Super Admin')){
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(!empty($roles)){
            $sellers = User::whereHas("roles", function($q){
                            $q->where("name", "Vendedor");
                        })->has('seller')->pluck('name', 'id');
@@ -71,7 +79,10 @@ class SellerController extends Controller
      */
     public function store(Request $request)
     {
-        if(!auth()->user()->hasRole('Super Admin')){
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(empty($roles)){
             $request['superior'] = auth()->user()->id;
         }
 
@@ -121,7 +132,10 @@ class SellerController extends Controller
      */
     public function update(Request $request, Seller $seller)
     {
-        if(!auth()->user()->hasRole('Super Admin')){
+        $roles = auth()->user()->getRoleNames()->toArray();
+        $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+
+        if(empty($roles)){
             $request['superior'] = auth()->user()->id;
         }
 

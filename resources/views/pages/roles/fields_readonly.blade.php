@@ -5,7 +5,6 @@
             <div style="color: black">
                 {{$object->name}}
             </div>
-            <small id="nameHelp" class="form-text text-muted">{{__('name_help')}}</small>
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -14,7 +13,6 @@
             <div style="color: black">
                 {{$object->guard_name}}
             </div>
-            <small id="nameHelp" class="form-text text-muted">{{__('guard_help')}} </small>
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -23,7 +21,13 @@
             <div style="color: black">
                 {{$object->public? 'Público': 'Privado'}}
             </div>
-            <small id="nameHelp" class="form-text text-muted">{{__('public_help')}} </small>
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('is_admin', __('Is admin')); !!} <i id="selected_icon"></i>
+            <div style="color: black">
+                {{$object->is_admin? 'Es administrador': 'No tiene permisos de administrador'}}
+            </div>
         </div>
     </div>
 </div>

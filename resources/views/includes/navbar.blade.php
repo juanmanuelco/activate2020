@@ -75,7 +75,12 @@
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                    @if(\Illuminate\Support\Facades\Auth::user()->hasRole('Super Admin'))
+                    @php
+                        use Spatie\Permission\Models\Role;
+                           $roles = auth()->user()->getRoleNames()->toArray();
+                           $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
+                    @endphp
+                    @if(!empty($roles))
                         <a class="dropdown-item" href="{{route('configuration.index')}}">
                             <i class="fas fa-toolbox fa-sm fa-fw mr-2 text-gray-400"></i>
                             {{__('configuration')}}
