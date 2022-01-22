@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Response;
 use Image;
+use Intervention\Image\Image;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller

@@ -8,6 +8,7 @@ use App\Models\Seller;
 use App\Repositories\CardRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class AssignmentController extends Controller
 {

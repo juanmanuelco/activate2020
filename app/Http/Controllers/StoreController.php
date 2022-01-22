@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Repositories\StoreRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class StoreController extends Controller
 {

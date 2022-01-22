@@ -34,10 +34,10 @@
                         </p>
                     </td>
                     <td>
-                        {{$benefit->benefit}}
+                        {!! $benefit->benefit !!}
                     </td>
                     <td>
-                        {{$benefit->restriction}}
+                        {!! $benefit->restriction !!}
                     </td>
                     <td>
                         {{$benefit->store()->first()->name }}

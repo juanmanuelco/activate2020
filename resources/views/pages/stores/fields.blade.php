@@ -53,9 +53,15 @@
 
 
         <div class="form-group">
+
             {!! Form::label('schedule', __('Schedule')); !!}
-            {!! Form::textarea('schedule',old('schedule'), ['class'=> 'form-control', 'rows' => 3]); !!}
-            <small id="nameHelp" class="form-text text-muted">{{__('schedule_help')}}</small>
+            <div id="schedule">
+                @if(!empty($store))
+                    {!! $store->schedule !!}
+                @endif
+            </div>
+            <input type="hidden" id="desc_schedule" name="benefit" value="{{ empty($store) ? '' : $store->schedule  }}">
+
         </div>
 
 
@@ -95,6 +101,20 @@
 </div>
 
 @section('new_scripts')
+    <script>
+        let quill = new Quill('#schedule', {
+            theme: 'snow',
+            modules: {
+                toolbar: quill_toolbar
+            }
+        });
+        quill.on('editor-change', function(eventName, ...args) {
+            document.getElementById('desc_schedule').value = document.getElementById('schedule').getElementsByClassName('ql-editor')[0].innerHTML;
+            if(document.getElementById('desc_schedule').value == '<p><br></p> '){
+                document.getElementById('desc_schedule').value = '' ;
+            }
+        });
+    </script>
     <script>
         let val = false;
         let selected = document.getElementById('owner').getElementsByTagName('option');

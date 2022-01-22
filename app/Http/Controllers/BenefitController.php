@@ -73,6 +73,14 @@ class BenefitController extends Controller
     {
         $request['unlimited'] = $request['unlimited'] == 'on';
 
+        if($request['benefit'] == '<p><br></p>'){
+            $request['benefit'] = "";
+        }
+
+        if($request['restriction'] == '<p><br></p>'){
+            $request['restriction'] = "";
+        }
+
         $this->validate($request, [
             'name' => 'required|max:255'
         ]);
@@ -142,6 +150,15 @@ class BenefitController extends Controller
     public function update(Request $request, Benefit $benefit)
     {
         $request['unlimited'] = $request['unlimited'] == 'on';
+
+        if($request['benefit'] == '<p><br></p>'){
+            $request['benefit'] = "";
+        }
+
+        if($request['restriction'] == '<p><br></p>'){
+            $request['restriction'] = "";
+        }
+
         $this->validate($request, [
             'name' => 'required|max:255'
         ]);

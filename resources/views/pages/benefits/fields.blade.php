@@ -84,6 +84,9 @@
         });
         quill.on('editor-change', function(eventName, ...args) {
             document.getElementById('desc_benefit').value = document.getElementById('benefit').getElementsByClassName('ql-editor')[0].innerHTML;
+            if(document.getElementById('desc_benefit').value == '<p><br></p> '){
+                document.getElementById('desc_benefit').value = '' ;
+            }
         });
 
         let quill_r = new Quill('#restriction', {
@@ -94,6 +97,9 @@
         });
         quill_r.on('editor-change', function(eventName, ...args) {
             document.getElementById('desc_restriction').value = document.getElementById('restriction').getElementsByClassName('ql-editor')[0].innerHTML;
+            if(document.getElementById('desc_restriction').value == '<p><br></p> '){
+                document.getElementById('desc_restriction').value = '' ;
+            }
         });
     </script>
 
