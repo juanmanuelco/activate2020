@@ -22,7 +22,8 @@ class Category extends Model
         'name',
         'description',
         'parent',
-        'image'
+        'image',
+        'color'
     ];
 
     public function parent(){

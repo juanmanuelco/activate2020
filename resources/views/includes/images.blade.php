@@ -1,6 +1,7 @@
 @php
 
-    $roles = auth()->user()->getRoleNames()->toArray();
+    use Spatie\Permission\Models\Role;
+$roles = auth()->user()->getRoleNames()->toArray();
     $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
 
 	    if(!empty($roles)){

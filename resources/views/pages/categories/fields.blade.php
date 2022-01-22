@@ -19,6 +19,11 @@
             <small id="nameHelp" class="form-text text-muted">{{__('parent_help')}}</small>
         </div>
 
+        <div class="form-group">
+            {!! Form::label('color', __('Color')); !!}
+            {!! Form::color('color',old('color'), ['class'=> 'form-control', 'required'=> true]); !!}
+        </div>
+
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         @include('includes.images')
