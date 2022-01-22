@@ -8,14 +8,27 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('benefit', __('Benefit')); !!}
-            {!! Form::textarea('benefit',old('benefit'), ['class'=> 'form-control', 'required'=> true,  'rows' => 3]); !!}
-            <small id="nameHelp" class="form-text text-muted">{{__('benefit_help')}}</small>
+            {!! Form::label('benefit', __('Benefits')); !!}
+            <div id="benefit">
+                @if(!empty($benefit))
+                    {!! $benefit->benefit !!}
+                @endif
+            </div>
+            <input type="hidden" id="desc_benefit" name="benefit" value="{{ empty($benefit) ? '' : $benefit->benefit  }}">
+
+
         </div>
         <div class="form-group">
-            {!! Form::label('restriction', __('Restriction')); !!}
-            {!! Form::textarea('restriction',old('restriction'), ['class'=> 'form-control',  'rows' => 3]); !!}
-            <small id="nameHelp" class="form-text text-muted">{{__('restriction_help')}}</small>
+            {!! Form::label('restriction', __('Restrictions')); !!}
+            <div id="restriction">
+                @if(!empty($benefit))
+                    {!! $benefit->restriction !!}
+                @endif
+            </div>
+            <input type="hidden" id="desc_restriction" name="restriction" value="{{ empty($benefit) ? '' : $benefit->restriction  }}">
+
+
+
         </div>
 
         <div class="row">
@@ -34,7 +47,6 @@
                     @else
                         {!! Form::checkbox('unlimited',old('unlimited'), $object->unlimited ); !!}
                     @endif
-                    <small id="nameHelp" class="form-text text-muted">{{__('unlimited_help')}}</small>
                 </div>
             </div>
         </div>
@@ -43,14 +55,14 @@
             <div class="col-6">
                 <div class="form-group">
                     {!! Form::label('points', __('Points by use')); !!}
-                    {!! Form::number('points',old('points'), ['class'=> 'form-control', 'min'=>0]); !!}
+                    {!! Form::number('points',old('points'), ['class'=> 'form-control', 'min'=>0, 'max' => 10]); !!}
                 </div>
 
             </div>
             <div class="col-6">
                 <div class="form-group">
                     {!! Form::label('gains', __('Gains by use')); !!}
-                    {!! Form::number('gains',old('gains'),['class'=> 'form-control', 'min'=>0, 'step'=>0.01]); !!}
+                    {!! Form::number('gains',old('gains'),['class'=> 'form-control', 'min'=>0, 'step'=>0.01, 'max' => 1000]); !!}
                 </div>
             </div>
         </div>
@@ -62,6 +74,30 @@
 </div>
 
 @section('new_scripts')
+
+    <script>
+        let quill = new Quill('#benefit', {
+            theme: 'snow',
+            modules: {
+                toolbar: quill_toolbar
+            }
+        });
+        quill.on('editor-change', function(eventName, ...args) {
+            document.getElementById('desc_benefit').value = document.getElementById('benefit').getElementsByClassName('ql-editor')[0].innerHTML;
+        });
+
+        let quill_r = new Quill('#restriction', {
+            theme: 'snow',
+            modules: {
+                toolbar: quill_toolbar
+            }
+        });
+        quill_r.on('editor-change', function(eventName, ...args) {
+            document.getElementById('desc_restriction').value = document.getElementById('restriction').getElementsByClassName('ql-editor')[0].innerHTML;
+        });
+    </script>
+
+
     <script>
         let val = false;
         let selected = document.getElementsByTagName('option');
