@@ -304,9 +304,13 @@ class StoreController extends Controller
         }
     }
 
-    public function api_index(){
-        $stores = Store::query()->with(['image', 'branches', 'benefits'])->get();
-        $users = User::query()->where('show_location', true)->get();
+    public function api_index(Request $request){
+        $stores = Store::query()->whereHas('branches')->with(['image', 'branches', 'benefits', 'benefits.image'])->get();
+        $users = User::query()->where('show_location', true);
+        if(isset($request['user_token'])){
+            $users = $users->where('user_token', '!=', $request['user_token']);
+        }
+        $users = $users->get();
         return response()->json(['stores' => $stores, 'users' => $users]);
     }
 }
