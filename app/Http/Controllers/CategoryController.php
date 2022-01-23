@@ -149,11 +149,12 @@ class CategoryController extends Controller
             $categories =$categories->whereNull('parent')
                                     ->with('stores')
                                     ->with('stores.image')
+                                    ->with('stores.branches')
                                     ->with('stores.benefits')->with('stores.benefits.image');
         }else{
             $categories->where('parent', $request['parent'])
                         ->whereHas('stores')
-                        ->with('stores')->with('stores.image')
+                        ->with('stores')->with('stores.image')->with('stores.branches')
                         ->with('stores.benefits')->with('stores.benefits.image');
         }
         $categories = $categories->with('image')->limit(9)->get();

@@ -16,8 +16,8 @@ class BranchsStore extends Migration
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->double('latitude',8,2)->nullable();
-            $table->double('longitude',8,2)->nullable();
+            $table->double('latitude',18,17)->nullable();
+            $table->double('longitude',18,17)->nullable();
 
 
             $table->unsignedBigInteger('store')->nullable();

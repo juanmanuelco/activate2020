@@ -153,7 +153,9 @@ class StoreController extends Controller
             $request['owner'] = auth()->user()->id;
         }
 
+
         $branches = json_decode($request['branches']);
+
 
         $this->validate($request, [
             'name' => 'required|max:255',

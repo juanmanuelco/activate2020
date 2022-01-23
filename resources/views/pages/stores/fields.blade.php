@@ -81,8 +81,8 @@
                 <tbody>
                     <tr v-for="branch in branches" :key="branch.id">
                         <td><input class="form-control" type="text" v-model:id="branch.name" required></td>
-                        <td><input class="form-control" type="number" step="0.000000000000000001" required v-model:id="branch.longitude"></td>
                         <td><input class="form-control" type="number" step="0.000000000000000001" required v-model:id="branch.latitude"></td>
+                        <td><input class="form-control" type="number" step="0.000000000000000001" required v-model:id="branch.longitude"></td>
                         <td>
                             <button class="btn btn-danger" v-on:click="removeBranch(branch.id, branch.exists)" type="button">
                                 <i class="fa fa-trash"> </i>
