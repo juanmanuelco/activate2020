@@ -303,4 +303,10 @@ class StoreController extends Controller
             abort(403, $e->getMessage());
         }
     }
+
+    public function api_index(){
+        $stores = Store::query()->with(['image', 'branches', 'benefits'])->get();
+        $users = User::query()->where('show_location', true)->get();
+        return response()->json(['stores' => $stores, 'users' => $users]);
+    }
 }

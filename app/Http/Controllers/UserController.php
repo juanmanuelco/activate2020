@@ -148,7 +148,7 @@ class UserController extends Controller
             User::where('id', Auth::user()->id)->update($input);
             DB::commit();
             return redirect()->back()->with('status', 'Cambios guardados con éxito');
-        }catch (\Throwable $e){
+        }catch (\Throwable $e){dd($e);
             DB::rollBack();
             return  abort(500, $e->getMessage());
         }
