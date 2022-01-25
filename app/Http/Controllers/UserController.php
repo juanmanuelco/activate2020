@@ -230,6 +230,15 @@ class UserController extends Controller
     public function current_user(Request $request){
         $user = User::query()->where('user_token', $request['user_token'])->with('roles')->first();
         if($user == null) abort(403);
+        if(isset($request['latitude'])){
+            $user->latitude = $request['latitude'];
+        }
+        if(isset($request['longitude'])){
+            $user->longitude = $request['longitude'];
+        }
+
+        $user->longitude = $request['longitude'];
+        $user->save();
         return response()->json($user);
     }
 }
