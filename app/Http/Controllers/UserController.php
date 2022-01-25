@@ -231,13 +231,11 @@ class UserController extends Controller
         $user = User::query()->where('user_token', $request['user_token'])->with('roles')->first();
         if($user == null) abort(403);
         if(isset($request['latitude'])){
-            $user->latitude = $request['latitude'];
+            $user->latitude = doubleval($request['latitude']);
         }
         if(isset($request['longitude'])){
-            $user->longitude = $request['longitude'];
+            $user->longitude = doubleval($request['longitude']);
         }
-
-        $user->longitude = $request['longitude'];
         $user->save();
         return response()->json($user);
     }
