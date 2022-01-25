@@ -31,7 +31,7 @@ $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first(
                         </div>
                         <div>
                             <div class="small text-gray-500">December 7, 2019</div>
-                            Hola wey
+                            Test only
                         </div>
                     </a>
                     <a class="dropdown-item text-center small text-gray-500" href="#">Show All messages</a>
