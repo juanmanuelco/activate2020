@@ -44,4 +44,8 @@ class Card extends Model
     public function assignments(){
         return $this->hasMany(Assignment::class, 'card', 'id')->orderBy('seller');
     }
+
+    public function markets(){
+        return $this->hasMany(Market::class, 'card', 'id');
+    }
 }

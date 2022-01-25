@@ -170,4 +170,9 @@ class CardController extends Controller
         $stores = $assignment->getCard()->stores()->paginate(10);
         return view('pages.profile.my_cards_stores')->with('stores', $stores);
     }
+    public function api_index(){
+        $cards = Card::query()->where('hidden', false)
+                              ->with(['image', 'markets', 'markets.image'])->get();
+        return response()->json(['cards' => $cards]);
+    }
 }

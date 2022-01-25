@@ -27,6 +27,10 @@ class Market extends Model
         return $this->hasOne(ImageFile::class, 'id', 'image')->first();
     }
 
+    public function image(){
+        return $this->hasOne(ImageFile::class, 'id', 'image');
+    }
+
     public function card(){
         return $this->hasOne(Card::class, 'id', 'card')->first();
     }

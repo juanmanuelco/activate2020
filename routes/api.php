@@ -29,5 +29,6 @@ Route::get('/notifications', 'NotificationController@api_notifications')->name('
 Route::get('/countries', 'AppHelperController@api_countries_index')->name('api_countries_index');
 
 Route::get('/roles', 'AppHelperController@api_roles')->name('api_roles');
+Route::get('/cards', 'CardController@api_index')->name('api_cards');
 
 Route::get('/geo', 'StoreController@api_index')->name('api_index');
