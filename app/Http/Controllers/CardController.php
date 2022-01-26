@@ -175,4 +175,22 @@ class CardController extends Controller
                               ->with(['image', 'markets', 'markets.image'])->get();
         return response()->json(['cards' => $cards]);
     }
+
+    public function api_my_cards(Request $request){
+        $user = User::query()->where('user_token', $request['user_token'])->first();
+        $cards  = Assignment::query()
+                            ->where('email', $user->email)
+                            ->with([
+                                'card',
+                                'card.image',
+                                'card.stores',
+                                'card.stores.image',
+                                'card.stores.benefits',
+                                'card.stores.benefits.image',
+                                'card.stores.categoryR',
+                                'card.stores.categoryR.image'
+                            ])
+                            ->get();
+        return response()->json(['assignments' => $cards]);
+    }
 }

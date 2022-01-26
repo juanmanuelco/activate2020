@@ -31,6 +31,9 @@ class Assignment extends Model
     public function getCard(){
         return $this->hasOne(Card::class, 'id', 'card')->first();
     }
+    public function card(){
+        return $this->hasOne(Card::class, 'id', 'card');
+    }
     public function getSeller(){
         return $this->hasOne(Seller::class, 'id', 'seller')->first();
     }
