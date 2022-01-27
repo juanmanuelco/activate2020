@@ -32,6 +32,6 @@ class Application extends Model
         return $this->hasOne(Benefit::class, 'id', 'benefit');
     }
     public function getBenefit(){
-        return $this->benefit()->first();
+        return $this->benefit()->withTrashed()->first();
     }
 }
