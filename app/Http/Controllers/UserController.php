@@ -246,7 +246,13 @@ class UserController extends Controller
         $applications = Application::query()->whereHas('assignment', function ($q) use($user){
             $q->where('email', $user->email);
         })->with([
-            'assignment', 'benefit', 'assignment.card', 'assignment.card.image', 'benefit.image', 'benefit.store', 'benefit.store.image'
+            'assignment',
+            'benefit',
+            'assignment.card',
+            'assignment.card.image',
+            'benefit.image',
+            'benefit.store',
+            'benefit.store.image'
         ])
           ->orderBy('created_at', 'desc')->get();
 
