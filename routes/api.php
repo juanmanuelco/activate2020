@@ -31,5 +31,8 @@ Route::get('/countries', 'AppHelperController@api_countries_index')->name('api_c
 Route::get('/roles', 'AppHelperController@api_roles')->name('api_roles');
 Route::get('/cards', 'CardController@api_index')->name('api_cards');
 Route::get('/my-cards', 'CardController@api_my_cards')->name('api_my_cards');
+Route::get('/my-applied-benefits', 'UserController@api_my_applied_benefits')->name('api_my_applied_benefits');
+
+Route::post('/add-card', 'CardController@api_add_card')->name('api_add_card');
 
 Route::get('/geo', 'StoreController@api_index')->name('api_index');

@@ -22,14 +22,14 @@ class Application extends Model
     ];
 
     public function assignment(){
-        return $this->hasOne(Assignment::class, 'id', 'assignment');
+        return $this->hasOne(Assignment::class, 'id', 'assignment')->withTrashed();
     }
     public function getAssignment(){
         return $this->assignment()->first();
     }
 
     public function benefit(){
-        return $this->hasOne(Benefit::class, 'id', 'benefit');
+        return $this->hasOne(Benefit::class, 'id', 'benefit')->withTrashed();
     }
     public function getBenefit(){
         return $this->benefit()->withTrashed()->first();

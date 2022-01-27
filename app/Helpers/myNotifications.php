@@ -37,7 +37,7 @@ function getNotifications($type = ""){
 
 function setReceiver($destinies, $repository, $notification){
     foreach ($destinies as $destiny ){
-        $repository->create($destiny);
+        $create_dest =  $repository->create($destiny);
         if($destiny['type'] == 'role'){
             $role = Role::findById($destiny['receiver']);
             event(new NotificationRole($role, $notification));

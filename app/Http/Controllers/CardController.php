@@ -2,28 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Assignment;
 use App\Models\Benefit;
 use App\Models\Branch;
 use App\Models\Card;
 use App\Models\Category;
 use App\Models\Market;
+use App\Models\Sale;
+use App\Models\Seller;
 use App\Models\Store;
 use App\Models\User;
 use App\Repositories\CardRepository;
+use App\Repositories\MailReceiverRepository;
+use App\Repositories\MailRepository;
+use App\Repositories\NotificationReceiverRepository;
+use App\Repositories\NotificationRepository;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class CardController extends Controller
 {
 
     private $cardRepository;
+    private MailRepository $mailRepository;
+    private MailReceiverRepository $mailReceiverRepository;
+    private NotificationRepository $notificationRepository;
+    private NotificationReceiverRepository $notificationReceiverRepository;
 
     /**
      * @param $cardRepository
      */
-    public function __construct( CardRepository $cardRepository ) {
+    public function __construct( CardRepository $cardRepository ,  MailRepository $mailRepo,
+        MailReceiverRepository $mailReceiverRepo, NotificationRepository $notificationRepo,
+        NotificationReceiverRepository $notificationReceiverRepo) {
         $this->cardRepository = $cardRepository;
+        $this->mailRepository = $mailRepo;
+        $this->mailReceiverRepository =  $mailReceiverRepo;
+        $this->notificationRepository = $notificationRepo;
+        $this->notificationReceiverRepository = $notificationReceiverRepo;
     }
 
 
@@ -178,6 +198,7 @@ class CardController extends Controller
 
     public function api_my_cards(Request $request){
         $user = User::query()->where('user_token', $request['user_token'])->first();
+        if($user == null) abort(403);
         $cards  = Assignment::query()
                             ->where('email', $user->email)
                             ->with([
@@ -193,4 +214,116 @@ class CardController extends Controller
                             ->get();
         return response()->json(['assignments' => $cards]);
     }
+
+    public function api_add_card(Request $request){
+        try {
+            DB::beginTransaction();
+            $user = User::query()->where('user_token', $request['user_token'])->first();
+            if($user == null) abort(403, 'User not found');
+            $today = date('Y-m-d h:i:sa');
+            $card = Assignment::query()->where('code', $request['code'])->first();
+            if($card == null) abort(403, 'Card not found');
+            $card->email = $user->email;
+            $card->start = CarbonImmutable::parse($today);
+            $card->end = CarbonImmutable::parse(strtotime($today . ' + ' . $card->getCard()->days . ' days'));
+            $card->type = 'physical';
+            $card->price =  $card->getCard()->price;
+            $card->sale_date = CarbonImmutable::parse($today);
+
+            $card->save();
+            $current_seller = $card->getSeller();
+            if($current_seller != null){
+                $seller_commissions = [0];
+                $seller_totals = [0];
+                $array_sellers = [$current_seller ];
+                while (!empty($current_seller->superior)){
+                    $current_seller = Seller::query()->where('user', $current_seller->superior)->first();
+                    array_push($array_sellers, $current_seller);
+                    array_push($seller_commissions, 0);
+                    array_push($seller_totals, 0);
+                }
+
+                $array_sellers = array_reverse($array_sellers);
+                $seller_commissions = array_reverse($seller_commissions);
+                $seller_totals = array_reverse($seller_totals);
+
+                $root_price = $card->price;
+                $count_commission = 0;
+
+
+                foreach ($array_sellers as $seller){
+                    $calculated = ($root_price * $seller->commission / 100);
+                    $seller_commissions[$count_commission] = $calculated;
+                    $root_price = $calculated;
+                    $count_commission ++;
+                }
+
+
+                $count_commission = 0;
+                foreach ($seller_commissions as $commission){
+                    $less_value = $seller_commissions[$count_commission + 1 ] ?? 0;
+                    $calculated = $seller_commissions[$count_commission] - $less_value;
+                    $seller_totals[$count_commission] = $calculated;
+                    $count_commission ++;
+                }
+                $count_commission = 0;
+                foreach ($array_sellers as $seller){
+                    Sale::create([
+                        'seller' => $seller->id,
+                        'assignment' => $card->id,
+                        'payment' =>  $seller_totals[$count_commission]
+                    ]);
+                    $count_commission ++;
+                }
+            }else{
+                Sale::create([
+                    'seller' => null,
+                    'assignment' => $card->id,
+                    'payment' =>  0
+                ]);
+            }
+
+
+
+            $user->points = $user->points + $card->getCard()->points;
+            $user->save();
+
+
+
+            $notification = $this->notificationRepository->create([
+                'detail' => "Se ha agrgado la tarjeta N° " . $card->number ." a su cuenta",
+                'icon'   => 'fas fa-credit-card',
+                'emisor'    =>  $user->id
+            ]);
+            $destiny = [
+                ['receiver' => $user->id , 'type' => 'user', 'notification' => $notification->id]
+            ];
+
+            //setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+
+
+            $mail = $this->mailRepository->create([
+                'subject' => "New card added",
+                'body' => "Se ha agrgado la tarjeta N° " . $card->number ." a su cuenta"
+            ]);
+
+
+
+            if($user != null){
+                $this->mailReceiverRepository->create([
+                    'receiver' => $user->id,
+                    'mail' => $mail->id
+                ]);
+            }
+
+            Mail::to($user->email)->send(new \App\Mail\Notification($mail));
+
+            DB::commit();
+            return response()->json(['success' => true]);
+        }catch (\Throwable $error){
+            DB::rollBack();
+            abort(403, $error->getMessage());
+        }
+    }
+
 }

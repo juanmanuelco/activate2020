@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Country;
 use App\Models\NotificationReaded;
 use App\Models\User;
@@ -238,5 +239,17 @@ class UserController extends Controller
         }
         $user->save();
         return response()->json($user);
+    }
+
+    public function api_my_applied_benefits(Request $request){
+        $user = User::query()->where('user_token', $request['user_token'])->with('roles')->first();
+        $applications = Application::query()->whereHas('assignment', function ($q) use($user){
+            $q->where('email', $user->email);
+        })->with([
+            'assignment', 'benefit', 'assignment.card', 'assignment.card.image', 'benefit.image', 'benefit.store', 'benefit.store.image'
+        ])
+          ->orderBy('created_at', 'desc')->get();
+
+        return response()->json(['applications' => $applications]);
     }
 }
