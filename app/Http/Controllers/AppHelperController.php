@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Role;
 class AppHelperController extends Controller
 {
     public function api_countries_index(){
-        $countries = DB::table('countries')->get();
+        $countries = DB::table('countries')->whereNotNull('phonecode')->get();
         //return response()->json($countries);
         return response()->json(['countries' => $countries]);
     }

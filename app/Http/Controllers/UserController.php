@@ -243,6 +243,7 @@ class UserController extends Controller
 
     public function api_my_applied_benefits(Request $request){
         $user = User::query()->where('user_token', $request['user_token'])->with('roles')->first();
+        if($user == null) abort(403);
         $applications = Application::query()->whereHas('assignment', function ($q) use($user){
             $q->where('email', $user->email);
         })->with([
@@ -257,5 +258,29 @@ class UserController extends Controller
           ->orderBy('created_at', 'desc')->get();
 
         return response()->json(['applications' => $applications]);
+    }
+
+    public function api_profile_update(Request $request){
+        try {
+            DB::beginTransaction();
+            $country = Country::find($request['code_phone']);
+            $user = User::query()->where('user_token', $request['user_token'])->first();
+            if($user == null) abort(403);
+            $user->birthday = CarbonImmutable::parse( date( $request['birthday']));
+            $user->identification = $request['identification'];
+            $user->code_phone = "+" .$country->phonecode;
+            $user->show_location = $request['show_location'];
+            $user->show_age = $request['show_age'];
+            $user->gender = $request['gender'];
+            $user->phone = $request['phone'];
+            $user->save();
+            DB::commit();
+            $user = User::query()->where('id', $user->id)->with('roles')->first();
+            return response()->json($user);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(403, $e->getMessage());
+        }
+
     }
 }
