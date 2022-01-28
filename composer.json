@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8.1.2",
         "ajcastro/searchable": "^1.5",
         "davejamesmiller/laravel-breadcrumbs": "5.x",
         "doctrine/dbal": "~2.3",
