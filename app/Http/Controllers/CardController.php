@@ -209,7 +209,8 @@ class CardController extends Controller
                                 'card.stores.benefits',
                                 'card.stores.benefits.image',
                                 'card.stores.categoryR',
-                                'card.stores.categoryR.image'
+                                'card.stores.categoryR.image',
+                                'card.stores.branches'
                             ])
                             ->get();
         return response()->json(['assignments' => $cards]);
