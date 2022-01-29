@@ -237,6 +237,7 @@ class UserController extends Controller
         if(isset($request['longitude'])){
             $user->longitude = doubleval($request['longitude']);
         }
+        $user->location_updated = CarbonImmutable::parse( date('Y-m-d h:i:sa'));
         $user->save();
         return response()->json($user);
     }
@@ -271,6 +272,7 @@ class UserController extends Controller
             $user->code_phone = "+" .$country->phonecode;
             $user->show_location = $request['show_location'];
             $user->show_age = $request['show_age'];
+            $user->show_gender = $request['show_gender'];
             $user->gender = $request['gender'];
             $user->phone = $request['phone'];
             $user->save();
