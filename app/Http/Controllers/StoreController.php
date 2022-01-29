@@ -307,7 +307,7 @@ class StoreController extends Controller
     public function api_index(Request $request){
         $categories = Category::query()->whereHas('stores')->with('image')->get();
         $stores = Store::query()->whereHas('branches')->with(['image', 'branches', 'benefits', 'benefits.image', 'categoryR', 'categoryR.image'])->get();
-        $users = User::query()->where('show_location', true)->whereNotNull('latitude')->whereNotNull('longitude');
+        $users = User::query()->whereNotNull('latitude')->whereNotNull('longitude');
         if(isset($request['user_token'])){
             $users = $users->where('user_token', '!=', $request['user_token']);
         }

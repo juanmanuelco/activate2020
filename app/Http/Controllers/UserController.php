@@ -281,6 +281,48 @@ class UserController extends Controller
             DB::rollBack();
             abort(403, $e->getMessage());
         }
-
     }
+
+    public function api_change_password(Request $request){
+        try {
+            DB::beginTransaction();
+            $user = User::query()->where('user_token', $request['user_token'])->first();
+            if($user == null) abort(403);
+            if (!Hash::check($request['password'], $user->password)) abort(403);
+            $user->password = Hash::make($request['new_password']);
+            $user->save();
+            DB::commit();
+            $user = User::query()->where('id', $user->id)->with('roles')->first();
+            return response()->json($user);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(403, $e->getMessage());
+        }
+    }
+
+    public function  api_change_roles(Request $request){
+        try {
+            DB::beginTransaction();
+            $user = User::query()->where( 'user_token', $request['user_token'] )->first();
+            if ( $user == null ) {
+                abort( 403 );
+            }
+            $roles_assign = ['Cliente'];
+            foreach ( $request['roles'] as $role ) {
+                $role_obj = Role::query()->where('name', $role)->first();
+                if($role_obj == null) abort(403);
+                if($role_obj->public){
+                    array_push($roles_assign,$role);
+                }
+            }
+            $user->syncRoles($roles_assign);
+            DB::commit();
+            $user = User::query()->where('id', $user->id)->with('roles')->first();
+            return response()->json($user);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(403, $e->getMessage());
+        }
+    }
+
 }
