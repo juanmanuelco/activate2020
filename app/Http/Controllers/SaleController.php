@@ -37,7 +37,7 @@ class SaleController extends Controller
         NotificationReceiverRepository $notificationReceiverRepo,
         MailRepository $mailRepo,
         MailReceiverRepository $mailReceiverRepo,
-        UserRepository $userRepo,
+        UserRepository $userRepo
     ) {
         $this->cardRepository = $cardRepository;
         $this->notificationRepository = $notificationRepo;

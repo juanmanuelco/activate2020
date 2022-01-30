@@ -171,7 +171,7 @@ class GroupController extends Controller
                     'group' =>  $group->id
                 ]);
             } else {
-                GroupRole::query()->where('role' , $role->id,)->where('group' ,  $group->id)->delete();
+                GroupRole::query()->where('role' , $role->id)->where('group' ,  $group->id)->delete();
             }
             DB::commit();
         }catch (\Throwable $e){
