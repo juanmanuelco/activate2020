@@ -32,7 +32,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('wlogout');
 
 
 Route::middleware(['auth', 'permissions'])->group(function () {
@@ -48,7 +48,7 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::resource('imageFIle', 'ImageFileController');
 
     Route::get('role/assign', [RoleController::class, 'assign'])->name('role.assign');
-    Route::post('role/assign', [RoleController::class, 'assign_post'])->name('role.assign_post');
+    Route::post('role/assign', [RoleController::class, 'assign_role_post'])->name('role.assign_role_post');
 
     Route::get('role/apply/{role}', [RoleController::class, 'apply'])->name('role.apply');
     Route::resource('role', 'RoleController');

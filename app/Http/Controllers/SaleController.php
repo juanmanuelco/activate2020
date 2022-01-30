@@ -159,7 +159,7 @@ class SaleController extends Controller
                 $destiny = [
                     ['receiver' => $user->id , 'type' => 'user', 'notification' => $notification->id]
                 ];
-                setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+                //setReceiver($destiny, $this->notificationReceiverRepository, $notification);
             }
 
             $mail = $this->mailRepository->create([
@@ -294,7 +294,7 @@ class SaleController extends Controller
             $destiny = [
                 ['receiver' => $current_seller->id , 'type' => 'user', 'notification' => $notification->id]
             ];
-            setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+            //setReceiver($destiny, $this->notificationReceiverRepository, $notification);
 
 
             $mail = $this->mailRepository->create([

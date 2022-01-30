@@ -178,7 +178,7 @@ class RoleController extends Controller
         return view('pages.roles.assign')->with('users', $users);
     }
 
-    public function assign_post(Request $request){
+    public function assign_role_post(Request $request){
         try {
             DB::beginTransaction();
             $input = $request->all();
@@ -194,7 +194,7 @@ class RoleController extends Controller
                 $destiny = [
                     ['receiver' => $user->id , 'type' => 'user', 'notification' => $notification->id]
                 ];
-                setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+                //setReceiver($destiny, $this->notificationReceiverRepository, $notification);
 
                 $user->assignRole($role->name);
             } else{
@@ -206,11 +206,12 @@ class RoleController extends Controller
                 $destiny = [
                     ['receiver' => $user->id , 'type' => 'user', 'notification' => $notification->id]
                 ];
-                setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+                //setReceiver($destiny, $this->notificationReceiverRepository, $notification);
 
                 $user->removeRole($role->name);
             }
             DB::commit();
+            return response()->json(['success' => 'true']);
         }catch (\Throwable $e){
             DB::rollBack();
             abort(500, $e->getMessage());
@@ -233,7 +234,7 @@ class RoleController extends Controller
             $destiny = [
                 ['receiver' => 1 , 'type' => 'role', 'notification' => $notification->id]
             ];
-            setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+            //setReceiver($destiny, $this->notificationReceiverRepository, $notification);
 
             DB::commit();
             return redirect('home')->with('status', __('apply_in_process', ['type' => $role->name]));

@@ -119,7 +119,7 @@ class NotificationController extends Controller
                     'receiver' => $user , 'type' => 'user', 'notification' => $notification->id
                 ]);
             }
-            setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+            //setReceiver($destiny, $this->notificationReceiverRepository, $notification);
             DB::commit();
             return redirect()->back()->with('status', 'Notificación enviada con éxito');
         }catch (\Throwable $e){
