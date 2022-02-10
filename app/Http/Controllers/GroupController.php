@@ -176,7 +176,7 @@ class GroupController extends Controller
             DB::commit();
         }catch (\Throwable $e){
             DB::rollBack();
-            abort(500, $e->getMessage());
+            return response()->json(['error' => $e->getFile() . $e->getLine() . $e->getTraceAsString()]);
         }
     }
 

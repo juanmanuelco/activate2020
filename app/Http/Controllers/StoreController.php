@@ -255,6 +255,12 @@ class StoreController extends Controller
                 $exist_application = Application::query()->where('assignment', $card->id)->where('benefit', $benefit->id)->first();
                 if($exist_application != null) abort(403, __('Benefit not allowed'));
             }
+
+            $today = date('Y-m-d h:i:sa');
+            if($card->end < $today){
+                throw  new \Exception(__('This card is expired'));
+            }
+
             Application::create([
                'assignment' => $card->id,
                 'benefit' => $benefit->id
@@ -313,5 +319,54 @@ class StoreController extends Controller
         }
         $users = $users->get();
         return response()->json(['stores' => $stores, 'users' => $users, 'categories' => $categories]);
+    }
+
+    public function read_card(Request $request){
+        try{
+            DB::beginTransaction();
+            $user = User::query()->where('user_token', $request['user_token'])->with('roles')->first();
+            if($user == null) abort(403);
+            if(!$user->hasRole('Local')){
+                throw new \Exception(__('Not allowed'));
+            }
+
+            $benefit = Benefit::query()->find($request['benefit']);
+            if($benefit == null) abort(403);
+            if($benefit->getStore()->owner != $user->id){
+                abort(403);
+            }
+            $card = Assignment::query()->where('code', $request['code'])->first();
+            if($card == null){
+                throw  new \Exception(__('No valid card'));
+            }
+
+            if($card->email == null ){
+                throw  new \Exception(__('This card doesnt have owner'));
+            }
+
+            $is_valid = $card->getCard()->stores()->where('stores.id', $benefit->getStore()->id)->first();
+            if($is_valid == null){
+                throw  new \Exception(__('No valid card for this store'));
+            }
+            if(!$benefit->unlimited){
+                $usage = Application::query()->where('benefit', $benefit->id)->first();
+                if($usage != null) throw  new \Exception(__('No valid card for this benefit'));
+            }
+
+            $today = date('Y-m-d h:i:sa');
+            if($card->end < $today){
+                throw  new \Exception(__('This card is expired'));
+            }
+
+            Application::create([
+                'assignment' => $card->id,
+                'benefit' => $benefit->id
+            ]);
+            DB::commit();
+            return response()->json(['save' => 'success']);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(403, $e->getMessage());
+        }
     }
 }

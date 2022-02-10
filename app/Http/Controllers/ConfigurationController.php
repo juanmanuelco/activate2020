@@ -61,7 +61,7 @@ class ConfigurationController extends Controller
             response()->json(['config' => $configuration], 200);
         }catch (\Throwable $e){
             DB::rollBack();
-            abort(500, $e->getMessage());
+            return response()->json(['error' => $e->getFile() . $e->getLine() . $e->getTraceAsString()]);
         }
     }
 
@@ -75,7 +75,7 @@ class ConfigurationController extends Controller
             return response()->json([], 200);
         }catch (\Throwable $e){
             DB::rollBack();
-            abort(500, $e->getMessage());
+            return response()->json(['error' => $e->getFile() . $e->getLine() . $e->getTraceAsString()]);
         }
     }
 }

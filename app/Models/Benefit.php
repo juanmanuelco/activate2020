@@ -31,6 +31,10 @@ class Benefit extends Model
         return $this->hasOne(Store::class, 'id', 'store')->withTrashed();
     }
 
+    public function getStore(){
+        return $this->hasOne(Store::class, 'id', 'store')->withTrashed()->first();
+    }
+
     public function getImage(){
         return $this->hasOne(ImageFile::class, 'id', 'image')->first();
     }

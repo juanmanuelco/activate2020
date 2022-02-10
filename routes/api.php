@@ -33,7 +33,7 @@ Route::get('/countries', 'AppHelperController@api_countries_index')->name('api_c
 
 Route::get('/roles', 'AppHelperController@api_roles')->name('api_roles');
 
-
+Route::post('/read-card' , 'StoreController@read_card')->name('read-card');
 
 
 
@@ -45,3 +45,5 @@ Route::post('/add-card', 'CardController@api_add_card')->name('api_add_card');
 Route::post('/update-profile', 'UserController@api_profile_update')->name('api_profile_update');
 
 Route::get('/geo', 'StoreController@api_index')->name('api_index');
+
+

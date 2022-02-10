@@ -224,6 +224,7 @@ class CardController extends Controller
             $today = date('Y-m-d h:i:sa');
             $card = Assignment::query()->where('code', $request['code'])->first();
             if($card == null) abort(403, 'Card not found');
+            if($card->email != null) throw  new \Exception(__('This card is already activated'));
             $card->email = $user->email;
             $card->start = CarbonImmutable::parse($today);
             $card->end = CarbonImmutable::parse(strtotime($today . ' + ' . $card->getCard()->days . ' days'));

@@ -6369,7 +6369,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /*
-Core highlighting function. Accepts a string with the code to highlight and
+Core highlighting function. Accepts a string with the code to highlight and 
 optionaly a language name. Returns an object with the following properties:
 
 - language (detected language)
@@ -6581,7 +6581,7 @@ var hljs = function(value, language_name) {
     if (isIllegal(lexem, current_mode))
       throw 'Illegal';
   }
-
+    
   function langRe(language, value, global) {
     return RegExp(
       value,
@@ -6654,7 +6654,7 @@ var hljs = function(value, language_name) {
   var relevance = 0;
   var keyword_count = 0;
   var result = '';
-  compileMode(language.defaultMode, language, true);
+  compileMode(language.defaultMode, language, true);    
   try {
     var mode_info, index = 0;
     language.defaultMode.buffer = '';
@@ -10450,7 +10450,7 @@ hljs.LANGUAGES.haskell = function(){
 }();
 /*
 Language: Erlang
-Description: Erlang is a general-purpose functional language, with strict evaluation, single assignments, and dynamic typing.
+Description: Erlang is a general-purpose functional language, with strict evaluation, single assignment, and dynamic typing.
 Author: Nikolay Zakharov <nikolay.desh@gmail.com>, Dmitry Kovega <arhibot@gmail.com>
 */
 
@@ -12273,7 +12273,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 				"<select disabled='disabled'><option/></select>";
 
 			// Support: Windows 8 Native Apps
-			// The type and name attributes are restricted during .innerHTML assignments
+			// The type and name attributes are restricted during .innerHTML assignment
 			var input = document.createElement( "input" );
 			input.setAttribute( "type", "hidden" );
 			el.appendChild( input ).setAttribute( "name", "D" );
@@ -15139,7 +15139,7 @@ Data.prototype = {
 			if ( acceptData( owner ) ) {
 
 				// If it is a node unlikely to be stringify-ed or looped over
-				// use plain assignments
+				// use plain assignment
 				if ( owner.nodeType ) {
 					owner[ this.expando ] = value;
 
@@ -29916,9 +29916,9 @@ var letCommand = function letCommand(parser, name, tok, global) {
   }
 
   parser.gullet.macros.set(name, macro, global);
-}; // <assignments> -> <non-macro assignments>|<macro assignments>
-// <non-macro assignments> -> <simple assignments>|\global<non-macro assignments>
-// <macro assignments> -> <definition>|<prefix><macro assignments>
+}; // <assignment> -> <non-macro assignment>|<macro assignment>
+// <non-macro assignment> -> <simple assignment>|\global<non-macro assignment>
+// <macro assignment> -> <definition>|<prefix><macro assignment>
 // <prefix> -> \global|\long|\outer
 
 
@@ -30007,8 +30007,8 @@ defineFunction({
       mode: parser.mode
     };
   }
-}); // <simple assignments> -> <let assignments>
-// <let assignments> -> \futurelet<control sequence><token><token>
+}); // <simple assignment> -> <let assignment>
+// <let assignment> -> \futurelet<control sequence><token><token>
 //     | \let<control sequence><equals><one optional space><token>
 // <equals> -> <optional spaces>|<optional spaces>=
 
@@ -39406,6 +39406,27 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
       return this;
     }
     /**
+     * Listen for all events on the channel instance.
+     */
+
+  }, {
+    key: "listenToAll",
+    value: function listenToAll(callback) {
+      var _this2 = this;
+
+      this.subscription.bind_global(function (event, data) {
+        if (event.startsWith('pusher:')) {
+          return;
+        }
+
+        var namespace = _this2.options.namespace.replace(/\./g, '\\');
+
+        var formattedEvent = event.startsWith(namespace) ? event.substring(namespace.length + 1) : '.' + event;
+        callback(formattedEvent, data);
+      });
+      return this;
+    }
+    /**
      * Stop listening for an event on the channel instance.
      */
 
@@ -39416,6 +39437,21 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
         this.subscription.unbind(this.eventFormatter.format(event), callback);
       } else {
         this.subscription.unbind(this.eventFormatter.format(event));
+      }
+
+      return this;
+    }
+    /**
+     * Stop listening for all events on the channel instance.
+     */
+
+  }, {
+    key: "stopListeningToAll",
+    value: function stopListeningToAll(callback) {
+      if (callback) {
+        this.subscription.unbind_global(callback);
+      } else {
+        this.subscription.unbind_global();
       }
 
       return this;
@@ -53298,7 +53334,7 @@ var Echo = /*#__PURE__*/function () {
     /**
      * This method is like `_.assignIn` except that it accepts `customizer`
      * which is invoked to produce the assigned values. If `customizer` returns
-     * `undefined`, assignments is handled by the method instead. The `customizer`
+     * `undefined`, assignment is handled by the method instead. The `customizer`
      * is invoked with five arguments: (objValue, srcValue, key, object, source).
      *
      * **Note:** This method mutates `object`.
@@ -53331,7 +53367,7 @@ var Echo = /*#__PURE__*/function () {
     /**
      * This method is like `_.assign` except that it accepts `customizer`
      * which is invoked to produce the assigned values. If `customizer` returns
-     * `undefined`, assignments is handled by the method instead. The `customizer`
+     * `undefined`, assignment is handled by the method instead. The `customizer`
      * is invoked with five arguments: (objValue, srcValue, key, object, source).
      *
      * **Note:** This method mutates `object`.
@@ -54065,7 +54101,7 @@ var Echo = /*#__PURE__*/function () {
      * destination object. Source properties that resolve to `undefined` are
      * skipped if a destination value exists. Array and plain object properties
      * are merged recursively. Other objects and value types are overridden by
-     * assignments. Source objects are applied from left to right. Subsequent
+     * assignment. Source objects are applied from left to right. Subsequent
      * sources overwrite property assignments of previous sources.
      *
      * **Note:** This method mutates `object`.
@@ -81241,7 +81277,7 @@ function preventOverflow(data, options) {
   // resets the popper's position so that the document size can be calculated excluding
   // the size of the popper element itself
   var transformProp = getSupportedPropertyName('transform');
-  var popperStyles = data.instance.popper.style; // assignments to help minification
+  var popperStyles = data.instance.popper.style; // assignment to help minification
   var top = popperStyles.top,
       left = popperStyles.left,
       transform = popperStyles[transformProp];
@@ -82190,7 +82226,7 @@ process.umask = function() { return 0; };
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
- * Pusher JavaScript Library v7.0.2
+ * Pusher JavaScript Library v7.0.4
  * https://pusher.com/
  *
  * Copyright 2020, Pusher
@@ -82574,7 +82610,7 @@ exports.maxDecodedLength = function (length) {
 exports.decodedLength = function (s) {
     return stdCoder.decodedLength(s);
 };
-//# sourceMappingURL=base64.js.map
+
 
 /***/ }),
 /* 1 */
@@ -82729,7 +82765,7 @@ function decode(arr) {
     return chars.join("");
 }
 exports.decode = decode;
-//# sourceMappingURL=utf8.js.map
+
 
 /***/ }),
 /* 2 */
@@ -82744,6 +82780,7 @@ module.exports = __webpack_require__(3).default;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./src/runtimes/web/dom/script_receiver_factory.ts
@@ -82778,7 +82815,7 @@ var ScriptReceivers = new ScriptReceiverFactory('_pusher_script_', 'Pusher.Scrip
 
 // CONCATENATED MODULE: ./src/core/defaults.ts
 var Defaults = {
-    VERSION: "7.0.2",
+    VERSION: "7.0.4",
     PROTOCOL: 7,
     wsPort: 80,
     wssPort: 443,
@@ -86750,6 +86787,7 @@ runtime.setup(pusher_Pusher);
 /***/ })
 /******/ ]);
 });
+//# sourceMappingURL=pusher.js.map
 
 /***/ }),
 
@@ -98025,7 +98063,7 @@ function genComponentModel (
 }
 
 /**
- * Cross-platform codegen helper for generating v-model value assignments code.
+ * Cross-platform codegen helper for generating v-model value assignment code.
  */
 function genAssignmentCode (
   value,
@@ -102967,7 +103005,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "008824776bf8716ef3cd",
+  key: "1501e5620f64fb284df4",
   cluster: "us2",
   forceTLS: true
 });
@@ -103001,7 +103039,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-
+  
 )
 
 /* hot reload */
@@ -103021,7 +103059,7 @@ component.options.__file = "resources/js/components/ExampleComponent.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ExampleComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]);
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -103061,8 +103099,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\activaec\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\activaec\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\activate2020\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\activate2020\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -124,7 +124,7 @@ class NotificationController extends Controller
             return redirect()->back()->with('status', 'Notificación enviada con éxito');
         }catch (\Throwable $e){
             DB::rollBack();
-            abort(500, $e->getMessage());
+            return response()->json(['error' => $e->getFile() . $e->getLine() . $e->getTraceAsString()]);
         }
     }
 
@@ -166,7 +166,7 @@ class NotificationController extends Controller
             return response()->json(['status'=>200]);
         }catch (\Throwable $e){
             DB::rollBack();
-            return abort(500);
+             return response()->json(['error' => $e->getFile() . $e->getLine() . $e->getTraceAsString()]);
         }
     }
 

@@ -64,7 +64,7 @@ class UserController extends Controller
             DB::commit();
         }catch (\Throwable $e){
             DB::rollBack();
-            return abort(500, $e->getMessage());
+             return response()->json(['error' => $e->getFile() . $e->getLine() . $e->getTraceAsString()]);
         }
     }
 
@@ -89,7 +89,7 @@ class UserController extends Controller
                 DB::commit();
             }catch (\Throwable $e){
                 DB::rollBack();
-                abort(500, $e->getMessage());
+                return response()->json(['error' => $e->getFile() . $e->getLine() . $e->getTraceAsString()]);
             }
         }else{
             return abort(403);
@@ -110,7 +110,7 @@ class UserController extends Controller
             DB::commit();
         }catch (\Throwable $e){
             DB::rollBack();
-            return abort(500, $e->getMessage());
+             return response()->json(['error' => $e->getFile() . $e->getLine() . $e->getTraceAsString()]);
         }
     }
 
@@ -125,7 +125,7 @@ class UserController extends Controller
             DB::commit();
         }catch (\Throwable $e){
             DB::rollBack();
-            return abort(500, $e->getMessage());
+             return response()->json(['error' => $e->getFile() . $e->getLine() . $e->getTraceAsString()]);
         }
     }
 
@@ -151,7 +151,7 @@ class UserController extends Controller
             return redirect()->back()->with('status', 'Cambios guardados con éxito');
         }catch (\Throwable $e){dd($e);
             DB::rollBack();
-            return  abort(500, $e->getMessage());
+            return response()->json(['error' => $e->getFile() . $e->getLine() . $e->getTraceAsString()]);
         }
     }
 
@@ -168,7 +168,7 @@ class UserController extends Controller
             return response()->json(['save' => 'success']);
         }catch (\Throwable $e){
             DB::rollBack();
-            return  abort(500, $e->getMessage());
+            return  response()->json(['error' => $e->getMessage()]);
         }
     }
 
@@ -229,7 +229,9 @@ class UserController extends Controller
     }
 
     public function current_user(Request $request){
-        $user = User::query()->where('user_token', $request['user_token'])->with('roles')->first();
+        $user = User::query()->where('user_token', $request['user_token'])
+                             ->with(['roles', 'stores', 'stores.image', 'stores.benefits', 'stores.benefits.image'])
+                             ->first();
         if($user == null) abort(403);
         if(isset($request['latitude'])){
             $user->latitude = doubleval($request['latitude']);

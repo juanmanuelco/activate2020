@@ -214,7 +214,7 @@ class RoleController extends Controller
             return response()->json(['success' => 'true']);
         }catch (\Throwable $e){
             DB::rollBack();
-            abort(500, $e->getMessage());
+            return response()->json(['error' => $e->getFile() . $e->getLine() . $e->getTraceAsString()]);
         }
     }
 

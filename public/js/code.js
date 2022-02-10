@@ -110,6 +110,11 @@ function markGroupRol(element) {
 
 
 function loading(destiny, url, method, data, type, callback){
+    console.log(url);
+    console.log({
+        method: method,
+        data: data,
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }});
     $.ajax(url, {
         method: method,
         data: data,
@@ -122,7 +127,6 @@ function loading(destiny, url, method, data, type, callback){
                 if(destiny.length > 0 ){
                     document.getElementById(destiny).style.backgroundImage = `linear-gradient(to left,white ${100-percent}%, #64acad ${percent}%)`;
                 }
-
             };
             return xhr;
         },
