@@ -369,4 +369,25 @@ class StoreController extends Controller
             abort(403, $e->getMessage());
         }
     }
+
+    public function api_applied_benefits(Request $request){
+        $user = User::query()->where('user_token', $request['user_token'])->with('roles')->first();
+        if($user == null) abort(403);
+        if(!$user->hasRole('Local')){
+            throw new \Exception(__('Not allowed'));
+        }
+        $applications = Application::query()->whereHas('benefit', function($q) use ($user){
+            $q->whereHas('store', function($k) use ($user){
+                $k->where('owner', $user->id);
+            });
+        })->with([
+            'assignment',
+            'benefit',
+            'benefit.image',
+            'assignment.card',
+            'assignment.card.image',
+            'assignment.user'
+        ])->orderBy('created_at', 'desc')->get();
+        return response()->json(['applications' => $applications]);
+    }
 }

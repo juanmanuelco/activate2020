@@ -34,6 +34,7 @@ Route::get('/countries', 'AppHelperController@api_countries_index')->name('api_c
 Route::get('/roles', 'AppHelperController@api_roles')->name('api_roles');
 
 Route::post('/read-card' , 'StoreController@read_card')->name('read-card');
+Route::get('/applied-benefits' , 'StoreController@api_applied_benefits')->name('api_applied_benefits');
 
 
 

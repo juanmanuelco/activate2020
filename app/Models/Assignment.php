@@ -29,15 +29,18 @@ class Assignment extends Model
     ];
 
     public function getCard(){
-        return $this->hasOne(Card::class, 'id', 'card')->first();
+        return $this->hasOne(Card::class, 'id', 'card')->withTrashed()->first();
     }
     public function card(){
-        return $this->hasOne(Card::class, 'id', 'card');
+        return $this->hasOne(Card::class, 'id', 'card')->withTrashed();
     }
     public function getSeller(){
         return $this->hasOne(Seller::class, 'id', 'seller')->first();
     }
     public function getPayments(){
         return $this->hasMany(Sale::class, 'assignment', 'id')->get();
+    }
+    public function user(){
+        return $this->hasOne(User::class, 'email', 'email');
     }
 }
