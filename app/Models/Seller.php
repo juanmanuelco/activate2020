@@ -36,4 +36,7 @@ class Seller extends Model
     public function getSuperior(){
         return $this->hasOne(User::class, 'id', 'superior')->first();
     }
+    public function superior(){
+        return $this->hasOne(User::class, 'id', 'superior');
+    }
 }

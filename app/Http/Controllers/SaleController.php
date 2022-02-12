@@ -321,4 +321,28 @@ class SaleController extends Controller
             return redirect()->back()->with('error', $e->getMessage() . ' in line '. $e->getLine());
         }
     }
+
+    public function api_sales(Request $request){
+        $user = \App\Models\User::query()->where('user_token', $request['user_token'])->with('roles')->first();
+        if($user == null) abort(403);
+        if(!$user->hasRole('Vendedor')){
+            throw new \Exception(__('Not allowed'));
+        }
+        $array_sellers = Seller::where('user', $user->id)->orWhere('superior', $user->id )->pluck('id')->toArray();
+
+        $sales = Assignment::query()->whereNotNull('email')
+                           ->whereIn('seller',$array_sellers )
+                           ->orderBy('sale_date', 'desc')
+                           ->with([
+                               'card',
+                               'card.image',
+                               'payments',
+                               'payments.payer',
+                               'payments.seller',
+                               'payments.seller.superior',
+                               'payments.seller.user'
+                           ])->get();
+
+        return response()->json(['sales' => $sales]);
+    }
 }

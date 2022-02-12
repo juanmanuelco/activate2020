@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="col-4" id="is_payed_{{$payment->id}}">
                                     @if($payment->paid)
-                                        {{__('Paid by ')}} {{$payment->payer()->name}}
+                                        {{__('Paid by ')}} {{$payment->getPayer()->name}}
                                     @elseif($payment->getSeller()->user == auth()->user()->id )
                                         {{__('Waiting pay')}}
                                     @else

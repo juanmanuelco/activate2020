@@ -30,11 +30,19 @@ class Sale extends Model
         return $this->hasOne(Seller::class, 'id', 'seller')->first();
     }
 
+    public function seller(){
+        return $this->hasOne(Seller::class, 'id', 'seller');
+    }
+
     public function getCard(){
         return $this->hasOne(Assignment::class, 'id', 'assignment')->first();
     }
 
-    public function payer(){
+    public function getPayer(){
         return $this->hasOne(User::class, 'id', 'payer')->first();
+    }
+
+    public function payer(){
+        return $this->hasOne(User::class, 'id', 'payer');
     }
 }
