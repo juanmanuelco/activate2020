@@ -31,7 +31,7 @@ class Store extends Model
     ];
 
     public function owner(){
-        return $this->hasOne(User::class, 'id', 'owner')->withTrashed()->first();
+        return $this->hasOne(User::class, 'id', 'owner')->first();
     }
 
     public function category(){
