@@ -55,6 +55,7 @@ class SaleController extends Controller
     {
         if(auth()->user()->hasRole('Vendedor')){
             $seller = Seller::query()->where('user', auth()->user()->id )->first();
+            $cards = [];
             if($seller != null){
                 $cards = $this->cardRepository
                     ->search(isset($request['search'])? $request['search'] : '')
@@ -62,9 +63,8 @@ class SaleController extends Controller
                         $q->whereNull('email');
                         $q->where('seller', $seller->id);
                     })->paginate(1);
-
-                return view('pages.sales.index')->with('cards', $cards);
             }
+            return view('pages.sales.index')->with('cards', $cards);
         }
         return redirect()->back()->with('error', __('Not allowed'));
     }
