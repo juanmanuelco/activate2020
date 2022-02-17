@@ -30,7 +30,8 @@
         "laraveles/spanish": "^1.5",
         "pusher/pusher-php-server": "^7.0",
         "spatie/laravel-activitylog": "^3.16",
-        "spatie/laravel-permission": "^3.17"
+        "spatie/laravel-permission": "^3.17",
+      "ext-curl": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

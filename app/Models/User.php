@@ -61,4 +61,8 @@ class User extends Authenticatable
     public function stores(){
         return $this->hasMany(Store::class, 'owner', 'id');
     }
+
+    public function rooms(){
+        return $this->belongsToMany(ChatRoom::class, 'user_rooms', 'user', 'room');
+    }
 }

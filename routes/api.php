@@ -46,5 +46,9 @@ Route::post('/update-profile', 'UserController@api_profile_update')->name('api_p
 Route::get('/geo', 'StoreController@api_index')->name('api_index');
 
 Route::get('/sales', 'SaleController@api_sales')->name('api_sales');
+Route::post('/pay-sale', 'SaleController@api_pay_sale')->name('api_pay_sale');
 
+Route::post('/creat-chat-room', 'ChatRoomController@store')->name('chatroom.store');
+
+Route::get('/card-sale', 'SaleController@api_cards_sale')->name('api_cards_sale');
 

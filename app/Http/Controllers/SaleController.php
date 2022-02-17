@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assignment;
+use App\Models\Card;
 use App\Models\Sale;
 use App\Models\Seller;
 use App\Repositories\CardRepository;
@@ -344,5 +345,82 @@ class SaleController extends Controller
                            ])->get();
 
         return response()->json(['sales' => $sales]);
+    }
+
+    public function api_pay_sale(Request $request){
+        try {
+            $user = \App\Models\User::query()->where('user_token', $request['user_token'])->with('roles')->first();
+            if($user == null) abort(403);
+            $sale = Sale::query()->find($request['sale']);
+
+            DB::beginTransaction();
+            $today = date('Y-m-d h:i:sa');
+            $sale->payer = $user->id;
+            $sale->paid = true;
+            $sale->payment_date = CarbonImmutable::parse($today);
+            $sale->save();
+
+            $current_seller = $sale->getSeller();
+            $current_seller->gains = $current_seller->gains + $sale->payment;
+            $current_seller->save();
+
+            $current_seller = $sale->getSeller()->getUser();
+            $current_seller->gains =  $current_seller->gains + $sale->payment;
+            $current_seller->save();
+
+
+            $notification = $this->notificationRepository->create([
+                'detail' => "Se ha marcado como pagada la comisión por venta de la tarjeta N° " . $sale->getCard()->number ." por el valor de $" . $sale->payment,
+                'icon'   => 'fas fa-credit-card',
+                'emisor'    =>  $user->id
+            ]);
+
+
+            $destiny = [
+                ['receiver' => $current_seller->id , 'type' => 'user', 'notification' => $notification->id]
+            ];
+            //setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+
+
+            $mail = $this->mailRepository->create([
+                'subject' => "Payment sent",
+                'body' => "Se ha marcado como pagada la comisión por venta de la tarjeta N° " . $sale->getCard()->number ." por el valor de $" . $sale->payment,
+            ]);
+
+
+            $this->mailReceiverRepository->create([
+                'receiver' => $current_seller->id,
+                'mail' => $mail->id
+            ]);
+
+
+
+            Mail::to($current_seller->email)->send(new \App\Mail\Notification($mail));
+
+
+
+            DB::commit();
+            return response()->json(['success' => true]);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage() . ' in line '. $e->getLine());
+        }
+    }
+
+    public function api_cards_sale(Request $request){
+        $user = \App\Models\User::query()->where('user_token', $request['user_token'])->with('roles')->first();
+        if($user == null) abort(403);
+
+        if(!$user->hasRole('Vendedor')) abort(403, __('Not alloweed'));
+        $cards = [];
+        $seller = Seller::query()->where('user', $user->id )->first();
+        if($seller != null){
+            $cards = Card::query()
+                ->whereHas('assignments', function ($q) use($seller){
+                    $q->whereNull('email');
+                    $q->where('seller', $seller->id);
+                })->with(['assignments_free', 'image'])->get();
+        }
+        return response()->json(['cards' => $cards]);
     }
 }
