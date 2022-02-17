@@ -23,7 +23,7 @@
                     </td>
                     <td> {{$store->name}} </td>
                     <td>
-                        {{$store->owner()->name}}
+                        {{$store->owner() != null ? $store->owner()->name : __('Not set')}}
                     </td>
                     <td>
                         {{$store->description}}
