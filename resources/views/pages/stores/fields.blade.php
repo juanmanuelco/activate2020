@@ -46,7 +46,7 @@
 
         <div class="form-group">
             {!! Form::label('owner', __('Owner')); !!}
-            {!! Form::select('owner',$owners,null, ['class'=> 'form-control']); !!}
+            {!! Form::select('owner',$owners,null, ['class'=> 'form-control', 'required' =>true]); !!}
             <small id="nameHelp" class="form-text text-muted">{{__('owner_help')}}</small>
         </div>
 
