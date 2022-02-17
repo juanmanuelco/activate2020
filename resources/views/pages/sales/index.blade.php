@@ -34,7 +34,9 @@
         @endforeach
     </div>
     <div style="width: 100%;">
-        {{ $cards->links() }}
+        @if($cards != [])
+            {{ $cards->links() }}
+        @endif
     </div>
 
 
