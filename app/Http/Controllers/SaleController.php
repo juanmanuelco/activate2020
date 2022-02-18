@@ -436,7 +436,7 @@ class SaleController extends Controller
             $card->email = $input['email'];
             $card->start = CarbonImmutable::parse($today);
             $card->end = CarbonImmutable::parse(strtotime($today . ' + ' . $card->getCard()->days . ' days'));
-            $card->type = 'web';
+            $card->type = 'mobile';
             $card->price =  $card->getCard()->price;
             $card->sale_date = CarbonImmutable::parse($today);
             $card->save();
