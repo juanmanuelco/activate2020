@@ -423,4 +423,105 @@ class SaleController extends Controller
         }
         return response()->json(['cards' => $cards]);
     }
+
+    public function api_sale_save(Request $request){
+        try {
+            $user = \App\Models\User::query()->where('user_token', $request['user_token'])->with('roles')->first();
+            if($user == null) abort(403);
+
+            DB::beginTransaction();
+            $input = $request->all();
+            $today = date('Y-m-d h:i:sa');
+            $card = Assignment::find($input['card']);
+            $card->email = $input['email'];
+            $card->start = CarbonImmutable::parse($today);
+            $card->end = CarbonImmutable::parse(strtotime($today . ' + ' . $card->getCard()->days . ' days'));
+            $card->type = 'web';
+            $card->price =  $card->getCard()->price;
+            $card->sale_date = CarbonImmutable::parse($today);
+            $card->save();
+
+
+            $current_seller = $card->getSeller();
+            $seller_commissions = [0];
+            $seller_totals = [0];
+            $array_sellers = [$current_seller ];
+            while (!empty($current_seller->superior)){
+                $current_seller = Seller::query()->where('user', $current_seller->superior)->first();
+                array_push($array_sellers, $current_seller);
+                array_push($seller_commissions, 0);
+                array_push($seller_totals, 0);
+            }
+
+            $array_sellers = array_reverse($array_sellers);
+            $seller_commissions = array_reverse($seller_commissions);
+            $seller_totals = array_reverse($seller_totals);
+
+            $root_price = $card->price;
+            $count_commission = 0;
+
+            foreach ($array_sellers as $seller){
+                $calculated = ($root_price * $seller->commission / 100);
+                $seller_commissions[$count_commission] = $calculated;
+                $root_price = $calculated;
+                $count_commission ++;
+            }
+
+            $count_commission = 0;
+            foreach ($seller_commissions as $commission){
+                $less_value = $seller_commissions[$count_commission + 1 ] ?? 0;
+                $calculated = $seller_commissions[$count_commission] - $less_value;
+                $seller_totals[$count_commission] = $calculated;
+                $count_commission ++;
+            }
+
+            $count_commission = 0;
+            foreach ($array_sellers as $seller){
+                Sale::create([
+                    'seller' => $seller->id,
+                    'assignment' => $card->id,
+                    'payment' =>  $seller_totals[$count_commission]
+                ]);
+                $count_commission ++;
+            }
+
+            $user->points = $user->points + $card->getCard()->points;
+            $user->save();
+
+
+
+            $user = \App\Models\User::query()->where('email', $input['email'])->first();
+            $notification = $this->notificationRepository->create([
+                'detail' => "Se ha agrgado la tarjeta N° " . $card->number ." a su cuenta",
+                'icon'   => 'fas fa-credit-card',
+                'emisor'    =>  Auth::user()->id
+            ]);
+            if($user != null){
+                $destiny = [
+                    ['receiver' => $user->id , 'type' => 'user', 'notification' => $notification->id]
+                ];
+                //setReceiver($destiny, $this->notificationReceiverRepository, $notification);
+            }
+
+            $mail = $this->mailRepository->create([
+                'subject' => "New card added",
+                'body' => "Se ha agrgado la tarjeta N° " . $card->number ." a su cuenta"
+            ]);
+
+            if($user != null){
+                $this->mailReceiverRepository->create([
+                    'receiver' => $user->id,
+                    'mail' => $mail->id
+                ]);
+            }
+
+            Mail::to($input['email'])->send(new \App\Mail\Notification($mail));
+
+            DB::commit();
+            response()->json(['success' => true]);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage() . ' in line '. $e->getLine());
+        }
+    }
 }
