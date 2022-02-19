@@ -494,7 +494,7 @@ class SaleController extends Controller
             $notification = $this->notificationRepository->create([
                 'detail' => "Se ha agrgado la tarjeta N° " . $card->number ." a su cuenta",
                 'icon'   => 'fas fa-credit-card',
-                'emisor'    =>  Auth::user()->id
+                'emisor'    =>  $user->id
             ]);
             if($user != null){
                 $destiny = [
