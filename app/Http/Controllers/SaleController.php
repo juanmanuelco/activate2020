@@ -521,7 +521,7 @@ class SaleController extends Controller
             response()->json(['success' => true]);
         }catch (\Throwable $e){
             DB::rollBack();
-            return redirect()->back()->with('error', $e->getMessage() . ' in line '. $e->getLine());
+            abort(403, $e->getMessage() . ' in line '. $e->getLine() );
         }
     }
 }
