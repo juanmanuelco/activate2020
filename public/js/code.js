@@ -368,30 +368,6 @@ function changeZoom(id, element){
     document.getElementById(id).style.height = (80000/element.value) + "px";
 }
 
-function change_assignment(id){
-    Swal.fire({
-        title: '¿Estas seguro(a)?',
-        text: "Otro vendedor tendrá la asignación",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: 'var(--confirm, var(--confirm, #3085d6))',
-        cancelButtonColor: 'var(--cancel, #d33)',
-        confirmButtonText: '¡Si, cambiar!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            let new_value = $('#select_assignated_' +id).val();
-            let url = location.origin + '/assignments/' +id;
-            let body = { 'seller' : new_value, 'id' : id };
-            let callback =()=>{
-                let select = document.getElementById('select_assignated_' +id);
-                let text = select.options[select.selectedIndex].text;
-                document.getElementById('assigned_to_' + id).value = text;
-            };
-            loading('', url, 'PUT', body, true, callback );
-        }
-    });
-}
-
 function modal_sell(id){
     location.replace(location.origin + '/sell/' +id);
 }

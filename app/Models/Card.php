@@ -46,7 +46,14 @@ class Card extends Model
     }
 
     public function assignments_free(){
-        return $this->hasMany(Assignment::class, 'card', 'id')->whereNull('email')->orderBy('seller');
+        return $this->hasMany(Assignment::class, 'card', 'id')->whereNull('email');
+    }
+    public function assignments_free_seller(){
+        return $this->assignments_free()->whereNull('seller');
+    }
+
+    public function assignments_no_free_seller(){
+        return $this->assignments_free()->whereNotNull('seller');
     }
 
     public function markets(){

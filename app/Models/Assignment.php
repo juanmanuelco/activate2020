@@ -37,6 +37,9 @@ class Assignment extends Model
     public function getSeller(){
         return $this->hasOne(Seller::class, 'id', 'seller')->first();
     }
+    public function seller(){
+        return $this->hasOne(Seller::class, 'id', 'seller');
+    }
     public function payments(){
         return $this->hasMany(Sale::class, 'assignment', 'id');
     }

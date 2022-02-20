@@ -93,6 +93,7 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::resource('seller', 'SellerController');
 
     Route::resource('assignments', 'AssignmentController');
+    Route::get('/card/assignments/{card}', 'AssignmentController@get_assignments_by_card')->name('card.get_assignments_by_card');
     Route::resource('sale', 'SaleController');
 
 

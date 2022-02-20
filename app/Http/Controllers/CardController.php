@@ -91,6 +91,14 @@ class CardController extends Controller
             if(isset($request['stores'])){
                 $card->stores()->sync($input['stores']);
             }
+            for($i = $input['start']; $i<=$input['end']; $i++){
+                Assignment::create([
+                    'seller' => null,
+                    'card' => $card->id,
+                    'number' => $i,
+                    'code' => $i . '-' . uniqid()
+                ]);
+            }
 
             DB::commit();
             return redirect(route('card.create'))->with('status', __('saved_success'));

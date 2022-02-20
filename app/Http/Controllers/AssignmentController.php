@@ -28,7 +28,7 @@ class AssignmentController extends Controller
         $roles = Role::query()->whereIn('name', $roles)->where('is_admin', true)->first();
 
         if(!empty($roles)){
-            $sellers = Seller::query()->pluck('name', 'id');
+            $sellers = Seller::query()->select(['id', 'name'])->get();
             $sellers_ids =Seller::query()->pluck('id')->toArray();
             $cards = $this->cardRepository
                 ->search(isset($request['search'])? $request['search'] : '')
@@ -40,7 +40,7 @@ class AssignmentController extends Controller
             $sellers = Seller::query()
                              ->where('user',auth()->user()->id)
                              ->orWhere('superior',auth()->user()->id)
-                             ->pluck('name', 'id');
+                             ->select(['id', 'name'])->get();
 
 
             $sellers_ids = Seller::query()
@@ -104,6 +104,9 @@ class AssignmentController extends Controller
                         'number' => $i,
                         'code' => $i . '-' . uniqid()
                     ]);
+                }else if(!isset($exists->seller)){
+                    $exists->seller = $input['seller'];
+                    $exists->save();
                 }
             }
             DB::commit();
@@ -149,7 +152,12 @@ class AssignmentController extends Controller
         try {
             DB::beginTransaction();
             $input = $request->all();
-            $assignment->update(['seller' => $input['seller']]);
+            if($input['seller'] == 0){
+                $assignment->update(['seller' => null]);
+            }else{
+                $assignment->update(['seller' => $input['seller']]);
+            }
+
             DB::commit();
             return response()->json(['update' => 'success']);
         }catch (\Throwable $e){
@@ -167,5 +175,24 @@ class AssignmentController extends Controller
     public function destroy(Assignment $assignment)
     {
         //
+    }
+
+
+    public function get_assignments_by_card(Request $request, Card $card,){
+        if($request['free']== 1){
+            $assignments =  Assignment::query()
+                                      ->where('card' ,$card->id)
+                                      ->whereNull('seller')
+                                      ->whereNull('email')
+                                      ->paginate(200);
+        }else{
+            $assignments = Assignment::query()
+                                     ->where('card' ,$card->id)
+                                     ->whereNotNull('seller')
+                                     ->whereNull('email')
+                                     ->with('seller')
+                                     ->paginate(200);
+        }
+        return $assignments;
     }
 }
