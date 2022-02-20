@@ -102,7 +102,9 @@
                <div style="overflow-y: hidden; overflow-x: scroll;  display: inline-flex" class="carousel_card">
                    @foreach($cards as $key=> $card)
                        <div style="display: inline-flex">
-                           <img style="border-radius: 25px; margin-left:25px;margin-right:25px" width="300px" src="{{ '/images/system/' . $card->getImage()->id . '.' . $card->getImage()->extension}}" alt="{{$card->getImage()->name}}">
+                           @if(!empty($card->getImage()))
+                               <img style="border-radius: 25px; margin-left:25px;margin-right:25px" width="300px" src="{{ '/images/system/' . $card->getImage()->id . '.' . $card->getImage()->extension}}" alt="{{$card->getImage()->name}}">
+                           @endif
                        </div>
                    @endforeach
                </div>
