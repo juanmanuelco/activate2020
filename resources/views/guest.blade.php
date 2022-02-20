@@ -124,16 +124,6 @@
     .carousel_card{
         max-width: 80%;
     }
-    .flex{
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -moz-flex;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-flex-wrap: wrap;
-        flex-wrap: wrap;
-    }
     .blue_text{
         color: #52b0c9;
         font-weight: bold;
