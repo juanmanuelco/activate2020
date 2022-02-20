@@ -96,13 +96,13 @@ class AssignmentController extends Controller
             }
 
             for($i = $input['start']; $i<=$input['end']; $i++){
-                $exists = Assignment::query()->where('number', $i)->first();
+                $exists = Assignment::query()->where(['number'=> $i, 'card' => $input['card']])->first();
                 if($exists == null){
                     Assignment::create([
                         'seller' => $input['seller'],
                         'card' => $input['card'],
                         'number' => $i,
-                        'code' => $i . '-' . round(microtime(true) * 1000)
+                        'code' => $i . '-' . uniqid()
                     ]);
                 }
             }
