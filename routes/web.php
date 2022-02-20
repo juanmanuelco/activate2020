@@ -106,6 +106,8 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::get('applied-benefits', 'StoreController@applied_benefits')->name('store.applied_benefits');
     Route::get('my-applied-benefits', 'StoreController@my_applied_benefits')->name('store.my_applied_benefits');
 
+    Route::get('/users', 'UserController@get_users')->name('users.index');
+
 });
 
 Route::get('/page/{page}', 'BuilderController@page')->name('page_name');

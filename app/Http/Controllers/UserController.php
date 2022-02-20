@@ -6,6 +6,7 @@ use App\Models\Application;
 use App\Models\Country;
 use App\Models\NotificationReaded;
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,10 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    private UserRepository $userRepository;
+
+
+
     public  $configurations = [
         ['name' => 'Permitir contactarme',      'icon' => 'fas fa-id-card-alt',  'field' => 'contact' ],
         ['name' => 'Mostrar mi foto',           'icon' => 'fas fa-camera',  'field' => 'show_photo' ],
@@ -29,6 +34,13 @@ class UserController extends Controller
         ['name' => 'Mostrar mi identificación', 'icon' => 'fas fa-id-badge',  'field' => 'show_identification' ],
         ['name' => 'Mostrar mi estado civil',   'icon' => 'fas fa-ring',  'field' => 'show_civil_state' ],
     ];
+
+    /**
+     * @param UserRepository $userRepository
+     */
+    public function __construct( UserRepository $userRepo ) {
+        $this->userRepository = $userRepo;
+    }
 
     public function profile(){
         $user = Auth::user();
@@ -357,6 +369,13 @@ class UserController extends Controller
             DB::rollBack();
             abort(403, $e->getMessage());
         }
+    }
+
+    public function get_users(Request $request){
+        $users = $this->userRepository;
+        $users = $users->search(isset($request['search'])? $request['search'] : '');
+        $users = $users->paginate(20);
+        return view('pages.users.index')->with('users', $users);
     }
 
 }
