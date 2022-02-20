@@ -119,39 +119,3 @@
        </div>
     </div>
 </div>
-
-<style>
-    .carousel_card{
-        max-width: 80%;
-    }
-    .blue_text{
-        color: #52b0c9;
-        font-weight: bold;
-    }
-    .rounded{
-        border-radius: 25px !important;
-    }
-    .form-login{
-        /*max-width: 400px;*/
-    }
-    .button-black{
-        border-radius: 25px;
-        paddding:10px;
-        color:white;
-        background-color: #3c3d41;
-    }
-    .padding_image{
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
-
-    @media (min-width: 768px){
-        .left_spacing{
-            padding-left:200px;
-        }
-        .carousel_card{
-            max-width: 60%;
-        }
-    }
-
-</style>
