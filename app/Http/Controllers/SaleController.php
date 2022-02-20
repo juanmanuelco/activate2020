@@ -326,6 +326,7 @@ class SaleController extends Controller
     public function api_sales(Request $request){
         $user = \App\Models\User::query()->where('user_token', $request['user_token'])->with('roles')->first();
         if($user == null) abort(403);
+        Auth::login($user);
         if(!$user->hasRole('Vendedor')){
             throw new \Exception(__('Not allowed'));
         }
@@ -351,6 +352,7 @@ class SaleController extends Controller
         try {
             $user = \App\Models\User::query()->where('user_token', $request['user_token'])->with('roles')->first();
             if($user == null) abort(403);
+            Auth::login($user);
             $sale = Sale::query()->find($request['sale']);
 
             DB::beginTransaction();
@@ -410,7 +412,7 @@ class SaleController extends Controller
     public function api_cards_sale(Request $request){
         $user = \App\Models\User::query()->where('user_token', $request['user_token'])->with('roles')->first();
         if($user == null) abort(403);
-
+        Auth::login($user);
         if(!$user->hasRole('Vendedor')) abort(403, __('Not alloweed'));
         $cards = [];
         $seller = Seller::query()->where('user', $user->id )->first();
@@ -428,7 +430,7 @@ class SaleController extends Controller
         try {
             $user = \App\Models\User::query()->where('user_token', $request['user_token'])->with('roles')->first();
             if($user == null) abort(403);
-
+            Auth::login($user);
             DB::beginTransaction();
             $input = $request->all();
             $today = date('Y-m-d h:i:sa');

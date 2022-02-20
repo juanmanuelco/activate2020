@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ChatRoom;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChatRoomController extends Controller
 {
@@ -37,6 +38,7 @@ class ChatRoomController extends Controller
     public function store(Request $request)
     {
         $user = User::query()->where('user_token', $request['user_token'])->first();
+        Auth::login($user);
         $anotherUser = User::query()->where('user_token', $request['another_user_token'])->first();
         if($user == null || $anotherUser == null) throw  new \Exception(__('User not founnd'));
 

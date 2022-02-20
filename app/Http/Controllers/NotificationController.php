@@ -204,7 +204,7 @@ class NotificationController extends Controller
     public function api_notifications(Request $request){
         $user = User::query()->where('user_token', $request['user_token'])->first();
         if($user == null) abort(403);
-
+        Auth::login($user);
         $roles = $user->getRoleNames();
         $roles = Role::query()->whereIn('name', $roles)->pluck('id');
         $receivers = NotificationReceiver::query()->where(function ($q) use ($roles){

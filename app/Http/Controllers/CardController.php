@@ -199,6 +199,7 @@ class CardController extends Controller
     public function api_my_cards(Request $request){
         $user = User::query()->where('user_token', $request['user_token'])->first();
         if($user == null) abort(403);
+        Auth::login($user);
         $cards  = Assignment::query()
                             ->where('email', $user->email)
                             ->with([
@@ -221,6 +222,7 @@ class CardController extends Controller
             DB::beginTransaction();
             $user = User::query()->where('user_token', $request['user_token'])->first();
             if($user == null) abort(403, 'User not found');
+            Auth::login($user);
             $today = date('Y-m-d h:i:sa');
             $card = Assignment::query()->where('code', $request['code'])->first();
             if($card == null) abort(403, 'Card not found');

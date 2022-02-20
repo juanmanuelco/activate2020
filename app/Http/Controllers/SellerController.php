@@ -8,6 +8,7 @@ use App\Models\Seller;
 use App\Models\User;
 use App\Repositories\SellerRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -183,7 +184,7 @@ class SellerController extends Controller
         try {
             $current_user = User::query()->where('user_token', $request['user_token'])->with('roles')->first();
             if($current_user == null) abort(403);
-
+            Auth::login($current_user);
             DB::beginTransaction();
             $country = Country::find($request['code_phone']);
 

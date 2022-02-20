@@ -12,6 +12,7 @@ use App\Models\Store;
 use App\Models\User;
 use App\Repositories\StoreRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
@@ -326,6 +327,7 @@ class StoreController extends Controller
             DB::beginTransaction();
             $user = User::query()->where('user_token', $request['user_token'])->with('roles')->first();
             if($user == null) abort(403);
+            Auth::login($user);
             if(!$user->hasRole('Local')){
                 throw new \Exception(__('Not allowed'));
             }
@@ -373,6 +375,7 @@ class StoreController extends Controller
     public function api_applied_benefits(Request $request){
         $user = User::query()->where('user_token', $request['user_token'])->with('roles')->first();
         if($user == null) abort(403);
+        Auth::login($user);
         if(!$user->hasRole('Local')){
             throw new \Exception(__('Not allowed'));
         }

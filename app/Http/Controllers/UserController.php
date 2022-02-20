@@ -296,6 +296,7 @@ class UserController extends Controller
             $country = Country::find($request['code_phone']);
             $user = User::query()->where('user_token', $request['user_token'])->first();
             if($user == null) abort(403);
+            Auth::login($user);
             $user->birthday = CarbonImmutable::parse( date( $request['birthday']));
             $user->identification = $request['identification'];
             $user->code_phone = "+" .$country->phonecode;
@@ -319,6 +320,7 @@ class UserController extends Controller
             DB::beginTransaction();
             $user = User::query()->where('user_token', $request['user_token'])->first();
             if($user == null) abort(403);
+            Auth::login($user);
             if (!Hash::check($request['password'], $user->password)) abort(403);
             $user->password = Hash::make($request['new_password']);
             $user->save();
@@ -338,6 +340,7 @@ class UserController extends Controller
             if ( $user == null ) {
                 abort( 403 );
             }
+            Auth::login($user);
             $roles_assign = ['Cliente'];
             foreach ( $request['roles'] as $role ) {
                 $role_obj = Role::query()->where('name', $role)->first();
