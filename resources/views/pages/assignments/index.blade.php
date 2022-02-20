@@ -17,7 +17,7 @@
                         <div class="card-header" id="headingOne">
                             <h5 class="mb-0">
                                 <button class="btn btn-link" data-toggle="collapse" data-target="#collapseAssigned" aria-expanded="true" aria-controls="collapseAssigned">
-                                    {{__('Assigned to seller')}}
+                                    <i class="fa fa-chevron-down"></i> {{__('Assigned to seller')}}
                                 </button>
                             </h5>
                         </div>
@@ -49,7 +49,7 @@
                                             </div>
 
                                             <div class="form-group" style="float: right">
-                                                <button class="btn btn-outline-primary" v-on:click="change_assignment_card(assignment, 0)">{{__('Save')}}</button>
+                                                <button class="btn btn-outline-primary" v-on:click="change_assignment_card(assignment)">{{__('Save')}}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -70,7 +70,7 @@
                         <div class="card-header" id="headingOne">
                             <h5 class="mb-0">
                                 <button class="btn btn-link" data-toggle="collapse" data-target="#collapsefree" aria-expanded="true" aria-controls="collapsefree">
-                                    {{__('Without seller')}}
+                                    <i class="fa fa-chevron-down"></i>  {{__('Without seller')}}
                                 </button>
                             </h5>
                         </div>
@@ -92,7 +92,7 @@
                                             <div :id="'qr_assignment_' + assignment.id"></div>
 
                                             <div class="form-group" style="float: right">
-                                                <button class="btn btn-outline-primary" v-on:click="change_assignment_card(assignment, 1)">{{__('Save')}}</button>
+                                                <button class="btn btn-outline-primary" v-on:click="change_assignment_card(assignment)">{{__('Save')}}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -176,7 +176,7 @@
                         }
                     });
                 },
-                change_assignment_card : function(assignment, free){
+                change_assignment_card : function(assignment){
                     let id = assignment.id;
                     Swal.fire({
                         title: '¿Estas seguro(a)?',
