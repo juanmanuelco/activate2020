@@ -264,7 +264,7 @@ class SaleController extends Controller
 
 
         }
-        return view('pages.reports.sales')->with('cards', $cards);
+        return view('pages.reports.sales')->with(['cards'=> $cards, 'roles' =>$roles]);
     }
 
     public function  payer(Sale $sale){
