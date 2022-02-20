@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Country;
 use App\Models\Seller;
 use App\Models\User;
 use App\Repositories\SellerRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Spatie\Permission\Models\Role;
 
 class SellerController extends Controller
@@ -170,6 +173,76 @@ class SellerController extends Controller
             $seller->delete();
             DB::commit();
             return response()->json(['delete' => 'success']);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(403, $e->getMessage());
+        }
+    }
+
+    public function api_create(Request $request){
+        try {
+            $current_user = User::query()->where('user_token', $request['user_token'])->with('roles')->first();
+            if($current_user == null) abort(403);
+
+            DB::beginTransaction();
+            $country = Country::find($request['code_phone']);
+
+            $user = User::query()->where('email', $request['email'])->first();
+            if($user != null) abort(403);
+
+
+            $new_user = User::create([
+                'name'          => $request['name'],
+                'email'         => $request['email'],
+                'phone'         => $request['phone'],
+                'code_phone'    => '+' . $country->phonecode,
+                'password'      => Hash::make(mb_strtoupper(bin2hex(random_bytes(25)))),
+                'user_token'    => mb_strtoupper(bin2hex(random_bytes(25))),
+                'gains'         => 0
+            ]);
+
+            $new_user->syncRoles(['Vendedor', 'Cliente']);
+            $this->sellerRepository->create([
+                'name' => $request['name'],
+                'user' => $new_user->id,
+                'superior' => $current_user->id,
+                'commission' => $request['commission']
+            ]);
+
+            Password::sendResetLink(
+                $request->only('email')
+            );
+
+
+            $ch = curl_init();
+
+            $application_api = getConfiguration('text', 'SendBirdAppId' );
+            $api_token = getConfiguration('text', 'SenBird_token' );
+            $user_profile = getConfiguration('text', 'SENDBIRD-PROFILE-URL');
+
+            curl_setopt($ch, CURLOPT_URL, "https://api-$application_api.sendbird.com/v3/users");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+
+            $post = array(
+                'user_id' => $new_user->id,
+                'nickname' => $new_user->name,
+                'profile_url' => $user_profile.'/' . $new_user->user_token,
+                "is_active" => true,
+                "is_online" => true,
+            );
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+
+            $headers = array();
+            $headers[] = "Api-Token: $api_token";
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_exec($ch);
+            if (curl_errno($ch)) {
+                throw new \Exception(curl_error($ch));
+            }
+            curl_close($ch);
+            DB::commit();
+            return response()->json(['success' => 'true']);
         }catch (\Throwable $e){
             DB::rollBack();
             abort(403, $e->getMessage());

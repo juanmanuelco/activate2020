@@ -53,3 +53,5 @@ Route::post('/creat-chat-room', 'ChatRoomController@store')->name('chatroom.stor
 Route::get('/card-sale', 'SaleController@api_cards_sale')->name('api_cards_sale');
 Route::post('/sale-save', 'SaleController@api_sale_save')->name('api_sale_save');
 
+Route::post('/create-seller', 'SellerController@api_create')->name('api_create');
+
