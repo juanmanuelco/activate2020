@@ -22,7 +22,7 @@ function exists_group_rol($group, $rol){
 
 function getConfiguration($type, $configuration){
     $response = "";
-    
+
     $configuration = DB::table('configuration')->where('name', $configuration)->first();
     if(empty($configuration)) return '';
     switch ($type){
@@ -49,14 +49,15 @@ function getConfiguration($type, $configuration){
             if(empty($image)) $response = "";
             else{
                 $image = \App\Models\ImageFile::find($configuration->image);
-                $response = url('/') . '/images/system/' . $image->id . '.' . $image->extension;
+                if(!empty($image)) $response = url('/') . '/images/system/' . $image->id . '.' . $image->extension;
+                else $response = "";
             }
             break;
         case 'color':
             $response = !empty($configuration->text) ? $configuration->text  : '#000000';
             break;
     }
-    
+
     return $response;
 }
 
