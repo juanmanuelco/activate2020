@@ -31,9 +31,16 @@ class ImageFileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return 'Hola';
+        if(!empty($roles)){
+            $images = ImageFile::select('id', 'extension', 'name', 'permalink')->orderBy('id', 'desc')->paginate(20);
+        }else{
+            $images = ImageFile::where('owner', Auth::id())
+                                           ->select('id', 'extension', 'name', 'permalink')
+                                           ->orderBy('id', 'desc')->paginate(20);
+        }
+        return $images;
     }
 
     /**
@@ -65,10 +72,13 @@ class ImageFileController extends Controller
                 'extension' => $image->getClientOriginalExtension(),
                 'size' =>   $image->getSize(),
                 'mimetype' =>   $image->getClientMimeType(),
-                'owner' =>  Auth::id()
+                'owner' =>  Auth::id(),
             ]);
+            $current_image->uuid = $current_image->id . '-' . uniqid() . '-' . uniqid();
+            $current_image->permalink = "/images/system/" .$current_image->uuid . '.' . $current_image->extension;
+            $current_image->save();
             $url = 'images/system/';
-            $image->move($url,$current_image->id . '.' . $image->getClientOriginalExtension());
+            $image->move($url,$current_image->uuid . '.' . $image->getClientOriginalExtension());
             DB::commit();
             return response()->json($current_image);
         }catch (\Throwable $e){
