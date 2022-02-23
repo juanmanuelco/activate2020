@@ -28,6 +28,7 @@ class ConfigurationController extends Controller
     {
         $configurations = $this->configurationRepository;
         $configurations = $configurations->search(isset($request['search'])? $request['search'] : '');
+
         return view('pages.configuration.index')->with('configurations', $configurations);
     }
 

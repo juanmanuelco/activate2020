@@ -36,4 +36,8 @@ class Configuration extends Model
     {
         return true;
     }
+
+    public function image(){
+        return $this->hasOne(ImageFile::class, 'id', 'image');
+    }
 }

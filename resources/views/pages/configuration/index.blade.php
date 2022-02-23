@@ -57,11 +57,19 @@
                                    <input type="time" v-model="configuration.time" v-if="configuration.type === 'time'" class="form-control">
                                    <input type="datetime" v-model="configuration.datetime" v-if="configuration.type === 'datetime'" class="form-control">
                                    <input type="checkbox" v-model="configuration.boolean" v-if="configuration.type === 'boolean'">
-                                   <select class="form-control" v-model="configuration.image" v-if="configuration.type === 'image'">
-                                       <option v-for="image in images" v-bind:value="image.id">@{{  image.name }}</option>
-                                   </select>
+
+                                   <div v-if="configuration.type === 'image'">
+                                       <img :src="configuration.image.permalink" :alt="configuration.image.name" v-if="configuration.image !== null" width="50px" height="50px">
+                                       <div style="padding-top: 10px">
+                                           <small>@{{ configuration.image.name }}</small>
+                                           <br>
+                                           <a href="#" v-on:click="modalSelectImage(configuration)" >{{__('Change image')}}</a>
+                                       </div>
+                                   </div>
                                </div>
-                               <button class="btn btn-primary" v-on:click="saveConfiguration(configuration)" type="button">{{__('save')}}</button>
+                               <div style="text-align: right">
+                                   <button class="btn btn-primary" v-on:click="saveConfiguration(configuration)" type="button">{{__('save')}}</button>
+                               </div>
                            </div>
                        </div>
                    </div>
@@ -69,6 +77,8 @@
            </div>
        </div>
    </div>
+
+    @include('includes.modal_image_selector')
 
 @endsection
 
@@ -180,6 +190,12 @@
                         }
                     })
                 },
+                modalSelectImage : function(configuration){
+                    $('#modalImageSelector').modal();
+                    callbackFunctionImage = (image)=>{
+                        configuration.image = image;
+                    }
+                }
             }
         });
     </script>

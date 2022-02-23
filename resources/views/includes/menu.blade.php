@@ -1,4 +1,4 @@
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="z-index: 0">
 
     <!-- Sidebar - Brand -->
     <a class=" align-items-center justify-content-center" href="{{route('home')}}" >

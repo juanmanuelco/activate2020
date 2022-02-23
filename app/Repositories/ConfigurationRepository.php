@@ -31,7 +31,7 @@ class ConfigurationRepository extends BaseRepository
                 $response = $response->orWhere($field, 'like', '%'.$param .'%');
             }
         }
-        $response = $response->orderBY('name')->get()->groupBy('type') ;
+        $response = $response->with('image')->orderBY('name')->get()->groupBy('type') ;
         return $response;
     }
 

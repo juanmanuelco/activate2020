@@ -29,16 +29,20 @@ class ImageFileController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function index(Request $request)
     {
+        $images = ImageFile::query();
+        if(isset($request['search'])){
+            $images->where('name', 'like', '%' . $request['search'] .'%');
+        }
         if(!empty($roles)){
-            $images = ImageFile::select('id', 'extension', 'name', 'permalink')->orderBy('id', 'desc')->paginate(20);
+            $images = $images->select('id', 'extension', 'name', 'permalink')->orderBy('id', 'desc')->paginate(18);
         }else{
-            $images = ImageFile::where('owner', Auth::id())
+            $images = $images->where('owner', Auth::id())
                                            ->select('id', 'extension', 'name', 'permalink')
-                                           ->orderBy('id', 'desc')->paginate(20);
+                                           ->orderBy('id', 'desc')->paginate(18);
         }
         return $images;
     }
