@@ -24,9 +24,7 @@
     </script>
     <script src="{{ asset('css/app.css') }}"></script>
     <title>{{getConfiguration('text', 'NOMBRE-SITIO')}}</title>
-    @if(Illuminate\Support\Facades\Route::currentRouteName() != 'page_name')
-        @include('includes.styles')
-    @endif
+    @include('includes.styles')
     <link rel="stylesheet" href="{{asset('css/menu.css')}}">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
