@@ -178,7 +178,7 @@ class AssignmentController extends Controller
     }
 
 
-    public function get_assignments_by_card(Request $request, Card $card,){
+    public function get_assignments_by_card(Request $request, Card $card){
         if($request['free']== 1){
             $assignments =  Assignment::query()
                                       ->where('card' ,$card->id)
