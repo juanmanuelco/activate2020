@@ -67,6 +67,7 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::resource('configuration', 'ConfigurationController')->except('create', 'edit', 'show');
 
     Route::resource('audit', 'AuditController');
+    Route::resource('product', 'ProductController');
 
     Route::post('/profile/password', 'UserController@profile_password')->name('profile.password');
     Route::post('/profile/direction', 'UserController@profile_direction')->name('profile.direction');

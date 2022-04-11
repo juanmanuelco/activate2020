@@ -54,6 +54,7 @@ class ConfigurationController extends Controller
             if($input['exists'] === 'true'){
                 $configuration = $this->configurationRepository->find($id);
                 unset($input['name']);
+                $input['image'] = $input['image']['id'];
                 $configuration->update($input);
             }else{
                 $configuration = $this->configurationRepository->create($input);

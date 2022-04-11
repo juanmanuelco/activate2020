@@ -49,7 +49,7 @@ function getConfiguration($type, $configuration){
             if(empty($image)) $response = "";
             else{
                 $image = \App\Models\ImageFile::find($configuration->image);
-                if(!empty($image)) $response = url('/') . '/images/system/' . $image->id . '.' . $image->extension;
+                if(!empty($image)) $response = $image->permalink;
                 else $response = "";
             }
             break;

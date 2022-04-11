@@ -25,7 +25,7 @@
     }
     function saveModalSelector(){
         let image = image_component.image_selected;
-        mage_component.image_selected = null;
+        image_component.image_selected = null;
         image_component.search = "";
         callbackFunctionImage(image);
         $('#modalImageSelector').modal('hide');
