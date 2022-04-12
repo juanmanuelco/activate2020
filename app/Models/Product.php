@@ -12,7 +12,7 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes, CascadeSoftDeletes, LogsActivity;
 
-    public $table = 'categories';
+    public $table = 'products';
     protected static $logAttributes = ['*'];
 
     protected $cascadeDeletes = [];
@@ -21,7 +21,8 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'code'
+        'code',
+        'image'
     ];
 
 }

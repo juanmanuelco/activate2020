@@ -59,7 +59,6 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
             $input = $request->all();
-            $input['image'] =  $input['image']['id'];
             $this->productRepository->create($input);
             DB::commit();
             return redirect(route('product.create'))->with('status', __('saved_success'));
@@ -109,7 +108,6 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
             $input = $request->all();
-            $input['image'] =  $input['image']['id'];
             $product->update($input);
             DB::commit();
             return redirect()->back()->with('status', __('updated_success'));

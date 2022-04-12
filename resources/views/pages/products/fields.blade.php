@@ -31,7 +31,7 @@ $fields = [
     ],
     [
         'name' => 'price',
-        'parameters' => ['class'=> 'form-control', 'required'=> true],
+        'parameters' => ['class'=> 'form-control', 'required'=> true, 'step' => 0.01],
         'helper' => null,
         'label' => __('Price'),
         'object' => !empty($product) ? $product->price : null,
@@ -39,10 +39,19 @@ $fields = [
         'id' => 'price',
         'width' => 'col-lg-8 col-md-6 col-sm-12 col-xs-12'
     ],
-
+    [
+        'name' => 'image',
+        'label' => __('Image'),
+        'object' => !empty($product) ? $product : null,
+        'type' => 'IMAGE',
+        'id' => 'image',
+        'width' => 'col-lg-8 col-md-6 col-sm-12 col-xs-12'
+    ]
 ];
 ?>
 
+
+@include('includes.modal_image_selector')
 @include('includes.create_field')
 
 @section('new_scripts')

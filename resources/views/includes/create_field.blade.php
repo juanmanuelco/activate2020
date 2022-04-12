@@ -98,6 +98,25 @@
                 </div>
             </div>
             @break
+            @case('IMAGE')
+                <div class="{{$field['width']}}">
+                    <div class="form-group">
+                        {!! Form::label($field['name'], $field['label']); !!}
+                        {!! Form::hidden($field['name'], old($field['name']), ['readonly' => true]); !!}
+                        <div>
+                            <img src="" alt="" id="img_{{$field['id']}}" width="150px">
+                            <div></div>
+                            <a href="#" onclick="$('#modalImageSelector').modal()" >{{__('Change image')}}</a>
+                        </div>
+                    </div>
+                </div>
+            <script>
+                callbackFunctionImage = (image)=>{
+                    document.getElementById('{{$field['id']}}').value = image.id;
+                    document.getElementById('img_{{$field['id']}}').setAttribute('src', image.permalink)
+                }
+            </script>
+            @break
         @endswitch
     @endforeach
 </div>
