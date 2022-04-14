@@ -30,6 +30,16 @@ $fields = [
         'width' => 'col-lg-8 col-md-6 col-sm-12 col-xs-12'
     ],
     [
+        'name' => 'quantity',
+        'parameters' => ['class'=> 'form-control', 'required'=> true, 'step' => 1],
+        'helper' => null,
+        'label' => __('Quantity'),
+        'object' => !empty($product) ? $product->quantity : null,
+        'type' => 'NUMBER',
+        'id' => 'quantity',
+        'width' => 'col-lg-8 col-md-6 col-sm-12 col-xs-12'
+    ],
+    [
         'name' => 'price',
         'parameters' => ['class'=> 'form-control', 'required'=> true, 'step' => 0.01],
         'helper' => null,

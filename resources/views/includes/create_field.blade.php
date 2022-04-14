@@ -104,7 +104,11 @@
                         {!! Form::label($field['name'], $field['label']); !!}
                         {!! Form::hidden($field['name'], old($field['name']), ['readonly' => true]); !!}
                         <div>
-                            <img src="" alt="" id="img_{{$field['id']}}" width="150px">
+                            @if(!empty($field['object']) && ! empty($field['object']->getImage()))
+                                <img width="150px" id="img_{{$field['id']}}" src="{{$field['object']->getImage()->permalink}}" alt="{{$field['object']->getImage()->name}}">
+                            @else
+                                <img src="" alt="" id="img_{{$field['id']}}" width="150px">
+                            @endif
                             <div></div>
                             <a href="#" onclick="$('#modalImageSelector').modal()" >{{__('Change image')}}</a>
                         </div>

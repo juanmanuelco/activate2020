@@ -7,6 +7,7 @@
             <tr>
                 <th>{{__('id')}}</th>
                 <th>{{__('actions')}}</th>
+                <th>{{__('Quantity')}}</th>
                 <th>{{__('Name')}}</th>
                 <th>{{__('Description')}}</th>
                 <th>{{__('Code')}}</th>
@@ -21,9 +22,10 @@
                     <td>
                         @include('includes.table_actions', ['identity' => $product->id])
                     </td>
+                    <td> {{$product->quantity}} </td>
                     <td> {{$product->name}} </td>
                     <td>
-                        {{$product->description}}
+                        {!! $product->description !!}
                     </td>
                     <td>
                         {{$product->code}}

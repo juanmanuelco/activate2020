@@ -12,7 +12,8 @@ class ProductRepository extends BaseRepository {
         'name',
         'description',
         'price',
-        'code'
+        'code',
+        'quantity'
     ];
 
     /**

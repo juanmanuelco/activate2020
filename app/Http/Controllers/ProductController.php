@@ -34,6 +34,15 @@ class ProductController extends Controller
         return view('pages.products.index')->with('products', $products);
     }
 
+
+    public function  getAll(Request $request){
+        $products = Product::query();
+        if(isset($request['search'])){
+            $products->where('name', 'like', '%' . $request['search'] .'%');
+        }
+        return $products->with('image')->orderBy('id', 'desc')->paginate(2);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
