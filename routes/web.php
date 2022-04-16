@@ -110,6 +110,8 @@ Route::middleware(['auth', 'permissions'])->group(function () {
 
     Route::get('/users', 'UserController@get_users')->name('users.index');
 
+    Route::post('/billing', 'BillingController@store')->name('billing.store');
+    Route::get('/billings', 'BillingController@index')->name('billing.index');
 });
 
 Route::get('/page/{page}', 'BuilderController@page')->name('page_name');

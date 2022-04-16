@@ -40,7 +40,7 @@ class ProductController extends Controller
         if(isset($request['search'])){
             $products->where('name', 'like', '%' . $request['search'] .'%');
         }
-        return $products->with('image')->orderBy('id', 'desc')->paginate(2);
+        return $products->with('image')->orderBy('id', 'desc')->paginate(10);
     }
 
     /**
