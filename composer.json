@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4|^8.1.2",
+        "ext-curl": "*",
         "ajcastro/searchable": "^1.5",
         "davejamesmiller/laravel-breadcrumbs": "5.x",
         "doctrine/dbal": "~2.3",
@@ -19,7 +20,7 @@
         "infyomlabs/adminlte-templates": "8.0.x-dev",
         "infyomlabs/laravel-generator": "8.0.x-dev",
         "infyomlabs/swagger-generator": "dev-master",
-        "intervention/image": "^2.5",
+        "intervention/image": "^2.7",
         "jlapp/swaggervel": "dev-master",
         "laravel/framework": "^8.0",
         "laravel/scout": "^8.3",
@@ -30,8 +31,7 @@
         "laraveles/spanish": "^1.5",
         "pusher/pusher-php-server": "^7.0",
         "spatie/laravel-activitylog": "^3.16",
-        "spatie/laravel-permission": "^3.17",
-      "ext-curl": "*"
+        "spatie/laravel-permission": "^3.17"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
