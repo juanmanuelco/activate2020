@@ -217,7 +217,7 @@ class SellerController extends Controller
 
             $ch = curl_init();
 
-            $application_api = getConfiguration('text', 'SendBirdAppId' );
+            $application_api = env('SENDBIRD_APP_ID');
             $api_token = getConfiguration('text', 'SenBird_token' );
             $user_profile = getConfiguration('text', 'SENDBIRD-PROFILE-URL');
 

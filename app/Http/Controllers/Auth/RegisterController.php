@@ -89,7 +89,7 @@ class RegisterController extends Controller
 
             $ch = curl_init();
 
-            $application_api = getConfiguration('text', 'SendBirdAppId' );
+            $application_api = env('SENDBIRD_APP_ID');
             $api_token = getConfiguration('text', 'SenBird_token' );
             $user_profile = getConfiguration('text', 'SENDBIRD-PROFILE-URL');
 
@@ -116,6 +116,9 @@ class RegisterController extends Controller
             curl_close($ch);
 
             DB::commit();
+
+            print_r($new_user);
+
             return $new_user;
         }catch (\Throwable $e){
             DB::rollBack();
