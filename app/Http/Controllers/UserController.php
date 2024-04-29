@@ -225,11 +225,10 @@ class UserController extends Controller
             $new_user = User::query()->where('id', $new_user->id)->with('roles')->first();
             $ch = curl_init();
 
-            $application_api = env('SENDBIRD_APP_ID');
             $api_token = getConfiguration('text', 'SenBird_token' );
             $user_profile = getConfiguration('text', 'SENDBIRD-PROFILE-URL');
 
-            curl_setopt($ch, CURLOPT_URL, "https://api-$application_api.sendbird.com/v3/users");
+            curl_setopt($ch, CURLOPT_URL, "https://api-4B6529BD-1B96-44C0-ACF9-9DD4E8EEBE0B.sendbird.com/v3/users");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 
