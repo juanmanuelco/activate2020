@@ -225,24 +225,18 @@ class UserController extends Controller
             $new_user = User::query()->where('id', $new_user->id)->with('roles')->first();
             $ch = curl_init();
 
-            $api_token = getConfiguration('text', 'SenBird_token' );
-            $user_profile = getConfiguration('text', 'SENDBIRD-PROFILE-URL');
-
-            curl_setopt($ch, CURLOPT_URL, "https://api-4B6529BD-1B96-44C0-ACF9-9DD4E8EEBE0B.sendbird.com/v3/users");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 
             $post = array(
                 'user_id' => $new_user->id,
                 'nickname' => $new_user->name,
-                'profile_url' => $user_profile.'/' . $new_user->user_token,
                 "is_active" => true,
                 "is_online" => true,
             );
             curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 
             $headers = array();
-            $headers[] = "Api-Token: $api_token";
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_exec($ch);
             if (curl_errno($ch)) {
