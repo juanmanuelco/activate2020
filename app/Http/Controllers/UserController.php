@@ -8,6 +8,7 @@ use App\Models\NotificationReaded;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Carbon\CarbonImmutable;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -58,6 +59,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:255',
+            'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
         ]);
         try {
@@ -73,6 +75,84 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Seller  $seller
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     */
+    public function show(User $user)
+    {
+        return view('pages.users.show')->with('user', $user);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Group  $group
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit(User $user){
+        return view('pages.users.edit')->with('user', $user);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Group  $group
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, User $user)
+    {
+
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'password' => 'confirmed',
+        ]);
+        try {
+            DB::beginTransaction();
+            $input = $request->all();
+
+            if($user->email != $input['email']){
+                throw new Exception(__("Can not change the email"));
+            }
+
+            if(!empty($input['password'])){
+                $input['password']= Hash::make($input['password']);
+            }else{
+                unset($input['password']);
+            }
+
+
+            $user->update($input);
+            DB::commit();
+            return redirect()->back()->with('status', __('updated_success'));
+        }catch (\Throwable $e){
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage() . ' in line '. $e->getLine());
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Group  $group
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(User $user)
+    {
+        try {
+            DB::beginTransaction();
+            $user->delete();
+            DB::commit();
+            return response()->json(['delete' => 'success']);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(403, $e->getMessage());
+        }
+    }
 
     public function profile(){
         $user = Auth::user();
