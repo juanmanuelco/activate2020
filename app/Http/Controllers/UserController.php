@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Response;
+
 use Image;
 use Spatie\Permission\Models\Role;
 
@@ -41,6 +42,37 @@ class UserController extends Controller
     public function __construct( UserRepository $userRepo ) {
         $this->userRepository = $userRepo;
     }
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('pages.users.create');
+    }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+        try {
+            DB::beginTransaction();
+            $input = $request->all();
+            $input['password']= Hash::make($input['password']);
+            $this->userRepository->create($input);
+            DB::commit();
+            return redirect(route('user.create'))->with('status', __('saved_success'));
+        }catch (\Throwable $e){
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage() . ' in line '. $e->getLine());
+        }
+    }
+
 
     public function profile(){
         $user = Auth::user();
@@ -376,6 +408,10 @@ class UserController extends Controller
         $users = $users->search(isset($request['search'])? $request['search'] : '');
         $users = $users->paginate(20);
         return view('pages.users.index')->with('users', $users);
+    }
+
+    public function index(Request $request){
+        return $this->get_users($request);
     }
 
 }

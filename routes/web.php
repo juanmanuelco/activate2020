@@ -106,7 +106,11 @@ Route::middleware(['auth', 'permissions'])->group(function () {
     Route::get('applied-benefits', 'StoreController@applied_benefits')->name('store.applied_benefits');
     Route::get('my-applied-benefits', 'StoreController@my_applied_benefits')->name('store.my_applied_benefits');
 
-    Route::get('/users', 'UserController@get_users')->name('users.index');
+    //Route::get('/users', 'UserController@get_users')->name('users.index');
+    Route::get('/users', 'UserController@index')->name('user.index');
+    Route::post('/users/create', 'UserController@store')->name('user.store');
+    Route::get('/users/create', 'UserController@create')->name('user.create');
+    //Route::resource('user', 'UserController');
 
 });
 

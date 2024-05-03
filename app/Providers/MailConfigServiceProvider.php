@@ -25,6 +25,7 @@ class MailConfigServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        /*
         $config = array(
             'driver'     => getConfiguration('text', 'MAIL_DRIVER' ),
             'host'       => getConfiguration('text', 'MAIL_HOST'),
@@ -37,5 +38,6 @@ class MailConfigServiceProvider extends ServiceProvider
             'pretend'    => false,
         );
         Config::set('mail', $config);
+        */
     }
 }
