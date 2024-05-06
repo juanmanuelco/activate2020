@@ -8,18 +8,18 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.4|^8.1.2",
         "ajcastro/searchable": "^1.5",
         "davejamesmiller/laravel-breadcrumbs": "5.x",
         "doctrine/dbal": "~2.3",
         "dyrynda/laravel-cascade-soft-deletes": "^4.0",
+        "ext-curl": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "infyomlabs/adminlte-templates": "8.0.x-dev",
         "infyomlabs/laravel-generator": "8.0.x-dev",
         "infyomlabs/swagger-generator": "dev-master",
-        "intervention/image": "^2.5",
+        "intervention/image": "^2.7",
         "jlapp/swaggervel": "dev-master",
         "laravel/framework": "^8.0",
         "laravel/scout": "^8.3",
@@ -28,10 +28,10 @@
         "laravelcollective/annotations": "^8.0",
         "laravelcollective/html": "^6.2",
         "laraveles/spanish": "^1.5",
+        "php": "^7.4|^8.1.2",
         "pusher/pusher-php-server": "^7.0",
         "spatie/laravel-activitylog": "^3.16",
-        "spatie/laravel-permission": "^3.17",
-      "ext-curl": "*"
+        "spatie/laravel-permission": "^3.17"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

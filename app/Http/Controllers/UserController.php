@@ -305,7 +305,6 @@ class UserController extends Controller
     }
 
     public function api_register(Request $request){
-
         try {
             DB::beginTransaction();
             $country = Country::find($request['code_phone']);
@@ -333,33 +332,33 @@ class UserController extends Controller
 
             DB::commit();
             $new_user = User::query()->where('id', $new_user->id)->with('roles')->first();
-            $ch = curl_init();
+            // $ch = curl_init();
 
-            $application_api = getConfiguration('text', 'SendBirdAppId' );
-            $api_token = getConfiguration('text', 'SenBird_token' );
-            $user_profile = getConfiguration('text', 'SENDBIRD-PROFILE-URL');
+            // $application_api = getConfiguration('text', 'SendBirdAppId' );
+            // $api_token = getConfiguration('text', 'SenBird_token' );
+            // $user_profile = getConfiguration('text', 'SENDBIRD-PROFILE-URL');
 
-            curl_setopt($ch, CURLOPT_URL, "https://api-$application_api.sendbird.com/v3/users");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            // curl_setopt($ch, CURLOPT_URL, "https://api-$application_api.sendbird.com/v3/users");
+            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 
-            $post = array(
-                'user_id' => $new_user->id,
-                'nickname' => $new_user->name,
-                'profile_url' => $user_profile.'/' . $new_user->user_token,
-                "is_active" => true,
-                "is_online" => true,
-            );
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+            // $post = array(
+            //     'user_id' => $new_user->id,
+            //     'nickname' => $new_user->name,
+            //     'profile_url' => $user_profile.'/' . $new_user->user_token,
+            //     "is_active" => true,
+            //     "is_online" => true,
+            // );
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 
-            $headers = array();
-            $headers[] = "Api-Token: $api_token";
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_exec($ch);
-            if (curl_errno($ch)) {
-                throw new \Exception(curl_error($ch));
-            }
-            curl_close($ch);
+            // $headers = array();
+            // $headers[] = "Api-Token: $api_token";
+            // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            // curl_exec($ch);
+            // if (curl_errno($ch)) {
+            //     throw new \Exception(curl_error($ch));
+            // }
+            // curl_close($ch);
 
             return response()->json($new_user);
         }catch (\Throwable $e){
