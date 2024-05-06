@@ -25,6 +25,10 @@ Breadcrumbs::for('card.my_cards', function ($trail) {
 
 });
 
+Breadcrumbs::for('user.index', function ($trail) {
+    $trail->push('Title Here', route('user.index'));
+});
+
 Breadcrumbs::for('card.my_cards_stores', function ($trail) {
     $trail->parent('home.index');
 });
