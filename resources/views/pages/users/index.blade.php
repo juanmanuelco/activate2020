@@ -5,6 +5,8 @@
         <table class="table">
             <thead class="thead-dark">
             <tr>
+                <th>{{__('ID')}}</th>
+                <th>{{__('actions')}}</th>
                 <th>{{__('Name')}}</th>
                 <th>{{__('Email')}}</th>
                 <th>{{__('Code Phone')}}</th>
@@ -20,6 +22,10 @@
              @foreach($users as $user)
                 <tr id="td_row_{{$user->id}}">
                     <td> {{$user->id}} </td>
+                    <td>
+                        @include('includes.table_actions', ['identity' => $user->id])
+                    </td>
+                    <td> {{$user->name}} </td>
                     <td> {{$user->email}} </td>
                     <td> {{$user->code_phone}} </td>
                     <td> {{$user->phone}} </td>

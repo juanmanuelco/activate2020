@@ -8,12 +8,14 @@ use App\Models\NotificationReaded;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Carbon\CarbonImmutable;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Response;
+
 use Image;
 use Spatie\Permission\Models\Role;
 
@@ -40,6 +42,114 @@ class UserController extends Controller
      */
     public function __construct( UserRepository $userRepo ) {
         $this->userRepository = $userRepo;
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('pages.users.create');
+    }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'email' => 'required|string|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+        try {
+            DB::beginTransaction();
+            $input = $request->all();
+            $input['password']= Hash::make($input['password']);
+            $this->userRepository->create($input);
+            DB::commit();
+            return redirect(route('user.create'))->with('status', __('saved_success'));
+        }catch (\Throwable $e){
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage() . ' in line '. $e->getLine());
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Seller  $seller
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     */
+    public function show(User $user)
+    {
+        return view('pages.users.show')->with('user', $user);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Group  $group
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit(User $user){
+        return view('pages.users.edit')->with('user', $user);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Group  $group
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, User $user)
+    {
+
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'password' => 'confirmed',
+        ]);
+        try {
+            DB::beginTransaction();
+            $input = $request->all();
+
+            if($user->email != $input['email']){
+                throw new Exception(__("Can not change the email"));
+            }
+
+            if(!empty($input['password'])){
+                $input['password']= Hash::make($input['password']);
+            }else{
+                unset($input['password']);
+            }
+
+            $user->update($input);
+            DB::commit();
+            return redirect()->back()->with('status', __('updated_success'));
+        }catch (\Throwable $e){
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage() . ' in line '. $e->getLine());
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Group  $group
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(User $user)
+    {
+        try {
+            DB::beginTransaction();
+            $user->delete();
+            DB::commit();
+            return response()->json(['delete' => 'success']);
+        }catch (\Throwable $e){
+            DB::rollBack();
+            abort(403, $e->getMessage());
+        }
     }
 
     public function profile(){
@@ -225,18 +335,25 @@ class UserController extends Controller
             $new_user = User::query()->where('id', $new_user->id)->with('roles')->first();
             $ch = curl_init();
 
+            $application_api = getConfiguration('text', 'SendBirdAppId' );
+            $api_token = getConfiguration('text', 'SenBird_token' );
+            $user_profile = getConfiguration('text', 'SENDBIRD-PROFILE-URL');
+
+            curl_setopt($ch, CURLOPT_URL, "https://api-$application_api.sendbird.com/v3/users");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 
             $post = array(
                 'user_id' => $new_user->id,
                 'nickname' => $new_user->name,
+                'profile_url' => $user_profile.'/' . $new_user->user_token,
                 "is_active" => true,
                 "is_online" => true,
             );
             curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 
             $headers = array();
+            $headers[] = "Api-Token: $api_token";
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_exec($ch);
             if (curl_errno($ch)) {
@@ -371,4 +488,7 @@ class UserController extends Controller
         return view('pages.users.index')->with('users', $users);
     }
 
+    public function index(Request $request){
+        return $this->get_users($request);
+    }
 }
