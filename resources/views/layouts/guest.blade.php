@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{{asset('css/styles.css')}}">
     <link rel="stylesheet" href="{{asset('css/guest.css')}}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-    <link rel="shortcut icon" type="image/png" href="{{asset('images/brand.png')}}"/>
+    <link rel="shortcut icon" type="image/png" href="{{asset('favicon.ico')}}"/>
 </head>
 <body style="background-color:var(--background, #000000)">
     <div id="app">

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="{{getConfiguration('text', 'DESCRIPCION')}}">
     <meta name="author" content="{{getConfiguration('text', 'AUTOR')}}">
-    <link rel="shortcut icon" type="image/png" href="{{getConfiguration('image', 'LOGOTIPO')}}"/>
+    <link rel="shortcut icon" type="image/png" href="{{asset('favicon.ico')}}"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         :root {
